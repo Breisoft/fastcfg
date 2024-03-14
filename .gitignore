@@ -13,3 +13,6 @@
 
 # distribution files
 dist/
+
+# IPython Notebooks
+src/notebooks/
