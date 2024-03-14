@@ -1,0 +1,14 @@
+/venv/
+.venv
+
+# Misc
+**/.DS_Store
+
+# env files
+.env
+.env.*
+.venv
+.venv.*
+
+# Python cache
+**/__pycache__/
