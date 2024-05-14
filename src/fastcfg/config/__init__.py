@@ -28,7 +28,7 @@ class ConfigMeta():
         elif isinstance(value, Config):
             return value
 
-        elif isinstance(value, (int, float, str, bool, list, dict, tuple, set)):
+        elif isinstance(value, (int, float, str, bool, list, dict, tuple, set, object)):
             return BuiltInConfigItem(value)
 
         else:
@@ -49,7 +49,8 @@ class ConfigMeta():
 
 class Config():
     def __init__(self, **kwargs):
-        self.__dict__['_Config__meta'] = ConfigMeta()
+        self.__dict__['__meta'] = ConfigMeta()
+
         for k, v in kwargs.items():
             self.__setattr__(k, v)
 
@@ -57,14 +58,14 @@ class Config():
         if name.startswith('_'):
             self.__dict__[name] = value
         else:
-            meta = self.__dict__['_Config__meta']
+            meta = self.__dict__['__meta']
             meta.add_new_attribute(name, value)
 
     def __getattribute__(self, name):
         if name.startswith('_'):
             return object.__getattribute__(self, name)
         else:
-            meta = object.__getattribute__(self, '_Config__meta')
+            meta = object.__getattribute__(self, '__meta')
 
             attr = meta.get_attribute(name)
 
