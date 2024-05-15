@@ -1,17 +1,12 @@
 import unittest
-from unittest.mock import patch
-from fastcfg.sources.remote.network import RequestsLiveTracker
-from fastcfg.exceptions import NetworkError
-import requests
-
 from fastcfg.config import Config
-
-from fastcfg.sources.local import from_callable, from_os_environ
+from fastcfg.exceptions import MissingEnvironmentVariableError
+from fastcfg.sources.memory import from_callable, from_os_environ
 
 import os
 
 
-class TestLocalSources(unittest.TestCase):
+class TestMemorySources(unittest.TestCase):
 
     def test_callable(self):
         """
@@ -35,3 +30,10 @@ class TestLocalSources(unittest.TestCase):
         config = Config()
         config.env = from_os_environ('TEST_ENV')
         self.assertEqual(config.env, 'test')
+
+        # Delete the environment variable and then
+        # make sure we get a MissingEnvironmentVariable Error
+        del os.environ['TEST_ENV']
+
+        with self.assertRaises(MissingEnvironmentVariableError):
+            str(config.env)

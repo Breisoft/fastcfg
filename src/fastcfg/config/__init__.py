@@ -3,19 +3,53 @@
 from typing import Any
 
 from fastcfg.config.items import IConfigItem, BuiltInConfigItem
-from fastcfg.exceptions import MissingConfigKeyError
 
 
 class ValueWrapper:
+    """
+    A wrapper class that allows treating an instance of IConfigItem as equivalent to its underlying value.
+    This class delegates attribute access to the underlying value or the item itself, enabling seamless
+    interaction with both the value and the IConfigItem's methods.
+
+    This is useful for scenarios where you want to work directly with the value of a configuration item
+    while still being able to access and utilize the methods of the IConfigItem, such as add_validator.
+
+    Example:
+        config = Config()
+        config.my_number = 42 # Automatically wraps built-in types with a BuiltInConfigItem
+
+        # Accessing the value directly
+        print(config.my_number)  # Output: 42
+
+        print(config.my_number + config.my_number) # Output 84
+
+        # Using IConfigItem methods
+        config.my_number.add_validator(RangeValidator(1, 50))
+    """
+
     def __init__(self, item):
         self._item = item
 
     def __getattr__(self, name):
-        # Delegate attribute access to the underlying value or the item itself
+        value = self._item.value
+        if isinstance(value, dict):
+            if name in value:
+                item = value[name]
+                if isinstance(item, dict):
+                    return Config(**item)
+                return item
+            else:
+                raise AttributeError(
+                    f"'{type(value).__name__}' object has no attribute '{name}'")
         try:
-            return getattr(self._item.value, name)
+            return getattr(value, name)
         except AttributeError:
             return getattr(self._item, name)
+
+    def __getitem__(self, key):
+        value = self._item.value[key]
+
+        return value
 
     def __str__(self):
         return str(self._item.value)
@@ -88,12 +122,17 @@ class Config():
         self.__dict__['__meta'] = ConfigMeta()
 
         for k, v in kwargs.items():
+            # if isinstance(v, dict):
+            #    v = Config(**v)
+
             self.__setattr__(k, v)
 
     def __setattr__(self, name, value):
         if name.startswith('_'):
             self.__dict__[name] = value
         else:
+            if isinstance(value, dict):
+                value = Config(**value)
             meta = self.__dict__['__meta']
             meta.add_new_attribute(name, value)
 
@@ -108,6 +147,8 @@ class Config():
             if isinstance(attr, Config):
                 return attr
             else:
+                # Cover IConfigItem in ValueWrapper.
+                # See class docstring for explanation as to why.
                 return ValueWrapper(meta.get_attribute(name))
 
     def __str__(self):

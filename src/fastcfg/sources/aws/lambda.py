@@ -1,4 +1,4 @@
-from fastcfg.sources.remote.aws import IBoto3LiveTracker
+from fastcfg.sources.aws import IBoto3LiveTracker
 import json
 
 

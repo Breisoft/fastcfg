@@ -25,6 +25,31 @@ class IConfigItem(ABC):
             if not validator.validate(value):
                 raise ConfigItemValidationError(validator.error_message())
 
+    def __getattr__(self, name):
+        """
+        Suppresses type hint errors by dynamically handling attribute access.
+
+        This method is primarily for IDEs and linters to prevent type hint errors
+        when accessing attributes that may not be explicitly defined in the class.
+        It does not actually provide any meaningful functionality and is essentially
+        dead code. If the attribute does not exist, it raises an AttributeError.
+
+        Args:
+            name (str): The name of the attribute to access.
+
+        Returns:
+            Any: The value of the dynamically accessed attribute, if it existed.
+
+        Raises:
+            AttributeError: Always, since the attribute does not actually exist.
+        """
+        try:
+            data = {}
+            return data[name]
+        except KeyError as exc:
+            raise AttributeError(
+                f"'ConfigItem' object has no attribute '{name}'") from exc
+
 
 class BuiltInConfigItem(IConfigItem):
 

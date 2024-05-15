@@ -1,29 +1,64 @@
-from unittest import mock
+from unittest import skipIf
 import unittest
 from fastcfg.config import Config
-from fastcfg.sources.local import from_yaml
-import os
+from fastcfg.sources.files import from_yaml, from_json, from_ini
+import tempfile
+
+try:
+    import yaml
+    YAML_AVAILABLE = True
+except ImportError:
+    YAML_AVAILABLE = False
 
 
 class TestFileSources(unittest.TestCase):
-    pass
-    """
 
-    def test_real_file(self):
-        # Create a temporary yaml file for testing
-        with open("fastcfg_temp_config.yaml", "w") as f:
-            f.write("key: value")
+    @skipIf(not YAML_AVAILABLE, "YAML library not available")
+    def test_yaml(self):
+        """
+        Test the YAML source
+        """
 
-        # Load the yaml file as a config source
-        config = Config()
-        config.test_yml = from_yaml("fastcfg_temp_config.yaml")
+        # Create a temporary YAML file
+        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
+            yaml.dump({"key": "value"}, temp_yaml)
+            temp_yaml.seek(0)
 
-        # Check that the value is loaded correctly
-        self.assertEqual(config.test_yml.get("key"), "value")
+            config = Config()
+            config.yaml = from_yaml(temp_yaml.name)
 
-        # Delete the temporary yaml file
-        os.remove("temp_config.yaml")
+            self.assertEqual(config.yaml, {"key": "value"})
+            self.assertEqual(config.yaml.key, 'value')
 
-        # Check that the file was deleted
-        self.assertFalse(os.path.exists("temp_config.yaml"))
-    """
+    def test_json(self):
+        """
+        Test the JSON source
+        """
+
+        # Create a temporary JSON file
+        with tempfile.NamedTemporaryFile('w+') as temp_json:
+            temp_json.write('{"key": "value"}')
+            temp_json.seek(0)
+
+            config = Config()
+            config.json = from_json(temp_json.name)
+
+            self.assertEqual(config.json, {"key": "value"})
+            self.assertEqual(config.json.key, 'value')
+
+    def test_ini(self):
+        """
+        Test the INI source
+        """
+
+        # Create a temporary INI file
+        with tempfile.NamedTemporaryFile('w+') as temp_ini:
+            temp_ini.write("[section]\nkey=value")
+            temp_ini.seek(0)
+
+            config = Config()
+            config.ini = from_ini(temp_ini.name)
+
+            self.assertEqual(config.ini, {"section": {"key": "value"}})
+
+            self.assertEqual(config.ini.section.key, 'value')

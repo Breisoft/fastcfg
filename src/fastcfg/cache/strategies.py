@@ -10,8 +10,6 @@ class TTLCacheStrategy(ICacheStrategy):
     def is_valid(self, meta_value: Optional[float]) -> bool:
         """Check if the cache entry is still valid based on the time-to-live (TTL)."""
 
-        print('time left in cache:', meta_value - time.time())
-
         return meta_value is not None and time.time() < meta_value
 
     def on_insertion(self, key: str, value: Any, meta: Dict[str, Any]) -> None:
