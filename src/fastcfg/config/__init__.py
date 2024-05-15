@@ -6,6 +6,50 @@ from fastcfg.config.items import IConfigItem, BuiltInConfigItem
 from fastcfg.exceptions import MissingConfigKeyError
 
 
+class ValueWrapper:
+    def __init__(self, item):
+        self._item = item
+
+    def __getattr__(self, name):
+        # Delegate attribute access to the underlying value or the item itself
+        try:
+            return getattr(self._item.value, name)
+        except AttributeError:
+            return getattr(self._item, name)
+
+    def __str__(self):
+        return str(self._item.value)
+
+    def __repr__(self):
+        return repr(self._item.value)
+
+    def __int__(self):
+        return int(self._item.value)
+
+    def __float__(self):
+        return float(self._item.value)
+
+    def __bool__(self):
+        return bool(self._item.value)
+
+    def __eq__(self, other):
+        if isinstance(other, ValueWrapper):
+            return self._item.value == other._item.value
+        return self._item.value == other
+
+    def __add__(self, other):
+        if isinstance(other, ValueWrapper):
+            return self._item.value + other._item.value
+        return self._item.value + other
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    @property
+    def __class__(self):
+        return type(self._item.value)
+
+
 class ConfigMeta():
 
     def __init__(self):
@@ -35,14 +79,6 @@ class ConfigMeta():
             raise ValueError('Invalid data type!')
 
     def add_new_attribute(self, name, value):
-        """
-        if name in self.__attributes:
-
-            if isinstance(self.__attributes[name], Config):
-
-                raise AttributeError(
-                    'Cannot override a config object attribute, you must delete it first.')
-        """
 
         self.__attributes[name] = self._convert_value_to_item(value)
 
@@ -72,7 +108,7 @@ class Config():
             if isinstance(attr, Config):
                 return attr
             else:
-                return meta.get_attribute(name).value
+                return ValueWrapper(meta.get_attribute(name))
 
     def __str__(self):
         display_dict = {k: v for k,
