@@ -6,24 +6,56 @@ from typing import List
 from fastcfg.exceptions import ConfigItemValidationError
 from fastcfg.validation import IConfigValidator
 
+from fastcfg.config.value_wrapper import ValueWrapper
+
+from typing import Dict
+
 
 class IConfigItem(ABC):
 
     def __init__(self):
         self._validators: List[IConfigValidator] = []
 
+        self._wrapped_dict_items: Dict[str, IConfigItem] = {}
+
     @property
-    @abstractmethod
     def value(self) -> Any:
+        val = self._get_value()
+
+        return_item = val
+
+        if isinstance(val, dict):
+            for k, v in val.items():
+
+                if k not in self._wrapped_dict_items:
+                    self._wrapped_dict_items[k] = ValueWrapper.factory(
+                        BuiltInConfigItem(v))
+
+            return_item = self._wrapped_dict_items
+
+        self.validate(return_item)
+
+        return return_item
+
+    @abstractmethod
+    def _get_value(self) -> Any:
         pass
 
     def add_validator(self, validator: IConfigValidator):
         self._validators.append(validator)
 
+    def get_validators(self):
+        return self._validators
+
     def validate(self, value: Any):
         for validator in self._validators:
             if not validator.validate(value):
                 raise ConfigItemValidationError(validator.error_message())
+
+        # Recursively validate nested dictionaries
+        if isinstance(value, dict):
+            for k, v in self._wrapped_dict_items.items():
+                v.validate(v.value)
 
     def __getattr__(self, name):
         """
@@ -58,9 +90,7 @@ class BuiltInConfigItem(IConfigItem):
 
         self._value = value
 
-    @property
-    def value(self) -> Any:
-        self.validate(self._value)
+    def _get_value(self) -> Any:
         return self._value
 
 
@@ -72,8 +102,5 @@ class LiveConfigItem(IConfigItem):
 
         self._state_tracker = state_tracker
 
-    @property
-    def value(self) -> Any:
-        value = self._state_tracker.get_state()
-        self.validate(value)
-        return value
+    def _get_value(self) -> Any:
+        return self._state_tracker.get_state()

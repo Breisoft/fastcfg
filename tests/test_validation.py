@@ -11,12 +11,12 @@ from fastcfg.validation.policies import (
 )
 from fastcfg.exceptions import ConfigItemValidationError
 from fastcfg.config.items import BuiltInConfigItem
-from fastcfg.sources.memory import from_yaml
+from fastcfg.sources.files import from_yaml
 import tempfile
 
 
 try:
-    from pydantic import BaseModel, ValidationError
+    from pydantic import BaseModel
     PYDANTIC_AVAILABLE = True
 except ImportError:
     PYDANTIC_AVAILABLE = False
@@ -109,8 +109,43 @@ class TestValidation(unittest.TestCase):
         with self.assertRaises(ConfigItemValidationError):
             self._trigger_validation(self.config.invalid_email)
 
-    # TODO add this back
-    """
+    def test_add_validator_to_dict(self):
+        self.config.nested = {"key": "value"}
+        self.config.nested.add_validator(TypeValidator(dict))
+        self._trigger_validation(self.config.nested)
+
+        self.config.nested.key.add_validator(TypeValidator(str))
+        self._trigger_validation(self.config.nested.key)
+
+        self.config.invalid_nested = 42
+        self.config.invalid_nested.add_validator(TypeValidator(dict))
+
+        with self.assertRaises(ConfigItemValidationError):
+            self._trigger_validation(self.config.invalid_nested)
+
+    @unittest.skipIf(not PYDANTIC_AVAILABLE, "pydantic is not installed")
+    def test_invalid_pydantic_value(self):
+        class UserModel(BaseModel):
+            name: str
+            age: int
+
+        import yaml
+
+        # Create a temporary YAML file
+        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
+            yaml.dump({"name": "John", "age": "abc"}, temp_yaml)
+            temp_yaml.seek(0)
+
+            self.config.invalid_user = from_yaml(temp_yaml.name)
+
+            validator = PydanticValidator(UserModel)
+
+            self.config.invalid_user.add_validator(
+                validator)
+
+            with self.assertRaises(ConfigItemValidationError):
+                self._trigger_validation(self.config.invalid_user)
+
     @unittest.skipIf(not PYDANTIC_AVAILABLE, "pydantic is not installed")
     def test_pydantic_validator(self):
         class UserModel(BaseModel):
@@ -120,7 +155,7 @@ class TestValidation(unittest.TestCase):
         import yaml
 
         # Create a temporary YAML file
-        with tempfile.NamedTemporaryFile('w+', delete=False) as temp_yaml:
+        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
             yaml.dump({"name": "John", "age": 30}, temp_yaml)
             temp_yaml.seek(0)
 
@@ -129,14 +164,30 @@ class TestValidation(unittest.TestCase):
             self.config.user.add_validator(PydanticValidator(UserModel))
 
             # Should not raise a ConfigItemValidationError exception
-            str(self.config.user)
+            self._trigger_validation(self.config.user)
 
-        # Should not raise a ConfigItemValidationError exception
-        str(self.config.user)
+    @unittest.skipIf(not PYDANTIC_AVAILABLE, "pydantic is not installed")
+    def test_multi_validator(self):
+        class UserModel(BaseModel):
+            name: str
+            age: int
 
-        self.config.invalid_user = {"name": "John", "age": "thirty"}
-        self.config.invalid_user.add_validator(PydanticValidator(UserModel))
+        import yaml
 
-        with self.assertRaises(ConfigItemValidationError):
-            str(self.config.invalid_user)
-    """
+        # Create a temporary YAML file
+        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
+            yaml.dump({"name": "John", "age": 29}, temp_yaml)
+            temp_yaml.seek(0)
+
+            self.config.user = from_yaml(temp_yaml.name)
+
+            self.config.user.add_validator(PydanticValidator(UserModel))
+
+            # Should not raise a ConfigItemValidationError exception
+            self._trigger_validation(self.config.user)
+
+            self.config.user.age.add_validator(RangeValidator(30, 35))
+
+            # Should raise a ConfigItemValidationError exception
+            with self.assertRaises(ConfigItemValidationError):
+                self._trigger_validation(self.config.user.age)

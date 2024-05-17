@@ -2,7 +2,7 @@ import re
 from typing import Any
 from fastcfg.validation import IConfigValidator
 from fastcfg.exceptions import MissingDependencyError
-
+from fastcfg.config.value_wrapper import ValueWrapper
 
 try:
     from pydantic import BaseModel, ValidationError
@@ -48,16 +48,22 @@ class PydanticValidator(IConfigValidator):
     def __init__(self, model: BaseModel):
         self.model = model
 
+        self._latest_error = None
+
     def validate(self, value: Any) -> bool:
 
         if BaseModel is None:
             raise MissingDependencyError("Pydantic")
-
         try:
-            self.model.parse_obj(value)
+            unwrapped_value = ValueWrapper.unwrap(value)
+            self.model.model_validate(unwrapped_value)
             return True
-        except ValidationError:
+        except ValidationError as exc:
+            self._latest_error = exc
             return False
 
     def error_message(self) -> str:
-        return f"Value does not conform to the Pydantic model {self.model.__name__}."
+        msg = f"Value does not conform to the Pydantic model {self.model.__name__}."
+
+        if self._latest_error:
+            msg += f' Latest Exception: {self._latest_error}'
