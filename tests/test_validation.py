@@ -191,3 +191,16 @@ class TestValidation(unittest.TestCase):
             # Should raise a ConfigItemValidationError exception
             with self.assertRaises(ConfigItemValidationError):
                 self._trigger_validation(self.config.user.age)
+
+    def test_input_pydantic_validation(self):
+
+        class User(BaseModel):
+            name: str
+            age: int
+
+        config = Config(user={'name': 'Steve', 'age': 'abc'})
+
+        config.user.add_validator(PydanticValidator(User))
+
+        with self.assertRaises(ConfigItemValidationError):
+            self._trigger_validation(self.config.user)

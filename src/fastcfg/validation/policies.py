@@ -1,7 +1,7 @@
 import re
 from typing import Any
 from fastcfg.validation import IConfigValidator
-from fastcfg.exceptions import MissingDependencyError
+from fastcfg.exceptions import MissingDependencyError, ConfigItemValidationError
 from fastcfg.config.value_wrapper import ValueWrapper
 
 try:
