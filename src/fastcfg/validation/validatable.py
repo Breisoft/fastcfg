@@ -1,11 +1,10 @@
 import hashlib
-import json
 from typing import List, Any
 from fastcfg.validation import IConfigValidator
 from fastcfg.exceptions import ConfigItemValidationError
 from fastcfg.config.utils import has_recursive_values, resolve_all_values
 
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 
 import hashlib
@@ -27,7 +26,7 @@ def md5_hash_state(input_obj: Any) -> str:
     return md5_hash.hexdigest()
 
 
-class ValidatableMixin():
+class ValidatableMixin(ABC):
 
     def __init__(self):
         self._last_state_hash = None  # Used for LiveConfigItem state tracking

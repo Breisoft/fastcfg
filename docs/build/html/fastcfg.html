@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fastcfg package &mdash; fastcfg  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            fastcfg
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">fastcfg package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-fastcfg.exceptions">fastcfg.exceptions module</a><ul>
+<li><a class="reference internal" href="#fastcfg.exceptions.ConfigItemValidationError"><code class="docutils literal notranslate"><span class="pre">ConfigItemValidationError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.FileReadError"><code class="docutils literal notranslate"><span class="pre">FileReadError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.MaxRetriesExceededError"><code class="docutils literal notranslate"><span class="pre">MaxRetriesExceededError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.MissingCacheKeyError"><code class="docutils literal notranslate"><span class="pre">MissingCacheKeyError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.MissingConfigKeyError"><code class="docutils literal notranslate"><span class="pre">MissingConfigKeyError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.MissingDependencyError"><code class="docutils literal notranslate"><span class="pre">MissingDependencyError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.MissingEnvironmentVariableError"><code class="docutils literal notranslate"><span class="pre">MissingEnvironmentVariableError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.NetworkError"><code class="docutils literal notranslate"><span class="pre">NetworkError</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-fastcfg">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">fastcfg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">fastcfg package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/fastcfg.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fastcfg-package">
+<h1>fastcfg package<a class="headerlink" href="#fastcfg-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="fastcfg.backoff.html">fastcfg.backoff package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.backoff.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.backoff.html#module-fastcfg.backoff.policies">fastcfg.backoff.policies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.backoff.html#module-fastcfg.backoff">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.base_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.base_delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.factor"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.jitter"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.jitter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.max_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.max_retries"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_retries</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.exponential_backoff"><code class="docutils literal notranslate"><span class="pre">exponential_backoff()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastcfg.cache.html">fastcfg.cache package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache.policies">fastcfg.cache.policies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache.store">fastcfg.cache.store module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore"><code class="docutils literal notranslate"><span class="pre">CacheStore</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.add_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.add_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.clear_all_caches"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_all_caches()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.clear_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.get_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.get_cache()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache.strategies">fastcfg.cache.strategies module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.LRUCacheStrategy"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.LRUCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy.on_access()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.MRUCacheStrategy"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.MRUCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy.on_access()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.on_insertion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.on_invalidation()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache"><code class="docutils literal notranslate"><span class="pre">Cache</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.get_metadata"><code class="docutils literal notranslate"><span class="pre">Cache.get_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.get_value"><code class="docutils literal notranslate"><span class="pre">Cache.get_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.is_valid"><code class="docutils literal notranslate"><span class="pre">Cache.is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.set_value"><code class="docutils literal notranslate"><span class="pre">Cache.set_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_access()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_insertion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_invalidation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy.is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy.on_invalidation()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastcfg.config.html">fastcfg.config package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.attributes">fastcfg.config.attributes module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.__attributes"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.__attributes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.__init__"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.get_attribute"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.get_attribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.get_attributes"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.get_attributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes._convert_value_to_item"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes._convert_value_to_item()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes._add_attribute"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes._add_attribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.add_or_update_attribute"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.add_or_update_attribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id0"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.add_or_update_attribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id1"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.get_attribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id2"><code class="docutils literal notranslate"><span class="pre">ConfigAttributes.get_attributes()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.interface">fastcfg.config.interface module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface"><code class="docutils literal notranslate"><span class="pre">ConfigInterface</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface._config_attributes"><code class="docutils literal notranslate"><span class="pre">ConfigInterface._config_attributes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface._current_env"><code class="docutils literal notranslate"><span class="pre">ConfigInterface._current_env</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface.__init__"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface.set_environment"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.set_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface.get_environment"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.get_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface.get_dict"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.get_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.interface.ConfigInterface.value"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id3"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.get_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id4"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.get_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id5"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.set_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id6"><code class="docutils literal notranslate"><span class="pre">ConfigInterface.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.items">fastcfg.config.items module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem._value"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem._value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem._get_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem"><code class="docutils literal notranslate"><span class="pre">IConfigItem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem._wrapped_dict_items"><code class="docutils literal notranslate"><span class="pre">IConfigItem._wrapped_dict_items</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">IConfigItem.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem.value"><code class="docutils literal notranslate"><span class="pre">IConfigItem.value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">IConfigItem._get_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem._set_value"><code class="docutils literal notranslate"><span class="pre">IConfigItem._set_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem.__getattr__"><code class="docutils literal notranslate"><span class="pre">IConfigItem.__getattr__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id7"><code class="docutils literal notranslate"><span class="pre">IConfigItem.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem._state_tracker"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem._state_tracker</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem._get_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem.value"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id8"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.state">fastcfg.config.state module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.CacheMixin"><code class="docutils literal notranslate"><span class="pre">CacheMixin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.ILiveTracker"><code class="docutils literal notranslate"><span class="pre">ILiveTracker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.ILiveTracker.get_state"><code class="docutils literal notranslate"><span class="pre">ILiveTracker.get_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.IStateTracker"><code class="docutils literal notranslate"><span class="pre">IStateTracker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.IStateTracker.get_state"><code class="docutils literal notranslate"><span class="pre">IStateTracker.get_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.IStateTracker.get_state_value"><code class="docutils literal notranslate"><span class="pre">IStateTracker.get_state_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.RetriableMixin"><code class="docutils literal notranslate"><span class="pre">RetriableMixin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.utils">fastcfg.config.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.utils.create_config_dict"><code class="docutils literal notranslate"><span class="pre">create_config_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.utils.has_recursive_values"><code class="docutils literal notranslate"><span class="pre">has_recursive_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.utils.resolve_all_values"><code class="docutils literal notranslate"><span class="pre">resolve_all_values()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.value_wrapper">fastcfg.config.value_wrapper module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.value_wrapper.ValueWrapper"><code class="docutils literal notranslate"><span class="pre">ValueWrapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.value_wrapper.ValueWrapper.factory"><code class="docutils literal notranslate"><span class="pre">ValueWrapper.factory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.value_wrapper.ValueWrapper.unwrap"><code class="docutils literal notranslate"><span class="pre">ValueWrapper.unwrap()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__attributes"><code class="docutils literal notranslate"><span class="pre">Config.__attributes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__interface"><code class="docutils literal notranslate"><span class="pre">Config.__interface</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__init__"><code class="docutils literal notranslate"><span class="pre">Config.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__setattr__"><code class="docutils literal notranslate"><span class="pre">Config.__setattr__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__getattr__"><code class="docutils literal notranslate"><span class="pre">Config.__getattr__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__getattribute__"><code class="docutils literal notranslate"><span class="pre">Config.__getattribute__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__eq__"><code class="docutils literal notranslate"><span class="pre">Config.__eq__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__str__"><code class="docutils literal notranslate"><span class="pre">Config.__str__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastcfg.default.html">fastcfg.default package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.default.html#module-fastcfg.default">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastcfg.sources.html">fastcfg.sources package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.sources.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.sources.aws.html">fastcfg.sources.aws package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.aws.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.aws.html#module-fastcfg.sources.aws.aws_config_tracker">fastcfg.sources.aws.aws_config_tracker module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.aws.html#module-fastcfg.sources.aws.lambda">fastcfg.sources.aws.lambda module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.aws.html#module-fastcfg.sources.aws">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.sources.files.html">fastcfg.sources.files package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.files.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.files.html#module-fastcfg.sources.files.file_state_tracker">fastcfg.sources.files.file_state_tracker module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.files.html#module-fastcfg.sources.files.ini">fastcfg.sources.files.ini module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.files.html#module-fastcfg.sources.files.json">fastcfg.sources.files.json module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.files.html#module-fastcfg.sources.files.yaml">fastcfg.sources.files.yaml module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.files.html#module-fastcfg.sources.files">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.sources.memory.html">fastcfg.sources.memory package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.memory.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.memory.html#module-fastcfg.sources.memory.callable">fastcfg.sources.memory.callable module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.memory.html#module-fastcfg.sources.memory.environment">fastcfg.sources.memory.environment module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.memory.html#module-fastcfg.sources.memory">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.sources.remote.html">fastcfg.sources.remote package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.remote.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.remote.html#module-fastcfg.sources.remote.network">fastcfg.sources.remote.network module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.sources.remote.html#module-fastcfg.sources.remote">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.sources.html#module-fastcfg.sources">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fastcfg.validation.html">fastcfg.validation package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.validation.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.validation.html#module-fastcfg.validation.policies">fastcfg.validation.policies module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.PydanticValidator"><code class="docutils literal notranslate"><span class="pre">PydanticValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.PydanticValidator.error_message"><code class="docutils literal notranslate"><span class="pre">PydanticValidator.error_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.PydanticValidator.validate"><code class="docutils literal notranslate"><span class="pre">PydanticValidator.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.RangeValidator"><code class="docutils literal notranslate"><span class="pre">RangeValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.RangeValidator.error_message"><code class="docutils literal notranslate"><span class="pre">RangeValidator.error_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.RangeValidator.validate"><code class="docutils literal notranslate"><span class="pre">RangeValidator.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.RegexValidator"><code class="docutils literal notranslate"><span class="pre">RegexValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.RegexValidator.error_message"><code class="docutils literal notranslate"><span class="pre">RegexValidator.error_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.RegexValidator.validate"><code class="docutils literal notranslate"><span class="pre">RegexValidator.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.TypeValidator"><code class="docutils literal notranslate"><span class="pre">TypeValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.TypeValidator.error_message"><code class="docutils literal notranslate"><span class="pre">TypeValidator.error_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.policies.TypeValidator.validate"><code class="docutils literal notranslate"><span class="pre">TypeValidator.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.validation.html#module-fastcfg.validation.validatable">fastcfg.validation.validatable module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin"><code class="docutils literal notranslate"><span class="pre">ValidatableMixin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin.add_validator"><code class="docutils literal notranslate"><span class="pre">ValidatableMixin.add_validator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin.get_validators"><code class="docutils literal notranslate"><span class="pre">ValidatableMixin.get_validators()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin.validate"><code class="docutils literal notranslate"><span class="pre">ValidatableMixin.validate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin.value"><code class="docutils literal notranslate"><span class="pre">ValidatableMixin.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.md5_hash_state"><code class="docutils literal notranslate"><span class="pre">md5_hash_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.validation.html#module-fastcfg.validation">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.IConfigValidator"><code class="docutils literal notranslate"><span class="pre">IConfigValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.IConfigValidator.error_message"><code class="docutils literal notranslate"><span class="pre">IConfigValidator.error_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.IConfigValidator.validate"><code class="docutils literal notranslate"><span class="pre">IConfigValidator.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-fastcfg.exceptions">
+<span id="fastcfg-exceptions-module"></span><h2>fastcfg.exceptions module<a class="headerlink" href="#module-fastcfg.exceptions" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.ConfigItemValidationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConfigItemValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#ConfigItemValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.ConfigItemValidationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when a config item value fails validation.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.FileReadError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">FileReadError</span></span><a class="reference internal" href="_modules/fastcfg/exceptions.html#FileReadError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.FileReadError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when a file cannot be read.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.MaxRetriesExceededError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">MaxRetriesExceededError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backoff_policy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_time_slept</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#MaxRetriesExceededError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.MaxRetriesExceededError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when the maximum number of retries is exceeded in exponential backoff.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.MissingCacheKeyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingCacheKeyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#MissingCacheKeyError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.MissingCacheKeyError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when a cache key doesn’t exist.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.MissingConfigKeyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingConfigKeyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#MissingConfigKeyError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.MissingConfigKeyError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when a config key doesn’t exist.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.MissingDependencyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingDependencyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#MissingDependencyError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.MissingDependencyError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when a dependency is missing.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.MissingEnvironmentVariableError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingEnvironmentVariableError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#MissingEnvironmentVariableError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.MissingEnvironmentVariableError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.NetworkError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">NetworkError</span></span><a class="reference internal" href="_modules/fastcfg/exceptions.html#NetworkError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.NetworkError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when a config key doesn’t exist.</p>
+</dd></dl>
+
+</section>
+<section id="module-fastcfg">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fastcfg" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Breisoft.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

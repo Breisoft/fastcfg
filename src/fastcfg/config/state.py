@@ -11,15 +11,30 @@ from typing import Any, Callable, Optional
 
 
 class IStateTracker(ABC):
-    """Abstract base class representing a state tracker."""
+    """Abstract base class for a state tracker."""
 
     def get_state(self) -> Any:
-        """Fetch the state. Calls get_state_value() and returns the result by default. Child classes may change this behavior."""
+        """
+        Fetches the state.
+
+        Calls `get_state_value()` and returns the result by default. 
+        Child classes may override this behavior.
+
+        Returns:
+            Any: The current state.
+        """
         return self.get_state_value()
 
     @abstractmethod
     def get_state_value(self) -> Any:
-        """Fetch the internal state. Child classes must implement this. It's used to implement the actual state fetching logic."""
+        """
+        Fetches the internal state.
+
+        Must be implemented by child classes to define the actual state fetching logic.
+
+        Returns:
+            Any: The internal state.
+        """
         pass
 
 
@@ -27,11 +42,28 @@ class RetriableMixin:
     """Mixin providing retry logic."""
 
     def __init__(self, retry: bool = False, backoff_policy: BackoffPolicy = None):
+        """
+        Initializes the RetriableMixin.
+
+        Args:
+            retry (bool): Whether to enable retry logic.
+            backoff_policy (BackoffPolicy, optional): The backoff policy to use. Defaults to `defaults.backoff_policy`.
+        """
         self._retry = retry
         self._backoff_policy = backoff_policy or defaults.backoff_policy
 
     def _call_retriable_function(self, func: Callable[..., Any], *args, **kwargs) -> Any:
-        """Wrapper to call a function with optional backoff."""
+        """
+        Calls a function with optional backoff.
+
+        Args:
+            func (Callable[..., Any]): The function to call.
+            *args: Positional arguments for the function.
+            **kwargs: Keyword arguments for the function.
+
+        Returns:
+            Any: The result of the function call.
+        """
         if self._retry:
             wrapped = exponential_backoff(self._backoff_policy)(func)
             return wrapped(*args, **kwargs)
@@ -43,13 +75,31 @@ class CacheMixin:
     """Mixin providing caching logic."""
 
     def __init__(self, use_cache: bool = False, cache: Optional[Cache] = None):
+        """
+        Initializes the CacheMixin.
+
+        Args:
+            use_cache (bool): Whether to enable caching.
+            cache (Cache, optional): The cache instance to use. Defaults to `None`.
+        """
         if cache is None and use_cache:
             self._cache = Cache(defaults.cache_policy)
         else:
             self._cache = cache
 
     def _call_cached_function(self, key: str, func: Callable[..., Any], *args, **kwargs) -> Any:
-        """Wrapper to call a function with optional caching."""
+        """
+        Calls a function with optional caching.
+
+        Args:
+            key (str): The cache key.
+            func (Callable[..., Any]): The function to call.
+            *args: Positional arguments for the function.
+            **kwargs: Keyword arguments for the function.
+
+        Returns:
+            Any: The result of the function call.
+        """
         if self._cache:
             try:
                 return self._cache.get_value(key)
@@ -66,8 +116,17 @@ class ILiveTracker(IStateTracker, RetriableMixin, CacheMixin):
 
     def __init__(self, retry: bool = False, use_cache: bool = False,
                  backoff_policy: Optional[BackoffPolicy] = None, cache: Optional[Cache] = None):
+        """
+        Initializes the ILiveTracker.
 
+        Args:
+            retry (bool): Whether to enable retry logic.
+            use_cache (bool): Whether to enable caching.
+            backoff_policy (BackoffPolicy, optional): The backoff policy to use. Defaults to `None`.
+            cache (Cache, optional): The cache instance to use. Defaults to `None`.
+        """
         if use_cache:
+            # Generate cache key
             self._cache_uuid_key = str(uuid.uuid4())
         else:
             self._cache_uuid_key = None
@@ -77,5 +136,10 @@ class ILiveTracker(IStateTracker, RetriableMixin, CacheMixin):
         CacheMixin.__init__(self, use_cache, cache)
 
     def get_state(self) -> Any:
-        """Fetch the state with retry and caching support."""
+        """
+        Fetches the state with retry and caching support.
+
+        Returns:
+            Any: The current state.
+        """
         return self._call_cached_function(self._cache_uuid_key, self._call_retriable_function, self.get_state_value)

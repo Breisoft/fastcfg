@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fastcfg.config.items &mdash; fastcfg  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            fastcfg
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">fastcfg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../config.html">fastcfg.config</a></li>
+      <li class="breadcrumb-item active">fastcfg.config.items</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for fastcfg.config.items</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">fastcfg.validation</span> <span class="kn">import</span> <span class="n">IConfigValidator</span>
+
+
+<span class="kn">from</span> <span class="nn">fastcfg.validation.validatable</span> <span class="kn">import</span> <span class="n">ValidatableMixin</span>
+
+<span class="kn">from</span> <span class="nn">fastcfg.config.value_wrapper</span> <span class="kn">import</span> <span class="n">ValueWrapper</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+
+<div class="viewcode-block" id="IConfigItem">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.IConfigItem">[docs]</a>
+<span class="k">class</span> <span class="nc">IConfigItem</span><span class="p">(</span><span class="n">ValidatableMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The `IConfigItem` class serves as an abstract base class for configuration items in the `fastcfg` module.</span>
+
+<span class="sd">    Purpose:</span>
+<span class="sd">        - The primary purpose of the `IConfigItem` class is to define a common interface and shared functionality for all configuration items.</span>
+<span class="sd">        - It ensures that all configuration items can be validated and have a consistent way of getting and setting their values.</span>
+<span class="sd">        - This class also provides mechanisms to handle nested dictionary values by wrapping them in `ValueWrapper` instances.</span>
+<span class="sd">        - By using `IConfigItem` as the base class for configuration attributes, the `Config` class can manage different types of configuration items uniformly.</span>
+<span class="sd">        - The design choice to use `IConfigItem` allows for flexibility and extensibility, enabling the creation of custom configuration items (e.g., `BuiltInConfigItem`, `LiveConfigItem`) that can have specialized behavior.</span>
+<span class="sd">        - The `ValueWrapper` class leverages `IConfigItem` to provide seamless interaction with both the underlying value and the configuration item&#39;s methods, ensuring that validation and other functionalities are consistently applied.</span>
+<span class="sd">    Features:</span>
+<span class="sd">        - **Validation**: Inherits from `ValidatableMixin` to provide validation capabilities.</span>
+<span class="sd">        - **Abstract Methods**: Defines abstract methods `_get_value` and `_set_value` that must be implemented by subclasses.</span>
+<span class="sd">        - **Value Handling**: Provides a `value` property to get and set the configuration item&#39;s value, with special handling for dictionary values.</span>
+<span class="sd">        - **Dynamic Attribute Access**: Implements `__getattr__` to suppress type hint errors and handle dynamic attribute access.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _wrapped_dict_items (Dict[str, IConfigItem]): A dictionary to store wrapped dictionary items.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        __init__(): Initializes the `IConfigItem` object.</span>
+<span class="sd">        value: Property to get and set the configuration item&#39;s value.</span>
+<span class="sd">        _get_value(): Abstract method to get the configuration item&#39;s value.</span>
+<span class="sd">        _set_value(new_value): Abstract method to set the configuration item&#39;s value.</span>
+<span class="sd">        __getattr__(name): Dynamically handles attribute access to suppress type hint errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IConfigItem.__init__">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.IConfigItem.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_dict_items</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IConfigItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the value of the configuration item.</span>
+
+<span class="sd">        This property retrieves the value of the configuration item by calling the `_get_value` method.</span>
+<span class="sd">        If the value is a dictionary, it wraps the dictionary items in `ValueWrapper` instances to ensure</span>
+<span class="sd">        consistent interaction with both the underlying value and the configuration item&#39;s methods.</span>
+
+<span class="sd">        The `value` is implemented as a property instead of a direct attribute to provide controlled access</span>
+<span class="sd">        and allow for additional processing (such as wrapping dictionary values) when the value is retrieved.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The value of the configuration item. If the value is a dictionary, the dictionary items are wrapped in `ValueWrapper` instances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">()</span>
+
+        <span class="n">return_item</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># Iterate over each key-value pair in the dictionary</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+                <span class="c1"># If the key is not already wrapped, wrap it in a ValueWrapper</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_dict_items</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_dict_items</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">ValueWrapper</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span>
+                        <span class="n">BuiltInConfigItem</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+            <span class="c1"># Set the return item to the wrapped dictionary items</span>
+            <span class="n">return_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_dict_items</span>
+
+        <span class="k">return</span> <span class="n">return_item</span>
+
+<div class="viewcode-block" id="IConfigItem._get_value">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.IConfigItem._get_value">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract method to get the underlying value of the configuration item.</span>
+
+<span class="sd">        This method must be implemented by subclasses to define how the value of the configuration item</span>
+<span class="sd">        is retrieved. It is called by the `value` property to obtain the current value of the configuration item.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The current value of the configuration item.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+    <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_value</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="IConfigItem._set_value">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.IConfigItem._set_value">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the value of the configuration item.</span>
+
+<span class="sd">        This setter method allows the value of the configuration item to be updated. It calls the `_set_value` method,</span>
+<span class="sd">        which must be implemented by subclasses to define how the value is set.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_value (Any): The new value to set for the configuration item.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="IConfigItem.__getattr__">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.IConfigItem.__getattr__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Suppresses type hint errors by dynamically handling attribute access.</span>
+
+<span class="sd">        This method is primarily for IDEs and linters to prevent type hint errors</span>
+<span class="sd">        when accessing attributes that may not be explicitly defined in the class.</span>
+<span class="sd">        It does not actually provide any meaningful functionality and is essentially</span>
+<span class="sd">        dead code. If the attribute does not exist, it raises an AttributeError.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The name of the attribute to access.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The value of the dynamically accessed attribute, if it existed.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AttributeError: Always, since the attribute does not actually exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;ConfigItem&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BuiltInConfigItem">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem">[docs]</a>
+<span class="k">class</span> <span class="nc">BuiltInConfigItem</span><span class="p">(</span><span class="n">IConfigItem</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The `BuiltInConfigItem` class represents a configuration item that holds a built-in data type value.</span>
+
+<span class="sd">    Purpose:</span>
+<span class="sd">        - This concrete class is used to wrap built-in data types (e.g., int, float, str) as configuration items.</span>
+<span class="sd">        - It provides implementations for the abstract methods `_get_value` and `_set_value` defined in `IConfigItem`.</span>
+<span class="sd">        - It&#39;s used for static data types which don&#39;t change unless the attribute itself is directly modified.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _value (Any): The underlying value of the configuration item.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        __init__(value: Any): Initializes the `BuiltInConfigItem` with the given value.</span>
+<span class="sd">        _get_value() -&gt; Any: Retrieves the underlying value of the configuration item.</span>
+<span class="sd">        _set_value(new_value: Any): Sets the underlying value of the configuration item.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the `BuiltInConfigItem` with the given value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Any): The initial value of the configuration item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="BuiltInConfigItem._get_value">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem._get_value">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the underlying value of the configuration item.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The current value of the configuration item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the underlying value of the configuration item.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_value (Any): The new value to set for the configuration item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">new_value</span></div>
+
+
+
+<div class="viewcode-block" id="LiveConfigItem">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.LiveConfigItem">[docs]</a>
+<span class="k">class</span> <span class="nc">LiveConfigItem</span><span class="p">(</span><span class="n">IConfigItem</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The `LiveConfigItem` class represents a configuration item that is dynamically calculated upon access.</span>
+
+<span class="sd">    Purpose:</span>
+<span class="sd">        - This class is used for configuration items that need to be dynamically validated based on an external state.</span>
+<span class="sd">        - It provides implementations for the abstract methods `_get_value` and `_set_value` defined in `IConfigItem`.</span>
+<span class="sd">        - Unlike `BuiltInConfigItem`, it does not allow direct setting of its value.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _state_tracker (StateTracker): An external state tracker that provides the current state for the configuration item.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        __init__(state_tracker): Initializes the `LiveConfigItem` with the given state tracker.</span>
+<span class="sd">        _get_value() -&gt; Any: Retrieves the current state from the state tracker.</span>
+<span class="sd">        _set_value(new_value: Any): Raises an exception as direct setting of value is not allowed.</span>
+<span class="sd">        value: Property to get the current state and trigger validation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LiveConfigItem.__init__">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.LiveConfigItem.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_tracker</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the `LiveConfigItem` with the given state tracker.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                state_tracker (Any): An external state tracker that provides the current state for the configuration item.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_tracker</span> <span class="o">=</span> <span class="n">state_tracker</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Raises an exception as direct setting of value is not allowed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_value (Any): The new value to set for the configuration item.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: Always, as direct setting of value is not allowed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s1">&#39;Cannot set value on LiveConfigItem, BuiltInConfigItem only.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the current state of the configuration item and triggers validation.</span>
+
+<span class="sd">        This property retrieves the current state from the state tracker by calling the `_get_value` method.</span>
+<span class="sd">        It also triggers validation to ensure the state is valid.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The current state of the configuration item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="c1"># Trigger validation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">val</span>
+
+<div class="viewcode-block" id="LiveConfigItem._get_value">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.items.LiveConfigItem._get_value">[docs]</a>
+    <span class="k">def</span> <span class="nf">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the current state from the state tracker.</span>
+
+<span class="sd">        This method is called by the `value` property to obtain the current state of the configuration item.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The current state of the configuration item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_tracker</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">state</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Breisoft.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

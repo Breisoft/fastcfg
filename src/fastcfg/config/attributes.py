@@ -1,13 +1,9 @@
-from fastcfg.exceptions import ConfigItemValidationError
-from fastcfg.validation import IConfigValidator
-from abc import ABC, abstractmethod
 from typing import Any
-
-from typing import List
-
 
 from fastcfg.config.items import IConfigItem, BuiltInConfigItem
 
+
+# Types that are classified as built-in rather than custom objects
 BUILT_IN_TYPES = (
     int,
     float,
@@ -23,16 +19,40 @@ BUILT_IN_TYPES = (
 
 class ConfigAttributes():
     """
-    Manages the actual configuration values, ensuring they are stored and retrieved correctly.
-    This class acts as a proxy for the Config class, allowing it to handle unique attribute management efficiently.
-    By separating attribute storage and retrieval into its own class, the Config class remains clean and focused on its primary responsibilities.
+    Manages the actual configuration attributes and their associated values, ensuring they are stored and retrieved correctly.
+
+    This class acts as a proxy for the `Config` class, allowing it to handle unique attribute management efficiently.
+    By separating attribute storage and retrieval into its own class, the `Config` class remains clean and focused on its primary responsibilities.
+
+    Attributes:
+        __attributes (dict[str, IConfigItem]): A dictionary to store configuration attributes.
+
+    Methods:
+        __init__(): Initializes the `ConfigAttributes` object.
+        get_attribute(name): Retrieves an attribute by name.
+        get_attributes(): Returns all attributes.
+        _convert_value_to_item(value): Converts a value to an `IConfigItem`.
+        _add_attribute(name, value): Adds a new attribute to the configuration.
+        add_or_update_attribute(name, value): Adds or updates an attribute in the configuration.
     """
 
     def __init__(self):
 
         self.__attributes: dict[str, IConfigItem] = {}
 
-    def get_attribute(self, name):
+    def get_attribute(self, name) -> IConfigItem:
+        """
+        Retrieves an attribute by name.
+
+        Args:
+            name (str): The name of the attribute to retrieve.
+
+        Returns:
+            IConfigItem: The configuration item associated with the given name.
+
+        Raises:
+            AttributeError: If the attribute does not exist.
+        """
 
         try:
             return self.__attributes[name]
@@ -40,10 +60,28 @@ class ConfigAttributes():
             raise AttributeError(
                 f'Attribute `{name}` does not exist.') from exc
 
-    def get_attributes(self):
+    def get_attributes(self) -> dict[str, IConfigItem]:
+        """
+        Returns all attributes.
+
+        Returns:
+            dict[str, IConfigItem]: A dictionary of all configuration attributes.
+        """
         return self.__attributes
 
     def _convert_value_to_item(self, value: Any) -> IConfigItem:
+        """
+        Converts a raw value to an `IConfigItem`.
+
+        Args:
+            value (Any): The value to convert.
+
+        Returns:
+            IConfigItem: The converted configuration item.
+
+        Raises:
+            ValueError: If the value is of an invalid data type.
+        """
 
         from fastcfg.config import Config
 
@@ -77,7 +115,7 @@ class ConfigAttributes():
 
         return config_item
 
-    def add_or_update_attribute(self, name: str, value: Any):
+    def add_or_update_attribute(self, name: str, value: Any) -> None:
         """
         Adds a new attribute or updates an existing attribute in the configuration.
 

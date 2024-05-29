@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fastcfg.validation.validatable &mdash; fastcfg  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            fastcfg
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">fastcfg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../validation.html">fastcfg.validation</a></li>
+      <li class="breadcrumb-item active">fastcfg.validation.validatable</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for fastcfg.validation.validatable</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">fastcfg.validation</span> <span class="kn">import</span> <span class="n">IConfigValidator</span>
+<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">ConfigItemValidationError</span>
+<span class="kn">from</span> <span class="nn">fastcfg.config.utils</span> <span class="kn">import</span> <span class="n">has_recursive_values</span><span class="p">,</span> <span class="n">resolve_all_values</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+
+<span class="kn">import</span> <span class="nn">hashlib</span>
+
+
+<div class="viewcode-block" id="md5_hash_state">
+<a class="viewcode-back" href="../../../fastcfg.validation.html#fastcfg.validation.validatable.md5_hash_state">[docs]</a>
+<span class="k">def</span> <span class="nf">md5_hash_state</span><span class="p">(</span><span class="n">input_obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hash LiveConfig object&#39;s state&quot;&quot;&quot;</span>
+
+    <span class="c1"># Convert obj to str</span>
+    <span class="n">input_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_obj</span><span class="p">)</span>
+
+    <span class="c1"># Create an MD5 hash object</span>
+    <span class="n">md5_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
+
+    <span class="c1"># Update the hash object with the bytes of the input string</span>
+    <span class="n">md5_hash</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">input_str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Get the hexadecimal representation of the hash</span>
+    <span class="k">return</span> <span class="n">md5_hash</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="ValidatableMixin">
+<a class="viewcode-back" href="../../../fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin">[docs]</a>
+<span class="k">class</span> <span class="nc">ValidatableMixin</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_state_hash</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Used for LiveConfigItem state tracking</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validators</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IConfigValidator</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="ValidatableMixin.add_validator">
+<a class="viewcode-back" href="../../../fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin.add_validator">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_validator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validator</span><span class="p">:</span> <span class="n">IConfigValidator</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validators</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate_immediately</span><span class="p">:</span>
+            <span class="c1"># Validate immediately when a new validator is added</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">force_live</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ValidatableMixin.get_validators">
+<a class="viewcode-back" href="../../../fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin.get_validators">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_validators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validators</span></div>
+
+
+<div class="viewcode-block" id="ValidatableMixin.validate">
+<a class="viewcode-back" href="../../../fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin.validate">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_live</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the current configuration item and its children.</span>
+
+<span class="sd">        This method performs validation on the current configuration item and its</span>
+<span class="sd">        children. If the item is an instance of LiveConfigItem, it uses an MD5 hash</span>
+<span class="sd">        to track the state of the item&#39;s value. Validation is only performed if the</span>
+<span class="sd">        state has changed or if the `force_live` parameter is set to True.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        force_live (bool): If True, forces validation for LiveConfigItem instances</span>
+<span class="sd">                        regardless of whether the state has changed. This is useful</span>
+<span class="sd">                        when a new validator is added and immediate validation is required.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        ConfigItemValidationError: If any of the validators fail.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">fastcfg.config.items</span> <span class="kn">import</span> <span class="n">LiveConfigItem</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LiveConfigItem</span><span class="p">):</span>
+
+            <span class="n">current_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_value</span><span class="p">()</span>
+
+            <span class="n">state_hash</span> <span class="o">=</span> <span class="n">md5_hash_state</span><span class="p">(</span><span class="n">current_value</span><span class="p">)</span>
+
+            <span class="c1"># State has changed, we need to re-validate</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">force_live</span> <span class="ow">and</span> <span class="n">state_hash</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_state_hash</span><span class="p">:</span>
+                <span class="k">return</span>  <span class="c1"># We don&#39;t need to validate self or children</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_last_state_hash</span> <span class="o">=</span> <span class="n">state_hash</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">current_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_self</span><span class="p">(</span><span class="n">current_value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_children</span><span class="p">(</span><span class="n">current_value</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_validate_self</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+        <span class="n">validate_value</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">if</span> <span class="n">has_recursive_values</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">validate_value</span> <span class="o">=</span> <span class="n">resolve_all_values</span><span class="p">(</span><span class="n">validate_value</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">validator</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validators</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">validate_value</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ConfigItemValidationError</span><span class="p">(</span><span class="n">validator</span><span class="o">.</span><span class="n">error_message</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_validate_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_validate_value</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_validate_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ValidatableMixin</span><span class="p">):</span>
+            <span class="n">value</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Breisoft.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
