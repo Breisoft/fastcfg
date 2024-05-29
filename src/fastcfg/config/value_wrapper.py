@@ -1,7 +1,9 @@
 from fastcfg.config.utils import create_config_dict
 
+from typing import Union, Any, Callable
 
-class ValueWrapper:
+
+class ValueWrapper():
     """
     A wrapper class that allows treating an instance of IConfigItem as equivalent to its underlying value.
     This class delegates attribute access to the underlying value or the item itself, enabling seamless
@@ -69,7 +71,7 @@ class ValueWrapper:
         """
         value = self._item.value
 
-        # Check if the attribute is a public method of IConfigItem
+        # Check if the attribute is a public method of IConfigItem)
         if hasattr(self._item, name) and callable(getattr(self._item, name)):
             attr = getattr(self._item, name)
             return attr
@@ -195,6 +197,6 @@ class ValueWrapper:
         making it more transparent in type checks and introspection.
 
         Returns:
-            type: The class of the underlying value.
+                type: The class of the underlying value.
         """
         return type(self._item.value)

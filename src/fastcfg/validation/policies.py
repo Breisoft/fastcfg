@@ -11,19 +11,26 @@ except ImportError:
 
 
 class RangeValidator(IConfigValidator):
-    def __init__(self, min_value: int, max_value: int):
+    def __init__(self, min_value: int, max_value: int, validate_immediately: bool = True):
+
+        super().__init__(validate_immediately=validate_immediately)
+
         self.min_value = min_value
         self.max_value = max_value
 
     def validate(self, value: Any) -> bool:
-        return self.min_value <= value <= self.max_value
+        try:
+            return self.min_value <= value <= self.max_value
+        except TypeError:
+            return False
 
     def error_message(self) -> str:
-        return f"Value must be between {self.min_value} and {self.max_value}."
+        return f"Value must support <= operator and be between {self.min_value} and {self.max_value}."
 
 
 class TypeValidator(IConfigValidator):
-    def __init__(self, expected_type: type):
+    def __init__(self, expected_type: type, validate_immediately: bool = True):
+        super().__init__(validate_immediately=validate_immediately)
         self.expected_type = expected_type
 
     def validate(self, value: Any) -> bool:
@@ -34,7 +41,9 @@ class TypeValidator(IConfigValidator):
 
 
 class RegexValidator(IConfigValidator):
-    def __init__(self, pattern: str):
+    def __init__(self, pattern: str, validate_immediately: bool = True):
+        super().__init__(validate_immediately=validate_immediately)
+
         self.pattern = pattern
 
     def validate(self, value: Any) -> bool:
@@ -45,7 +54,8 @@ class RegexValidator(IConfigValidator):
 
 
 class PydanticValidator(IConfigValidator):
-    def __init__(self, model: BaseModel):
+    def __init__(self, model: BaseModel, validate_immediately: bool = True):
+        super().__init__(validate_immediately=validate_immediately)
         self.model = model
 
         self._latest_error = None

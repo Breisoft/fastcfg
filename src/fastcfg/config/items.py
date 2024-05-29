@@ -1,20 +1,19 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Any
-
-from typing import List
-
-from fastcfg.exceptions import ConfigItemValidationError
 from fastcfg.validation import IConfigValidator
+
+
+from fastcfg.validation.validatable import ValidatableMixin
 
 from fastcfg.config.value_wrapper import ValueWrapper
 
 from typing import Dict
 
 
-class IConfigItem(ABC):
+class IConfigItem(ValidatableMixin):
 
     def __init__(self):
-        self._validators: List[IConfigValidator] = []
+        super().__init__()
 
         self._wrapped_dict_items: Dict[str, IConfigItem] = {}
 
@@ -33,29 +32,19 @@ class IConfigItem(ABC):
 
             return_item = self._wrapped_dict_items
 
-        self.validate(return_item)
-
         return return_item
 
     @abstractmethod
     def _get_value(self) -> Any:
         pass
 
-    def add_validator(self, validator: IConfigValidator):
-        self._validators.append(validator)
+    @value.setter
+    def value(self, new_value: Any) -> None:
+        self._set_value(new_value)
 
-    def get_validators(self):
-        return self._validators
-
-    def validate(self, value: Any):
-        for validator in self._validators:
-            if not validator.validate(value):
-                raise ConfigItemValidationError(validator.error_message())
-
-        # Recursively validate nested dictionaries
-        if isinstance(value, dict):
-            for k, v in self._wrapped_dict_items.items():
-                v.validate(v.value)
+    @abstractmethod
+    def _set_value(self, new_value: Any):
+        pass
 
     def __getattr__(self, name):
         """
@@ -90,11 +79,16 @@ class BuiltInConfigItem(IConfigItem):
 
         self._value = value
 
+    def _set_value(self, new_value: Any):
+        self._value = new_value
+
     def _get_value(self) -> Any:
         return self._value
 
 
 class LiveConfigItem(IConfigItem):
+
+    """LiveConfigItems need support for automatic re-validation."""
 
     def __init__(self, state_tracker):
 
@@ -102,5 +96,21 @@ class LiveConfigItem(IConfigItem):
 
         self._state_tracker = state_tracker
 
+    def _set_value(self, new_value: Any):
+        raise Exception(
+            'Cannot set value on LiveConfigItem, BuiltInConfigItem only.')
+
+    @property
+    def value(self) -> Any:
+        val = super().value
+
+        # Trigger validation
+        self.validate()
+
+        return val
+
     def _get_value(self) -> Any:
-        return self._state_tracker.get_state()
+
+        state = self._state_tracker.get_state()
+
+        return state
