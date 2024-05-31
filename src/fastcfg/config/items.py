@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
-from fastcfg.validation import IConfigValidator
 
-
+from fastcfg.exceptions import InvalidOperationError
 from fastcfg.validation.validatable import ValidatableMixin
 
 from fastcfg.config.value_wrapper import ValueWrapper
@@ -93,7 +92,6 @@ class IConfigItem(ValidatableMixin, ABC):
     def value(self, new_value: Any) -> None:
         self._set_value(new_value)
 
-    @abstractmethod
     def _set_value(self, new_value: Any):
         """
         Sets the value of the configuration item.
@@ -104,6 +102,8 @@ class IConfigItem(ValidatableMixin, ABC):
         Args:
             new_value (Any): The new value to set for the configuration item.
         """
+        raise InvalidOperationError(
+            'Can only set value on BuiltInConfigItem')
 
     def __getattr__(self, name):
         """
@@ -207,19 +207,6 @@ class LiveConfigItem(IConfigItem):
             """
         super().__init__()
         self._state_tracker = state_tracker
-
-    def _set_value(self, new_value: Any):
-        """
-        Raises an exception as direct setting of value is not allowed.
-
-        Args:
-            new_value (Any): The new value to set for the configuration item.
-
-        Raises:
-            Exception: Always, as direct setting of value is not allowed.
-        """
-        raise Exception(
-            'Cannot set value on LiveConfigItem, BuiltInConfigItem only.')
 
     @property
     def value(self) -> Any:

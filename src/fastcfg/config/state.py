@@ -11,7 +11,17 @@ from typing import Any, Callable, Optional
 
 
 class IStateTracker(ABC):
-    """Abstract base class for a state tracker."""
+    """
+    Abstract base class for a state tracker which is used to fetch the current state for LiveConfigItems.
+
+    Purpose:
+        - This class defines a common interface for state trackers.
+        - It ensures that all state trackers can fetch the current state through a consistent method.
+
+    Methods:
+        get_state(): Fetches the state by calling `get_state_value()`.
+        get_state_value(): Abstract method to fetch the internal state, must be implemented by subclasses.
+    """
 
     def get_state(self) -> Any:
         """
@@ -39,7 +49,20 @@ class IStateTracker(ABC):
 
 
 class RetriableMixin:
-    """Mixin providing retry logic."""
+    """
+    Mixin providing retry logic.
+
+    Purpose:
+        - This mixin adds retry capabilities to state tracker classes that need to handle transient failures.
+        - It uses an exponential backoff strategy to retry operations.
+
+    Attributes:
+        _retry (bool): Whether to enable retry logic.
+        _backoff_policy (BackoffPolicy): The backoff policy to use.
+
+    Methods:
+        _call_retriable_function(func, *args, **kwargs): Calls a function with optional backoff.
+    """
 
     def __init__(self, retry: bool = False, backoff_policy: BackoffPolicy = None):
         """
@@ -48,6 +71,7 @@ class RetriableMixin:
         Args:
             retry (bool): Whether to enable retry logic.
             backoff_policy (BackoffPolicy, optional): The backoff policy to use. Defaults to `defaults.backoff_policy`.
+            See `fastcfg.default` package for more details.
         """
         self._retry = retry
         self._backoff_policy = backoff_policy or defaults.backoff_policy
@@ -80,7 +104,8 @@ class CacheMixin:
 
         Args:
             use_cache (bool): Whether to enable caching.
-            cache (Cache, optional): The cache instance to use. Defaults to `None`.
+            cache (Cache, optional): The cache instance to use. Defaults to `None`. 
+                If `None` and `use_cache` is True, a new cache instance is created with the default cache policy.
         """
         if cache is None and use_cache:
             self._cache = Cache(defaults.cache_policy)
@@ -111,8 +136,23 @@ class CacheMixin:
             return func(*args, **kwargs)
 
 
-class ILiveTracker(IStateTracker, RetriableMixin, CacheMixin):
-    """Base class for live trackers with optional retry and caching."""
+class ILiveTracker(IStateTracker, RetriableMixin, CacheMixin, ABC):
+    """
+    Base class for state trackers with optional retry and caching.
+    This class provides the basis for all StateTrackers that are 
+    dynamically fetched on attribute access from a `Config` instance.
+
+    Purpose:
+        - This class combines state tracking, retry logic, and caching capabilities.
+        - It provides a unified interface for fetching state with support for retries and caching.
+
+    Attributes:
+        _cache_uuid_key (str): The cache key for the state.
+
+    Methods:
+        __init__(retry, use_cache, backoff_policy, cache): Initializes the ILiveTracker.
+        get_state(): Fetches the state with retry and caching support.
+    """
 
     def __init__(self, retry: bool = False, use_cache: bool = False,
                  backoff_policy: Optional[BackoffPolicy] = None, cache: Optional[Cache] = None):
@@ -123,7 +163,8 @@ class ILiveTracker(IStateTracker, RetriableMixin, CacheMixin):
             retry (bool): Whether to enable retry logic.
             use_cache (bool): Whether to enable caching.
             backoff_policy (BackoffPolicy, optional): The backoff policy to use. Defaults to `None`.
-            cache (Cache, optional): The cache instance to use. Defaults to `None`.
+            cache (Cache, optional): The cache instance to use. Defaults to `None` and 
+            if `use_cache` is True, a new cache instance is created with the default cache policy.
         """
         if use_cache:
             # Generate cache key

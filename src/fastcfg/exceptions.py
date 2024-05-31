@@ -7,6 +7,14 @@ class ConfigItemValidationError(Exception):
         super().__init__(f"Validation failed: {message}")
 
 
+class InvalidOperationError(Exception):
+    """Exception raised when an invalid operation is performed."""
+
+    def __init__(self, message: str = "Invalid operation performed."):
+        self.message = message
+        super().__init__(self.message)
+
+
 class MissingDependencyError(Exception):
     """Exception raised when a dependency is missing."""
 

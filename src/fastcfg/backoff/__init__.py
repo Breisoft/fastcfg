@@ -2,13 +2,22 @@ import time
 import functools
 import random
 
-from fastcfg.exceptions import MaxRetriesExceededError
-
 from dataclasses import dataclass
+from fastcfg.exceptions import MaxRetriesExceededError
 
 
 @dataclass
 class BackoffPolicy:
+    """
+    Configuration for the exponential backoff mechanism.
+
+    Attributes:
+        max_retries (int): Maximum number of retry attempts.
+        base_delay (float): Initial delay between retries in seconds.
+        max_delay (float): Maximum delay between retries in seconds.
+        factor (float): Multiplicative factor for delay growth.
+        jitter (bool): If True, adds a random jitter to the delay.
+    """
     max_retries: int
     base_delay: float
     max_delay: float

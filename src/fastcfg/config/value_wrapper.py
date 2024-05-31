@@ -1,6 +1,14 @@
 from fastcfg.config.utils import create_config_dict
 
 
+from typing import TYPE_CHECKING, Union, Any
+
+if TYPE_CHECKING:
+    from fastcfg.config.items import IConfigItem
+else:
+    IConfigItem = None
+
+
 class ValueWrapper():
     """
     A wrapper class that allows treating an instance of IConfigItem as equivalent to its underlying value.
@@ -24,12 +32,12 @@ class ValueWrapper():
     """
 
     @staticmethod
-    def factory(obj):
+    def factory(obj) -> 'ValueWrapper':
 
         return ValueWrapper(obj)
 
     @staticmethod
-    def unwrap(value):
+    def unwrap(value: Union[dict, IConfigItem, list, int, float, str, bool]) -> Any:
         if isinstance(value, ValueWrapper):
             return ValueWrapper.unwrap(value._item.value)
         elif isinstance(value, dict):
@@ -38,7 +46,7 @@ class ValueWrapper():
             return [ValueWrapper.unwrap(v) for v in value]
         return value
 
-    def __init__(self, item):
+    def __init__(self, item: IConfigItem):
         """
         Initialize the ValueWrapper with an IConfigItem instance.
 
