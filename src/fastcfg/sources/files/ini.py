@@ -1,7 +1,7 @@
-from fastcfg.sources.files.file_state_tracker import IFileStateTracker
+from fastcfg.sources.files.file_state_tracker import AbstractFileStateTracker
 import os
 
-from fastcfg.exceptions import MissingDependencyError, FileReadError
+from fastcfg.exceptions import FileReadError
 
 from typing import Optional
 
@@ -11,7 +11,7 @@ from fastcfg.cache import Cache
 import configparser
 
 
-class IniTracker(IFileStateTracker):
+class IniTracker(AbstractFileStateTracker):
 
     def __init__(self, file_path: os.PathLike,
                  mode: str = 'r', encoding: str = 'utf-8',

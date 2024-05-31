@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastcfg.config.items import IConfigItem
+from fastcfg.config.items import AbstractConfigItem
 
 from fastcfg.config.utils import create_config_dict
 
@@ -201,7 +201,7 @@ class Config():
             attr = attributes.get_attributes()
             # Convert internal attributes to a dictionary for comparison
             to_dict = {k: v.value if isinstance(
-                v, IConfigItem) else v.to_dict() for k, v in attr.items()}
+                v, AbstractConfigItem) else v.to_dict() for k, v in attr.items()}
             return to_dict == other
         return super().__eq__(other)
 

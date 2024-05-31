@@ -24,6 +24,8 @@ from = "src"
 ipykernel = "^6.29.3"
 sphinx = "^7.3.7"
 sphinx-rtd-theme = "^2.0.0"
+black = "^24.4.2"
+isort = "^5.13.2"
 
 
 [build-system]

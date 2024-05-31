@@ -20,3 +20,7 @@ dist/
 
 # IPython Notebooks
 src/notebooks/
+
+# VS Code settings
+.vscode/
+

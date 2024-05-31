@@ -1,5 +1,5 @@
 from typing import Any
-from fastcfg.config.state import ILiveTracker
+from fastcfg.config.state import AbstractLiveStateTracker
 from typing import Optional
 from fastcfg.exceptions import MissingDependencyError
 
@@ -11,11 +11,11 @@ except ImportError:
 
 import boto3
 from typing import Any, Optional
-from fastcfg.config.state import ILiveTracker
+from fastcfg.config.state import AbstractLiveStateTracker
 from fastcfg.exceptions import MissingDependencyError
 
 
-class AWSCredentialsTracker(ILiveTracker):
+class AWSCredentialsTracker(AbstractLiveStateTracker):
     """Concrete class implementing an AWS live tracker with optional custom credential rotation."""
 
     def __init__(self, rotate_function: Optional[callable] = None):

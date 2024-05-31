@@ -1,8 +1,8 @@
-from fastcfg.config.state import IStateTracker
+from fastcfg.config.state import AbstractStateTracker
 from typing import Callable
 
 
-class CallableTracker(IStateTracker):
+class CallableTracker(AbstractStateTracker):
 
     def __init__(self, callable: Callable, *args, **kwargs) -> None:
         self._callable = callable

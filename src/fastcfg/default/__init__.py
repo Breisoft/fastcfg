@@ -1,5 +1,5 @@
 """
-This module sets up the default configuration for the `fastcfg` package.
+This module sets up the default config for the `fastcfg` package.
 
 Modules Imported:
     - `Config` from `fastcfg`: The main configuration class used to manage settings.

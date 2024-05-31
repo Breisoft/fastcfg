@@ -4,19 +4,19 @@ from fastcfg.config.utils import create_config_dict
 from typing import TYPE_CHECKING, Union, Any
 
 if TYPE_CHECKING:
-    from fastcfg.config.items import IConfigItem
+    from fastcfg.config.items import AbstractConfigItem
 else:
-    IConfigItem = None
+    AbstractConfigItem = None
 
 
 class ValueWrapper():
     """
-    A wrapper class that allows treating an instance of IConfigItem as equivalent to its underlying value.
+    A wrapper class that allows treating an instance of AbstractConfigItem as equivalent to its underlying value.
     This class delegates attribute access to the underlying value or the item itself, enabling seamless
-    interaction with both the value and the IConfigItem's methods.
+    interaction with both the value and the AbstractConfigItem's methods.
 
     This is useful for scenarios where you want to work directly with the value of a configuration item
-    while still being able to access and utilize the methods of the IConfigItem, such as add_validator.
+    while still being able to access and utilize the methods of the AbstractConfigItem, such as add_validator.
 
     Example:
         config = Config()
@@ -27,7 +27,7 @@ class ValueWrapper():
 
         print(config.my_number + config.my_number) # Output 84
 
-        # Using IConfigItem methods
+        # Using AbstractConfigItem methods
         config.my_number.add_validator(RangeValidator(1, 50))
     """
 
@@ -37,7 +37,7 @@ class ValueWrapper():
         return ValueWrapper(obj)
 
     @staticmethod
-    def unwrap(value: Union[dict, IConfigItem, list, int, float, str, bool]) -> Any:
+    def unwrap(value: Union[dict, AbstractConfigItem, list, int, float, str, bool]) -> Any:
         if isinstance(value, ValueWrapper):
             return ValueWrapper.unwrap(value._item.value)
         elif isinstance(value, dict):
@@ -46,25 +46,25 @@ class ValueWrapper():
             return [ValueWrapper.unwrap(v) for v in value]
         return value
 
-    def __init__(self, item: IConfigItem):
+    def __init__(self, item: AbstractConfigItem):
         """
-        Initialize the ValueWrapper with an IConfigItem instance.
+        Initialize the ValueWrapper with an AbstractConfigItem instance.
 
         Args:
-            item (IConfigItem): The configuration item to wrap.
+            item (AbstractConfigItem): The configuration item to wrap.
         """
         self._item = item
 
     def __getattr__(self, name):
         """
-        Delegate attribute access to the underlying value or the IConfigItem instance.
+        Delegate attribute access to the underlying value or the AbstractConfigItem instance.
 
         This method first tries to access the attribute from the underlying value. If the value is a dictionary,
         it attempts to retrieve the item from the dictionary. If the item is also a dictionary, it converts it to a Config instance.
         If the attribute is not found in the dictionary, it raises an AttributeError.
 
         If the value is not a dictionary, it tries to get the attribute from the value directly. If that fails,
-        it falls back to getting the attribute from the IConfigItem instance.
+        it falls back to getting the attribute from the AbstractConfigItem instance.
 
         Args:
             name (str): The name of the attribute to access.
@@ -73,11 +73,11 @@ class ValueWrapper():
             Any: The value of the attribute.
 
         Raises:
-            AttributeError: If the attribute does not exist in the value or the IConfigItem instance.
+            AttributeError: If the attribute does not exist in the value or the AbstractConfigItem instance.
         """
         value = self._item.value
 
-        # Check if the attribute is a public method of IConfigItem)
+        # Check if the attribute is a public method of AbstractConfigItem)
         if hasattr(self._item, name) and callable(getattr(self._item, name)):
             attr = getattr(self._item, name)
             return attr

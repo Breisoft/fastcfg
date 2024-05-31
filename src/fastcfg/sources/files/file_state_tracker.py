@@ -1,4 +1,4 @@
-from fastcfg.config.state import ILiveTracker
+from fastcfg.config.state import AbstractLiveStateTracker
 import os
 
 from typing import Optional
@@ -9,7 +9,7 @@ from fastcfg.cache import Cache
 from fastcfg.exceptions import FileReadError
 
 
-class IFileStateTracker(ILiveTracker):
+class AbstractFileStateTracker(AbstractLiveStateTracker):
 
     def __init__(self, file_path: os.PathLike,
                  mode: str = 'r', encoding: str = 'utf-8',

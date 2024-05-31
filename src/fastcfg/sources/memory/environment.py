@@ -1,10 +1,10 @@
-from fastcfg.config.state import IStateTracker
+from fastcfg.config.state import AbstractStateTracker
 import os
 
 from fastcfg.exceptions import MissingEnvironmentVariableError
 
 
-class EnvironmentLiveTracker(IStateTracker):
+class EnvironmentLiveTracker(AbstractStateTracker):
 
     def __init__(self, key: str):
         self._key = key

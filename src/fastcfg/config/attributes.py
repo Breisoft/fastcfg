@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastcfg.config.items import IConfigItem, BuiltInConfigItem
+from fastcfg.config.items import AbstractConfigItem, BuiltInConfigItem
 
 
 # Types that are classified as built-in rather than custom objects
@@ -38,9 +38,9 @@ class ConfigAttributes():
 
     def __init__(self):
 
-        self.__attributes: dict[str, IConfigItem] = {}
+        self.__attributes: dict[str, AbstractConfigItem] = {}
 
-    def get_attribute(self, name) -> IConfigItem:
+    def get_attribute(self, name) -> AbstractConfigItem:
         """
         Retrieves an attribute by name.
 
@@ -60,7 +60,7 @@ class ConfigAttributes():
             raise AttributeError(
                 f'Attribute `{name}` does not exist.') from exc
 
-    def get_attributes(self) -> dict[str, IConfigItem]:
+    def get_attributes(self) -> dict[str, AbstractConfigItem]:
         """
         Returns all attributes.
 
@@ -69,7 +69,7 @@ class ConfigAttributes():
         """
         return self.__attributes
 
-    def _convert_value_to_item(self, value: Any) -> IConfigItem:
+    def _convert_value_to_item(self, value: Any) -> AbstractConfigItem:
         """
         Converts a raw value to an `IConfigItem`.
 
@@ -85,7 +85,7 @@ class ConfigAttributes():
 
         from fastcfg.config import Config
 
-        if isinstance(value, IConfigItem):
+        if isinstance(value, AbstractConfigItem):
             return value
 
         elif isinstance(value, Config):
@@ -97,7 +97,7 @@ class ConfigAttributes():
         else:
             raise ValueError('Invalid data type!')
 
-    def _add_attribute(self, name: str, value: Any) -> IConfigItem:
+    def _add_attribute(self, name: str, value: Any) -> AbstractConfigItem:
         """
         Adds a new attribute to the configuration.
         Overrides existing IConfigItem if it already exists.

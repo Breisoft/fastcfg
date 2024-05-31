@@ -9,17 +9,17 @@ from fastcfg.config.value_wrapper import ValueWrapper
 from typing import Dict
 
 
-class IConfigItem(ValidatableMixin, ABC):
+class AbstractConfigItem(ValidatableMixin, ABC):
     """
-    The `IConfigItem` class serves as an abstract base class for configuration items in the `fastcfg` module.
+    The `AbstractConfigItem` class serves as an abstract base class for configuration items in the `fastcfg` module.
 
     Purpose:
-        - The primary purpose of the `IConfigItem` class is to define a common interface and shared functionality for all configuration items.
+        - The primary purpose of the `AbstractConfigItem` class is to define a common interface and shared functionality for all configuration items.
         - It ensures that all configuration items can be validated and have a consistent way of getting and setting their values.
         - This class also provides mechanisms to handle nested dictionary values by wrapping them in `ValueWrapper` instances.
-        - By using `IConfigItem` as the base class for configuration attributes, the `Config` class can manage different types of configuration items uniformly.
-        - The design choice to use `IConfigItem` allows for flexibility and extensibility, enabling the creation of custom configuration items (e.g., `BuiltInConfigItem`, `LiveConfigItem`) that can have specialized behavior.
-        - The `ValueWrapper` class leverages `IConfigItem` to provide seamless interaction with both the underlying value and the configuration item's methods, ensuring that validation and other functionalities are consistently applied.
+        - By using `AbstractConfigItem` as the base class for configuration attributes, the `Config` class can manage different types of configuration items uniformly.
+        - The design choice to use `AbstractConfigItem` allows for flexibility and extensibility, enabling the creation of custom configuration items (e.g., `BuiltInConfigItem`, `LiveConfigItem`) that can have specialized behavior.
+        - The `ValueWrapper` class leverages `AbstractConfigItem` to provide seamless interaction with both the underlying value and the configuration item's methods, ensuring that validation and other functionalities are consistently applied.
     Features:
         - **Validation**: Inherits from `ValidatableMixin` to provide validation capabilities.
         - **Abstract Methods**: Defines abstract methods `_get_value` and `_set_value` that must be implemented by subclasses.
@@ -27,10 +27,10 @@ class IConfigItem(ValidatableMixin, ABC):
         - **Dynamic Attribute Access**: Implements `__getattr__` to suppress type hint errors and handle dynamic attribute access.
 
     Attributes:
-        _wrapped_dict_items (Dict[str, IConfigItem]): A dictionary to store wrapped dictionary items.
+        _wrapped_dict_items (Dict[str, AbstractConfigItem]): A dictionary to store wrapped dictionary items.
 
     Methods:
-        __init__(): Initializes the `IConfigItem` object.
+        __init__(): Initializes the `AbstractConfigItem` object.
         value: Property to get and set the configuration item's value.
         _get_value(): Abstract method to get the configuration item's value.
         _set_value(new_value): Abstract method to set the configuration item's value.
@@ -40,7 +40,7 @@ class IConfigItem(ValidatableMixin, ABC):
     def __init__(self):
         super().__init__()
 
-        self._wrapped_dict_items: Dict[str, IConfigItem] = {}
+        self._wrapped_dict_items: Dict[str, AbstractConfigItem] = {}
 
     @property
     def value(self) -> Any:
@@ -131,13 +131,13 @@ class IConfigItem(ValidatableMixin, ABC):
                 f"'ConfigItem' object has no attribute '{name}'") from exc
 
 
-class BuiltInConfigItem(IConfigItem):
+class BuiltInConfigItem(AbstractConfigItem):
     """
     The `BuiltInConfigItem` class represents a configuration item that holds a built-in data type value.
 
     Purpose:
         - This concrete class is used to wrap built-in data types (e.g., int, float, str) as configuration items.
-        - It provides implementations for the abstract methods `_get_value` and `_set_value` defined in `IConfigItem`.
+        - It provides implementations for the abstract methods `_get_value` and `_set_value` defined in `AbstractConfigItem`.
         - It's used for static data types which don't change unless the attribute itself is directly modified.
 
     Attributes:
@@ -178,14 +178,14 @@ class BuiltInConfigItem(IConfigItem):
         self._value = new_value
 
 
-class LiveConfigItem(IConfigItem):
+class LiveConfigItem(AbstractConfigItem):
 
     """
     The `LiveConfigItem` class represents a configuration item that is dynamically calculated upon access.
 
     Purpose:
         - This class is used for configuration items that need to be dynamically validated based on an external state.
-        - It provides implementations for the abstract methods `_get_value` and `_set_value` defined in `IConfigItem`.
+        - It provides implementations for the abstract methods `_get_value` and `_set_value` defined in `AbstractConfigItem`.
         - Unlike `BuiltInConfigItem`, it does not allow direct setting of its value.
 
     Attributes:

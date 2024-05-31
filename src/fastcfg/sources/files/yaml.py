@@ -1,4 +1,4 @@
-from fastcfg.sources.files.file_state_tracker import IFileStateTracker
+from fastcfg.sources.files.file_state_tracker import AbstractFileStateTracker
 import os
 
 from fastcfg.exceptions import MissingDependencyError, FileReadError
@@ -14,7 +14,7 @@ except ImportError:
     yaml = None
 
 
-class YamlTracker(IFileStateTracker):
+class YamlTracker(AbstractFileStateTracker):
 
     def __init__(self, file_path: os.PathLike,
                  mode: str = 'r', encoding: str = 'utf-8',

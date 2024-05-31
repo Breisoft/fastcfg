@@ -1,4 +1,7 @@
 from abc import abstractmethod, ABC
+import uuid
+from typing import Any, Callable, Optional
+
 
 from fastcfg.cache import Cache
 from fastcfg.default import defaults
@@ -6,11 +9,8 @@ from fastcfg.backoff import exponential_backoff
 from fastcfg.backoff.policies import BackoffPolicy
 from fastcfg.exceptions import MissingCacheKeyError
 
-import uuid
-from typing import Any, Callable, Optional
 
-
-class IStateTracker(ABC):
+class AbstractStateTracker(ABC):
     """
     Abstract base class for a state tracker which is used to fetch the current state for LiveConfigItems.
 
@@ -136,7 +136,7 @@ class CacheMixin:
             return func(*args, **kwargs)
 
 
-class ILiveTracker(IStateTracker, RetriableMixin, CacheMixin, ABC):
+class AbstractLiveStateTracker(AbstractStateTracker, RetriableMixin, CacheMixin, ABC):
     """
     Base class for state trackers with optional retry and caching.
     This class provides the basis for all StateTrackers that are 
@@ -172,7 +172,7 @@ class ILiveTracker(IStateTracker, RetriableMixin, CacheMixin, ABC):
         else:
             self._cache_uuid_key = None
 
-        IStateTracker.__init__(self)
+        AbstractStateTracker.__init__(self)
         RetriableMixin.__init__(self, retry, backoff_policy)
         CacheMixin.__init__(self, use_cache, cache)
 

@@ -74,7 +74,7 @@ def resolve_all_values(obj: Union[dict, Config]) -> dict:
         if has_recursive_values(v):
             v = resolve_all_values(v)  # Recursively resolve values
 
-        if isinstance(v, items.IConfigItem):
+        if isinstance(v, items.AbstractConfigItem):
             v = v.value
 
         values[k] = v

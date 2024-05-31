@@ -1,5 +1,5 @@
 from typing import Any
-from fastcfg.config.state import ILiveTracker
+from fastcfg.config.state import AbstractLiveStateTracker
 from abc import abstractmethod
 
 from fastcfg.exceptions import MissingDependencyError
@@ -10,7 +10,7 @@ except ImportError:
     boto3 = None
 
 
-class IBoto3LiveTracker(ILiveTracker):
+class IBoto3LiveTracker(AbstractLiveStateTracker):
     """Concrete class implementing an AWS live tracker with retry support."""
 
     def __init__(self, aws_service: str, *args, **kwargs):
