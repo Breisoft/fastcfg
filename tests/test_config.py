@@ -1,7 +1,8 @@
-from fastcfg.config.items import LiveConfigItem
 import unittest
 from unittest.mock import Mock
+
 from fastcfg import Config
+from fastcfg.config.items import LiveConfigItem
 
 
 class TestConfig(unittest.TestCase):
@@ -27,7 +28,7 @@ class TestConfig(unittest.TestCase):
             list_value=[1, 2, 3],
             dict_value={"a": 1, "b": 2},
             tuple_value=(4, 5, 6),
-            set_value={7, 8, 9}
+            set_value={7, 8, 9},
         )
 
         # Assert the values and types of the Config object attributes
@@ -61,8 +62,7 @@ class TestConfig(unittest.TestCase):
         and that nested Config objects can be compared to dictionaries.
         """
         config = Config(
-            dict_value={"a": 1, "b": {"nested": 2}},
-            nested_config=Config(a=1, b=2)
+            dict_value={"a": 1, "b": {"nested": 2}}, nested_config=Config(a=1, b=2)
         )
 
         # Access the dictionary attributes using dot notation
@@ -79,12 +79,7 @@ class TestConfig(unittest.TestCase):
         This test verifies that nested Config objects can be created and accessed
         correctly, and that modifying nested values works as expected.
         """
-        config = Config(
-            nested_config=Config(
-                value1=10,
-                value2="nested"
-            )
-        )
+        config = Config(nested_config=Config(value1=10, value2="nested"))
 
         # Assert that nested_config is an instance of Config
         self.assertIsInstance(config.nested_config, Config)

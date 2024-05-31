@@ -22,9 +22,8 @@ Classes:
             - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -> None: Handle insertion and evict if necessary.
 """
 
-from typing import Any, Dict, Optional
 import time
-
+from typing import Any, Dict, Optional
 
 from fastcfg.cache import AbstractCacheStrategy, AbstractUsageCacheStrategy, Cache
 

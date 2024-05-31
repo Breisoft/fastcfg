@@ -1,4 +1,3 @@
-
 class ConfigItemValidationError(Exception):
     """Exception raised when a config item value fails validation."""
 
@@ -20,8 +19,7 @@ class MissingDependencyError(Exception):
 
     def __init__(self, dependency: str):
         self.dependency = dependency
-        super().__init__(
-            f"Dependency '{dependency}' is missing. Please install it.")
+        super().__init__(f"Dependency '{dependency}' is missing. Please install it.")
 
 
 class NetworkError(Exception):
@@ -39,7 +37,8 @@ class MaxRetriesExceededError(Exception):
         self._backoff_policy = backoff_policy
         self._total_time_slept = total_time_slept
         super().__init__(
-            f"""Backoff failed. Total time slept: {self._total_time_slept} seconds. Policy details: {str(self._backoff_policy)}""")
+            f"""Backoff failed. Total time slept: {self._total_time_slept} seconds. Policy details: {str(self._backoff_policy)}"""
+        )
 
 
 class MissingConfigKeyError(Exception):
@@ -48,7 +47,8 @@ class MissingConfigKeyError(Exception):
     def __init__(self, key):
         self.key = key
         super().__init__(
-            f"Config key '{key}' doesn't exist. Please ensure that it's set in your config.")
+            f"Config key '{key}' doesn't exist. Please ensure that it's set in your config."
+        )
 
 
 class MissingCacheKeyError(Exception):
@@ -56,12 +56,12 @@ class MissingCacheKeyError(Exception):
 
     def __init__(self, key):
         self.key = key
-        super().__init__(
-            f"Cache key '{key}' not found in cache.")
+        super().__init__(f"Cache key '{key}' not found in cache.")
 
 
 class MissingEnvironmentVariableError(Exception):
     def __init__(self, key):
         self.key = key
         super().__init__(
-            f"Environment variable '{key}' doesn't exist. Please ensure that it's set in your environment.")
+            f"Environment variable '{key}' doesn't exist. Please ensure that it's set in your environment."
+        )

@@ -9,11 +9,15 @@ Attributes:
     MRU_POLICY (MRUCacheStrategy): A Most Recently Used (MRU) cache strategy with a default capacity of 100 entries.
 """
 
-from fastcfg.cache.strategies import TTLCacheStrategy, LRUCacheStrategy, MRUCacheStrategy
+from fastcfg.cache.strategies import (
+    LRUCacheStrategy,
+    MRUCacheStrategy,
+    TTLCacheStrategy,
+)
 
-TEN_MIN_TTL = TTLCacheStrategy(seconds=60*10)
-ONE_HOUR_TTL = TTLCacheStrategy(seconds=60*60)
-DAILY_TTL = TTLCacheStrategy(seconds=60*60*24)
+TEN_MIN_TTL = TTLCacheStrategy(seconds=60 * 10)
+ONE_HOUR_TTL = TTLCacheStrategy(seconds=60 * 60)
+DAILY_TTL = TTLCacheStrategy(seconds=60 * 60 * 24)
 
 LRU_POLICY = LRUCacheStrategy(capacity=100)
 MRU_POLICY = MRUCacheStrategy(capacity=100)

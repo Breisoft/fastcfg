@@ -1,7 +1,6 @@
+from typing import TYPE_CHECKING, Any, Union
+
 from fastcfg.config.utils import create_config_dict
-
-
-from typing import TYPE_CHECKING, Union, Any
 
 if TYPE_CHECKING:
     from fastcfg.config.items import AbstractConfigItem
@@ -9,7 +8,7 @@ else:
     AbstractConfigItem = None
 
 
-class ValueWrapper():
+class ValueWrapper:
     """
     A wrapper class that allows treating an instance of AbstractConfigItem as equivalent to its underlying value.
     This class delegates attribute access to the underlying value or the item itself, enabling seamless
@@ -32,12 +31,14 @@ class ValueWrapper():
     """
 
     @staticmethod
-    def factory(obj) -> 'ValueWrapper':
+    def factory(obj) -> "ValueWrapper":
 
         return ValueWrapper(obj)
 
     @staticmethod
-    def unwrap(value: Union[dict, AbstractConfigItem, list, int, float, str, bool]) -> Any:
+    def unwrap(
+        value: Union[dict, AbstractConfigItem, list, int, float, str, bool]
+    ) -> Any:
         if isinstance(value, ValueWrapper):
             return ValueWrapper.unwrap(value._item.value)
         elif isinstance(value, dict):
@@ -90,7 +91,8 @@ class ValueWrapper():
                 return item
             else:
                 raise AttributeError(
-                    f"'{type(value).__name__}' object has no attribute '{name}'")
+                    f"'{type(value).__name__}' object has no attribute '{name}'"
+                )
         try:
             return getattr(value, name)
         except AttributeError:

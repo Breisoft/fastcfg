@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional
-from collections import OrderedDict
 import uuid
+from abc import ABC, abstractmethod
+from collections import OrderedDict
+from typing import Any, Dict, Optional
 
-from fastcfg.exceptions import MissingCacheKeyError
 from fastcfg.cache.store import cache_store
+from fastcfg.exceptions import MissingCacheKeyError
 
 
 class AbstractCacheStrategy(ABC):
@@ -28,7 +28,7 @@ class AbstractCacheStrategy(ABC):
         """Execute cache strategy policy upon insertion."""
         pass
 
-    def on_invalidation(self, key: str, cache: 'Cache') -> Optional[Any]:
+    def on_invalidation(self, key: str, cache: "Cache") -> Optional[Any]:
         """Perform actions upon cache invalidation, implement this on child classes if you need this functionality."""
         pass
 
@@ -74,17 +74,17 @@ class AbstractUsageCacheStrategy(AbstractCacheStrategy, ABC):
 
     def _remove_excess_entries(self, meta: Dict[str, Any], to_remove_key: str) -> None:
         """
-         Remove the excess entry if capacity is exceeded.
+        Remove the excess entry if capacity is exceeded.
 
-         Args:
-             meta (Dict[str, Any]): The metadata dictionary.
-             to_remove_key (str): The key of the entry to remove.
-         """
+        Args:
+            meta (Dict[str, Any]): The metadata dictionary.
+            to_remove_key (str): The key of the entry to remove.
+        """
         if to_remove_key in self._order:
             del self._order[to_remove_key]
             del meta[to_remove_key]
 
-    def on_invalidation(self, key: str, cache: 'Cache') -> None:
+    def on_invalidation(self, key: str, cache: "Cache") -> None:
         """
         Perform any invalidation cleanup for a given cache key.
 

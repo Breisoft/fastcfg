@@ -1,16 +1,13 @@
 from typing import Any
 
+from fastcfg.config.attributes import ConfigAttributes
+from fastcfg.config.interface import ConfigInterface
 from fastcfg.config.items import AbstractConfigItem
-
 from fastcfg.config.utils import create_config_dict
-
 from fastcfg.config.value_wrapper import ValueWrapper
 
-from fastcfg.config.interface import ConfigInterface
-from fastcfg.config.attributes import ConfigAttributes
 
-
-class Config():
+class Config:
     """
     The `Config` class is designed to manage configuration settings in a structured and flexible manner.
 
@@ -64,8 +61,8 @@ class Config():
 
         # Instead of directly setting attributes, we need to populate this instance's __dict__
         # object to avoid issues with setattr
-        self.__dict__['__attributes'] = attributes
-        self.__dict__['__interface'] = ConfigInterface(attributes)
+        self.__dict__["__attributes"] = attributes
+        self.__dict__["__interface"] = ConfigInterface(attributes)
 
         for k, v in kwargs.items():
             if isinstance(v, dict):  # Convert dict to nested Config object
@@ -87,7 +84,7 @@ class Config():
             value (Any): The value of the attribute. If it is a dictionary, it will be converted into a nested `Config` object.
         """
 
-        if name.startswith('_'):
+        if name.startswith("_"):
             # Directly set attributes that start with an underscore
             # These are private internal values (like __attributes and __interace)
             self.__dict__[name] = value
@@ -95,7 +92,7 @@ class Config():
             if isinstance(value, dict):
                 # Convert dict to nested Config object
                 value = create_config_dict(value)
-            attributes = self.__dict__['__attributes']
+            attributes = self.__dict__["__attributes"]
 
             # Add or update the existing attribute in ConfigAttributes
             attributes.add_or_update_attribute(name, value)
@@ -122,7 +119,7 @@ class Config():
             AttributeError: If the attribute does not exist.
         """
 
-        interface = object.__getattribute__(self, '__interface')
+        interface = object.__getattribute__(self, "__interface")
 
         # First choice is check if this is an interface attribute first, prioritizing public facing functions
         if hasattr(interface, name):
@@ -138,7 +135,7 @@ class Config():
                 pass
 
         # Last choice is directly checking config attributes
-        attributes = object.__getattribute__(self, '__attributes')
+        attributes = object.__getattribute__(self, "__attributes")
         return attributes.get_attribute(name)
 
     def __getattribute__(self, name):
@@ -160,18 +157,18 @@ class Config():
             AttributeError: If the attribute does not exist.
         """
 
-        if name.startswith('_'):
+        if name.startswith("_"):
             # Directly return attributes that start with an underscore
             # These are private attributes used for internal Config functionality
             return object.__getattribute__(self, name)
 
-        interface = object.__getattribute__(self, '__interface')
+        interface = object.__getattribute__(self, "__interface")
 
         if hasattr(interface, name):
             # Defer to getattr function above if it's an interface attribute
             return getattr(interface, name)
 
-        attributes = object.__getattribute__(self, '__attributes')
+        attributes = object.__getattribute__(self, "__attributes")
 
         # Retrieve the attribute from the ConfigAttributes instance
         attr = attributes.get_attribute(name)
@@ -197,11 +194,13 @@ class Config():
             bool: True if the objects are equal, False otherwise.
         """
         if isinstance(other, dict):
-            attributes = object.__getattribute__(self, '__attributes')
+            attributes = object.__getattribute__(self, "__attributes")
             attr = attributes.get_attributes()
             # Convert internal attributes to a dictionary for comparison
-            to_dict = {k: v.value if isinstance(
-                v, AbstractConfigItem) else v.to_dict() for k, v in attr.items()}
+            to_dict = {
+                k: v.value if isinstance(v, AbstractConfigItem) else v.to_dict()
+                for k, v in attr.items()
+            }
             return to_dict == other
         return super().__eq__(other)
 

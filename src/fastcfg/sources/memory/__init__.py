@@ -1,8 +1,8 @@
 from typing import Callable
 
-from fastcfg.sources.memory.environment import EnvironmentLiveTracker
-from fastcfg.sources.memory.callable import CallableTracker
 from fastcfg.config.items import LiveConfigItem
+from fastcfg.sources.memory.callable import CallableTracker
+from fastcfg.sources.memory.environment import EnvironmentLiveTracker
 
 
 def from_os_environ(key: str) -> LiveConfigItem:

@@ -1,8 +1,8 @@
-import time
 import functools
 import random
-
+import time
 from dataclasses import dataclass
+
 from fastcfg.exceptions import MaxRetriesExceededError
 
 
@@ -18,6 +18,7 @@ class BackoffPolicy:
         factor (float): Multiplicative factor for delay growth.
         jitter (bool): If True, adds a random jitter to the delay.
     """
+
     max_retries: int
     base_delay: float
     max_delay: float
@@ -40,6 +41,7 @@ def exponential_backoff(backoff_policy: BackoffPolicy):
     Returns:
         function: Wrapped function with retry mechanism.
     """
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -54,13 +56,15 @@ def exponential_backoff(backoff_policy: BackoffPolicy):
 
                     if attempt == backoff_policy.max_retries - 1:
                         raise MaxRetriesExceededError(
-                            backoff_policy, total_time_slept) from exc
+                            backoff_policy, total_time_slept
+                        ) from exc
 
-                    sleep_time = delay * (backoff_policy.factor ** attempt)
+                    sleep_time = delay * (backoff_policy.factor**attempt)
 
                     if backoff_policy.jitter:
-                        sleep_time = min(sleep_time, backoff_policy.max_delay) * \
-                            (0.5 + random.random() / 2)
+                        sleep_time = min(sleep_time, backoff_policy.max_delay) * (
+                            0.5 + random.random() / 2
+                        )
                     else:
                         sleep_time = min(sleep_time, backoff_policy.max_delay)
 
@@ -68,5 +72,7 @@ def exponential_backoff(backoff_policy: BackoffPolicy):
                     total_time_slept += sleep_time
 
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator

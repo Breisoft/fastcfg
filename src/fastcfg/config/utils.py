@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Union, Any
+from typing import TYPE_CHECKING, Any, Union
 
 # Import modules directly to avoid circular imports
 from fastcfg.config import cfg, items
@@ -65,8 +65,7 @@ def resolve_all_values(obj: Union[dict, Config]) -> dict:
         obj_dict = obj.get_dict()
 
     else:
-        raise ValueError(
-            'Resolve all values requires obj type to be dict or Config!')
+        raise ValueError("Resolve all values requires obj type to be dict or Config!")
 
     values = {}
 

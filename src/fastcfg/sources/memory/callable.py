@@ -1,5 +1,6 @@
-from fastcfg.config.state import AbstractStateTracker
 from typing import Callable
+
+from fastcfg.config.state import AbstractStateTracker
 
 
 class CallableTracker(AbstractStateTracker):

@@ -1,6 +1,6 @@
-from fastcfg.config.state import AbstractStateTracker
 import os
 
+from fastcfg.config.state import AbstractStateTracker
 from fastcfg.exceptions import MissingEnvironmentVariableError
 
 

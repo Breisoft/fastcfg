@@ -1,12 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import Any
-
-from fastcfg.exceptions import InvalidOperationError
-from fastcfg.validation.validatable import ValidatableMixin
+from typing import Any, Dict
 
 from fastcfg.config.value_wrapper import ValueWrapper
-
-from typing import Dict
+from fastcfg.exceptions import InvalidOperationError
+from fastcfg.validation.validatable import ValidatableMixin
 
 
 class AbstractConfigItem(ValidatableMixin, ABC):
@@ -69,7 +66,8 @@ class AbstractConfigItem(ValidatableMixin, ABC):
                 # If the key is not already wrapped, wrap it in a ValueWrapper
                 if k not in self._wrapped_dict_items:
                     self._wrapped_dict_items[k] = ValueWrapper.factory(
-                        BuiltInConfigItem(v))
+                        BuiltInConfigItem(v)
+                    )
 
             # Set the return item to the wrapped dictionary items
             return_item = self._wrapped_dict_items
@@ -102,8 +100,7 @@ class AbstractConfigItem(ValidatableMixin, ABC):
         Args:
             new_value (Any): The new value to set for the configuration item.
         """
-        raise InvalidOperationError(
-            'Can only set value on BuiltInConfigItem')
+        raise InvalidOperationError("Can only set value on BuiltInConfigItem")
 
     def __getattr__(self, name):
         """
@@ -128,7 +125,8 @@ class AbstractConfigItem(ValidatableMixin, ABC):
             return data[name]
         except KeyError as exc:
             raise AttributeError(
-                f"'ConfigItem' object has no attribute '{name}'") from exc
+                f"'ConfigItem' object has no attribute '{name}'"
+            ) from exc
 
 
 class BuiltInConfigItem(AbstractConfigItem):
@@ -179,7 +177,6 @@ class BuiltInConfigItem(AbstractConfigItem):
 
 
 class LiveConfigItem(AbstractConfigItem):
-
     """
     The `LiveConfigItem` class represents a configuration item that is dynamically calculated upon access.
 
@@ -200,11 +197,11 @@ class LiveConfigItem(AbstractConfigItem):
 
     def __init__(self, state_tracker):
         """
-            Initializes the `LiveConfigItem` with the given state tracker.
+        Initializes the `LiveConfigItem` with the given state tracker.
 
-            Args:
-                state_tracker (Any): An external state tracker that provides the current state for the configuration item.
-            """
+        Args:
+            state_tracker (Any): An external state tracker that provides the current state for the configuration item.
+        """
         super().__init__()
         self._state_tracker = state_tracker
 

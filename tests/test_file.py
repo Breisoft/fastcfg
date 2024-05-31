@@ -1,11 +1,13 @@
-from unittest import skipIf
-import unittest
-from fastcfg.config import Config
-from fastcfg.sources.files import from_yaml, from_json, from_ini
 import tempfile
+import unittest
+from unittest import skipIf
+
+from fastcfg.config import Config
+from fastcfg.sources.files import from_ini, from_json, from_yaml
 
 try:
     import yaml
+
     YAML_AVAILABLE = True
 except ImportError:
     YAML_AVAILABLE = False
@@ -20,7 +22,7 @@ class TestFileSources(unittest.TestCase):
         """
 
         # Create a temporary YAML file
-        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
+        with tempfile.NamedTemporaryFile("w+") as temp_yaml:
             yaml.dump({"key": "value"}, temp_yaml)
             temp_yaml.seek(0)
 
@@ -28,7 +30,7 @@ class TestFileSources(unittest.TestCase):
             config.yaml = from_yaml(temp_yaml.name)
 
             self.assertEqual(config.yaml, {"key": "value"})
-            self.assertEqual(config.yaml.key, 'value')
+            self.assertEqual(config.yaml.key, "value")
 
     def test_json(self):
         """
@@ -36,7 +38,7 @@ class TestFileSources(unittest.TestCase):
         """
 
         # Create a temporary JSON file
-        with tempfile.NamedTemporaryFile('w+') as temp_json:
+        with tempfile.NamedTemporaryFile("w+") as temp_json:
             temp_json.write('{"key": "value"}')
             temp_json.seek(0)
 
@@ -44,7 +46,7 @@ class TestFileSources(unittest.TestCase):
             config.json = from_json(temp_json.name)
 
             self.assertEqual(config.json, {"key": "value"})
-            self.assertEqual(config.json.key, 'value')
+            self.assertEqual(config.json.key, "value")
 
     # TODO uncomment
     """

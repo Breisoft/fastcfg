@@ -1,24 +1,22 @@
+import tempfile
+import time
 import unittest
 from unittest.mock import MagicMock, patch
 
-
 from fastcfg.config import Config
+from fastcfg.config.items import BuiltInConfigItem, LiveConfigItem
+from fastcfg.exceptions import ConfigItemValidationError
+from fastcfg.sources.files import from_yaml
 from fastcfg.validation.policies import (
+    PydanticValidator,
     RangeValidator,
     RegexValidator,
-    PydanticValidator,
-    TypeValidator
+    TypeValidator,
 )
-from fastcfg.exceptions import ConfigItemValidationError
-from fastcfg.config.items import BuiltInConfigItem, LiveConfigItem
-from fastcfg.sources.files import from_yaml
-import tempfile
-
-import time
-
 
 try:
     from pydantic import BaseModel
+
     PYDANTIC_AVAILABLE = True
 except ImportError:
     PYDANTIC_AVAILABLE = False
@@ -79,8 +77,7 @@ class TestValidation(unittest.TestCase):
         self._trigger_access(self.config.xyz)
 
         # Validate should be called again due to state change
-        print('State change detected, call count:',
-              validator_mock.validate.call_count)
+        print("State change detected, call count:", validator_mock.validate.call_count)
         self.assertGreaterEqual(validator_mock.validate.call_count, 2)
 
     def test_type_validator(self):
@@ -132,8 +129,7 @@ class TestValidation(unittest.TestCase):
 
     def test_regex_validator(self):
         self.config.email = "test@example.com"
-        self.config.email.add_validator(
-            RegexValidator(r"^[\w\.-]+@[\w\.-]+\.\w+$"))
+        self.config.email.add_validator(RegexValidator(r"^[\w\.-]+@[\w\.-]+\.\w+$"))
 
         # Should not raise a ConfigItemValidationError exception
         self._trigger_access(self.config.email)
@@ -142,7 +138,8 @@ class TestValidation(unittest.TestCase):
 
         with self.assertRaises(ConfigItemValidationError):
             self.config.invalid_email.add_validator(
-                RegexValidator(r"^[\w\.-]+@[\w\.-]+\.\w+$"))
+                RegexValidator(r"^[\w\.-]+@[\w\.-]+\.\w+$")
+            )
 
     def test_add_validator_to_dict(self):
         self.config.nested = {"key": "value"}
@@ -166,7 +163,7 @@ class TestValidation(unittest.TestCase):
         import yaml
 
         # Create a temporary YAML file
-        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
+        with tempfile.NamedTemporaryFile("w+") as temp_yaml:
             yaml.dump({"name": "John", "age": "abc"}, temp_yaml)
             temp_yaml.seek(0)
 
@@ -178,7 +175,7 @@ class TestValidation(unittest.TestCase):
             with self.assertRaises(ConfigItemValidationError):
                 self.config.invalid_user.add_validator(validator)
 
-    @ unittest.skipIf(not PYDANTIC_AVAILABLE, "pydantic is not installed")
+    @unittest.skipIf(not PYDANTIC_AVAILABLE, "pydantic is not installed")
     def test_pydantic_validator(self):
         class UserModel(BaseModel):
             name: str
@@ -187,7 +184,7 @@ class TestValidation(unittest.TestCase):
         import yaml
 
         # Create a temporary YAML file
-        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
+        with tempfile.NamedTemporaryFile("w+") as temp_yaml:
             yaml.dump({"name": "John", "age": 30}, temp_yaml)
             temp_yaml.seek(0)
 
@@ -198,7 +195,7 @@ class TestValidation(unittest.TestCase):
             # Should not raise a ConfigItemValidationError exception
             self._trigger_access(self.config.user)
 
-    @ unittest.skipIf(not PYDANTIC_AVAILABLE, "pydantic is not installed")
+    @unittest.skipIf(not PYDANTIC_AVAILABLE, "pydantic is not installed")
     def test_multi_validator(self):
         class UserModel(BaseModel):
             name: str
@@ -207,7 +204,7 @@ class TestValidation(unittest.TestCase):
         import yaml
 
         # Create a temporary YAML file
-        with tempfile.NamedTemporaryFile('w+') as temp_yaml:
+        with tempfile.NamedTemporaryFile("w+") as temp_yaml:
             yaml.dump({"name": "John", "age": 29}, temp_yaml)
             temp_yaml.seek(0)
 
@@ -226,7 +223,7 @@ class TestValidation(unittest.TestCase):
             name: str
             age: int
 
-        config = Config(user={'name': 'Steve', 'age': 'abc'})
+        config = Config(user={"name": "Steve", "age": "abc"})
 
         with self.assertRaises(ConfigItemValidationError):
             config.user.add_validator(PydanticValidator(User))
@@ -234,8 +231,7 @@ class TestValidation(unittest.TestCase):
     def test_lazy_validation_multiple_changes(self):
         config = Config(int_val=None)
 
-        lazy_range_validator = RangeValidator(
-            15, 20, validate_immediately=False)
+        lazy_range_validator = RangeValidator(15, 20, validate_immediately=False)
 
         # Should not raise ConfigItemValidationError exception when adding the validator
         config.int_val.add_validator(lazy_range_validator)
@@ -258,8 +254,7 @@ class TestValidation(unittest.TestCase):
 
         config = Config(int_val=None)
 
-        immediate_range_validator = RangeValidator(
-            15, 20, validate_immediately=True)
+        immediate_range_validator = RangeValidator(15, 20, validate_immediately=True)
 
         # Should not raise ConfigItemValidationError exception
         with self.assertRaises(ConfigItemValidationError):

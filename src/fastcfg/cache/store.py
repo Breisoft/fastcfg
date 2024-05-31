@@ -1,6 +1,4 @@
-from typing import Optional
-
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from fastcfg.cache import Cache
@@ -43,7 +41,8 @@ class CacheStore:
 
         if cache_name in self._caches:
             raise ValueError(
-                f"Cache with name {cache_name} already exists. Cache names must be globally unique.")
+                f"Cache with name {cache_name} already exists. Cache names must be globally unique."
+            )
 
         self._caches[cache_name] = cache
 

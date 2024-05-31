@@ -2,22 +2,11 @@ from typing import Any
 
 from fastcfg.config.items import AbstractConfigItem, BuiltInConfigItem
 
-
 # Types that are classified as built-in rather than custom objects
-BUILT_IN_TYPES = (
-    int,
-    float,
-    str,
-    bool,
-    list,
-    dict,
-    tuple,
-    set,
-    object
-)
+BUILT_IN_TYPES = (int, float, str, bool, list, dict, tuple, set, object)
 
 
-class ConfigAttributes():
+class ConfigAttributes:
     """
     Manages the actual configuration attributes and their associated values, ensuring they are stored and retrieved correctly.
 
@@ -57,8 +46,7 @@ class ConfigAttributes():
         try:
             return self.__attributes[name]
         except KeyError as exc:
-            raise AttributeError(
-                f'Attribute `{name}` does not exist.') from exc
+            raise AttributeError(f"Attribute `{name}` does not exist.") from exc
 
     def get_attributes(self) -> dict[str, AbstractConfigItem]:
         """
@@ -95,7 +83,7 @@ class ConfigAttributes():
             return BuiltInConfigItem(value)
 
         else:
-            raise ValueError('Invalid data type!')
+            raise ValueError("Invalid data type!")
 
     def _add_attribute(self, name: str, value: Any) -> AbstractConfigItem:
         """

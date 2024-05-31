@@ -1,9 +1,9 @@
+import os
 import unittest
+
 from fastcfg.config import Config
 from fastcfg.exceptions import MissingEnvironmentVariableError
 from fastcfg.sources.memory import from_callable, from_os_environ
-
-import os
 
 
 class TestMemorySources(unittest.TestCase):
@@ -13,7 +13,8 @@ class TestMemorySources(unittest.TestCase):
         Test the callable source
         """
 
-        def func(x): return x + 1
+        def func(x):
+            return x + 1
 
         config = Config()
 
@@ -26,14 +27,14 @@ class TestMemorySources(unittest.TestCase):
         Test the os environ source
         """
 
-        os.environ['TEST_ENV'] = 'test'
+        os.environ["TEST_ENV"] = "test"
         config = Config()
-        config.env = from_os_environ('TEST_ENV')
-        self.assertEqual(config.env, 'test')
+        config.env = from_os_environ("TEST_ENV")
+        self.assertEqual(config.env, "test")
 
         # Delete the environment variable and then
         # make sure we get a MissingEnvironmentVariable Error
-        del os.environ['TEST_ENV']
+        del os.environ["TEST_ENV"]
 
         with self.assertRaises(MissingEnvironmentVariableError):
             str(config.env)

@@ -1,12 +1,11 @@
-from abc import abstractmethod, ABC
 import uuid
+from abc import ABC, abstractmethod
 from typing import Any, Callable, Optional
 
-
-from fastcfg.cache import Cache
-from fastcfg.default import defaults
 from fastcfg.backoff import exponential_backoff
 from fastcfg.backoff.policies import BackoffPolicy
+from fastcfg.cache import Cache
+from fastcfg.default import defaults
 from fastcfg.exceptions import MissingCacheKeyError
 
 
@@ -27,7 +26,7 @@ class AbstractStateTracker(ABC):
         """
         Fetches the state.
 
-        Calls `get_state_value()` and returns the result by default. 
+        Calls `get_state_value()` and returns the result by default.
         Child classes may override this behavior.
 
         Returns:
@@ -76,7 +75,9 @@ class RetriableMixin:
         self._retry = retry
         self._backoff_policy = backoff_policy or defaults.backoff_policy
 
-    def _call_retriable_function(self, func: Callable[..., Any], *args, **kwargs) -> Any:
+    def _call_retriable_function(
+        self, func: Callable[..., Any], *args, **kwargs
+    ) -> Any:
         """
         Calls a function with optional backoff.
 
@@ -104,7 +105,7 @@ class CacheMixin:
 
         Args:
             use_cache (bool): Whether to enable caching.
-            cache (Cache, optional): The cache instance to use. Defaults to `None`. 
+            cache (Cache, optional): The cache instance to use. Defaults to `None`.
                 If `None` and `use_cache` is True, a new cache instance is created with the default cache policy.
         """
         if cache is None and use_cache:
@@ -112,7 +113,9 @@ class CacheMixin:
         else:
             self._cache = cache
 
-    def _call_cached_function(self, key: str, func: Callable[..., Any], *args, **kwargs) -> Any:
+    def _call_cached_function(
+        self, key: str, func: Callable[..., Any], *args, **kwargs
+    ) -> Any:
         """
         Calls a function with optional caching.
 
@@ -139,7 +142,7 @@ class CacheMixin:
 class AbstractLiveStateTracker(AbstractStateTracker, RetriableMixin, CacheMixin, ABC):
     """
     Base class for state trackers with optional retry and caching.
-    This class provides the basis for all StateTrackers that are 
+    This class provides the basis for all StateTrackers that are
     dynamically fetched on attribute access from a `Config` instance.
 
     Purpose:
@@ -154,8 +157,13 @@ class AbstractLiveStateTracker(AbstractStateTracker, RetriableMixin, CacheMixin,
         get_state(): Fetches the state with retry and caching support.
     """
 
-    def __init__(self, retry: bool = False, use_cache: bool = False,
-                 backoff_policy: Optional[BackoffPolicy] = None, cache: Optional[Cache] = None):
+    def __init__(
+        self,
+        retry: bool = False,
+        use_cache: bool = False,
+        backoff_policy: Optional[BackoffPolicy] = None,
+        cache: Optional[Cache] = None,
+    ):
         """
         Initializes the ILiveTracker.
 
@@ -163,7 +171,7 @@ class AbstractLiveStateTracker(AbstractStateTracker, RetriableMixin, CacheMixin,
             retry (bool): Whether to enable retry logic.
             use_cache (bool): Whether to enable caching.
             backoff_policy (BackoffPolicy, optional): The backoff policy to use. Defaults to `None`.
-            cache (Cache, optional): The cache instance to use. Defaults to `None` and 
+            cache (Cache, optional): The cache instance to use. Defaults to `None` and
             if `use_cache` is True, a new cache instance is created with the default cache policy.
         """
         if use_cache:
@@ -183,4 +191,6 @@ class AbstractLiveStateTracker(AbstractStateTracker, RetriableMixin, CacheMixin,
         Returns:
             Any: The current state.
         """
-        return self._call_cached_function(self._cache_uuid_key, self._call_retriable_function, self.get_state_value)
+        return self._call_cached_function(
+            self._cache_uuid_key, self._call_retriable_function, self.get_state_value
+        )

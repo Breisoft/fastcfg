@@ -1,13 +1,10 @@
 import hashlib
-from typing import List, Any
-from fastcfg.validation import IConfigValidator
-from fastcfg.exceptions import ConfigItemValidationError
-from fastcfg.config.utils import has_recursive_values, resolve_all_values
-
 from abc import ABC, abstractmethod
+from typing import Any, List
 
-
-import hashlib
+from fastcfg.config.utils import has_recursive_values, resolve_all_values
+from fastcfg.exceptions import ConfigItemValidationError
+from fastcfg.validation import IConfigValidator
 
 
 def md5_hash_state(input_obj: Any) -> str:
@@ -20,7 +17,7 @@ def md5_hash_state(input_obj: Any) -> str:
     md5_hash = hashlib.md5()
 
     # Update the hash object with the bytes of the input string
-    md5_hash.update(input_str.encode('utf-8'))
+    md5_hash.update(input_str.encode("utf-8"))
 
     # Get the hexadecimal representation of the hash
     return md5_hash.hexdigest()
@@ -58,7 +55,7 @@ class ValidatableMixin(ABC):
 
         Raises:
         ConfigItemValidationError: If any of the validators fail.
-    """
+        """
         from fastcfg.config.items import LiveConfigItem
 
         if isinstance(self, LiveConfigItem):

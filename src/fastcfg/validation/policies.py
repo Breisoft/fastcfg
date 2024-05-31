@@ -1,8 +1,9 @@
 import re
 from typing import Any
-from fastcfg.validation import IConfigValidator
-from fastcfg.exceptions import MissingDependencyError
+
 from fastcfg.config.value_wrapper import ValueWrapper
+from fastcfg.exceptions import MissingDependencyError
+from fastcfg.validation import IConfigValidator
 
 try:
     from pydantic import BaseModel, ValidationError
@@ -11,7 +12,9 @@ except ImportError:
 
 
 class RangeValidator(IConfigValidator):
-    def __init__(self, min_value: int, max_value: int, validate_immediately: bool = True):
+    def __init__(
+        self, min_value: int, max_value: int, validate_immediately: bool = True
+    ):
 
         super().__init__(validate_immediately=validate_immediately)
 
@@ -76,4 +79,4 @@ class PydanticValidator(IConfigValidator):
         msg = f"Value does not conform to the Pydantic model {self.model.__name__}."
 
         if self._latest_error:
-            msg += f' Latest Exception: {self._latest_error}'
+            msg += f" Latest Exception: {self._latest_error}"

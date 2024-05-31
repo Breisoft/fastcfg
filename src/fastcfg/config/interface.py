@@ -3,8 +3,8 @@ from fastcfg.validation.validatable import ValidatableMixin
 
 class ConfigInterface(ValidatableMixin):
     """
-    Handles environment-specific configurations and provides additional methods and attributes 
-    that are not directly related to configuration values. This separation allows the Config class 
+    Handles environment-specific configurations and provides additional methods and attributes
+    that are not directly related to configuration values. This separation allows the Config class
     to have public functions and variables without cluttering the main configuration logic.
 
     Attributes:
