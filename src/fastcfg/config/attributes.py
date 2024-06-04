@@ -1,3 +1,9 @@
+"""
+This module provides the `ConfigAttributes` class, which manages configuration attributes and their associated values.
+
+The `ConfigAttributes` class acts as a proxy for the `Config` class, allowing it to handle unique attribute management efficiently. By separating attribute storage and retrieval into its own class, the `Config` class remains clean and focused on its primary responsibilities.
+"""
+
 from typing import Any
 
 from fastcfg.config.items import AbstractConfigItem, BuiltInConfigItem
@@ -46,7 +52,15 @@ class ConfigAttributes:
         try:
             return self.__attributes[name]
         except KeyError as exc:
-            raise AttributeError(f"Attribute `{name}` does not exist.") from exc
+            raise AttributeError(
+                f"Attribute `{name}` does not exist."
+            ) from exc
+
+    def has_attribute(self, name: str) -> bool:
+        """
+        Returns whether an attribute exists.
+        """
+        return name in self.__attributes
 
     def get_attributes(self) -> dict[str, AbstractConfigItem]:
         """
@@ -116,7 +130,9 @@ class ConfigAttributes:
             value (Any): The value of the attribute, which will be converted to an IConfigItem.
         """
 
-        if name in self.__attributes:  # Existing attribute that we're overriding
+        if (
+            name in self.__attributes
+        ):  # Existing attribute that we're overriding
             config_item = self.__attributes[name]
 
             # Only support value overriding for BuiltInConfigItems

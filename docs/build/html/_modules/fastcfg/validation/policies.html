@@ -71,9 +71,10 @@
   <h1>Source code for fastcfg.validation.policies</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">fastcfg.validation</span> <span class="kn">import</span> <span class="n">IConfigValidator</span>
-<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MissingDependencyError</span><span class="p">,</span> <span class="n">ConfigItemValidationError</span>
+
 <span class="kn">from</span> <span class="nn">fastcfg.config.value_wrapper</span> <span class="kn">import</span> <span class="n">ValueWrapper</span>
+<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MissingDependencyError</span>
+<span class="kn">from</span> <span class="nn">fastcfg.validation</span> <span class="kn">import</span> <span class="n">IConfigValidator</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
@@ -84,7 +85,9 @@
 <div class="viewcode-block" id="RangeValidator">
 <a class="viewcode-back" href="../../../fastcfg.validation.html#fastcfg.validation.policies.RangeValidator">[docs]</a>
 <span class="k">class</span> <span class="nc">RangeValidator</span><span class="p">(</span><span class="n">IConfigValidator</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">validate_immediately</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">validate_immediately</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">):</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">validate_immediately</span><span class="o">=</span><span class="n">validate_immediately</span><span class="p">)</span>
 
@@ -181,7 +184,7 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Value does not conform to the Pydantic model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latest_error</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Latest Exception: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_latest_error</span><span class="si">}</span><span class="s1">&#39;</span></div>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; Latest Exception: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_latest_error</span><span class="si">}</span><span class="s2">&quot;</span></div>
 </div>
 
 </pre></div>

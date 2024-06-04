@@ -56,6 +56,16 @@ class RegexValidator(IConfigValidator):
         return f"Value must match the pattern {self.pattern}."
 
 
+class URLValidator(RegexValidator):
+    def __init__(self, validate_immediately: bool = True):
+        # Regular expression pattern to validate URLs
+        pattern = r"^https?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+$"
+        super().__init__(pattern, validate_immediately=validate_immediately)
+
+    def error_message(self) -> str:
+        return "Value must be a valid URL."
+
+
 class PydanticValidator(IConfigValidator):
     def __init__(self, model: BaseModel, validate_immediately: bool = True):
         super().__init__(validate_immediately=validate_immediately)

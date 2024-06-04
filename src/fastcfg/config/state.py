@@ -11,15 +11,20 @@ from fastcfg.exceptions import MissingCacheKeyError
 
 class AbstractStateTracker(ABC):
     """
-    Abstract base class for a state tracker which is used to fetch the current state for LiveConfigItems.
+    Abstract base class for a state tracker which is used to fetch the current
+    state for LiveConfigItems.
 
     Purpose:
         - This class defines a common interface for state trackers.
-        - It ensures that all state trackers can fetch the current state through a consistent method.
+        - It ensures that all state trackers can fetch the current state
+          through a consistent method.
+
 
     Methods:
         get_state(): Fetches the state by calling `get_state_value()`.
-        get_state_value(): Abstract method to fetch the internal state, must be implemented by subclasses.
+        get_state_value(): Abstract method to fetch the internal state, must be
+        implemented by subclasses.
+
     """
 
     def get_state(self) -> Any:
@@ -44,7 +49,6 @@ class AbstractStateTracker(ABC):
         Returns:
             Any: The internal state.
         """
-        pass
 
 
 class RetriableMixin:
@@ -63,7 +67,9 @@ class RetriableMixin:
         _call_retriable_function(func, *args, **kwargs): Calls a function with optional backoff.
     """
 
-    def __init__(self, retry: bool = False, backoff_policy: BackoffPolicy = None):
+    def __init__(
+        self, retry: bool = False, backoff_policy: BackoffPolicy = None
+    ):
         """
         Initializes the RetriableMixin.
 
@@ -139,7 +145,9 @@ class CacheMixin:
             return func(*args, **kwargs)
 
 
-class AbstractLiveStateTracker(AbstractStateTracker, RetriableMixin, CacheMixin, ABC):
+class AbstractLiveStateTracker(
+    AbstractStateTracker, RetriableMixin, CacheMixin, ABC
+):
     """
     Base class for state trackers with optional retry and caching.
     This class provides the basis for all StateTrackers that are
@@ -192,5 +200,7 @@ class AbstractLiveStateTracker(AbstractStateTracker, RetriableMixin, CacheMixin,
             Any: The current state.
         """
         return self._call_cached_function(
-            self._cache_uuid_key, self._call_retriable_function, self.get_state_value
+            self._cache_uuid_key,
+            self._call_retriable_function,
+            self.get_state_value,
         )

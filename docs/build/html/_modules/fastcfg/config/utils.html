@@ -58,7 +58,6 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-          <li class="breadcrumb-item"><a href="../config.html">fastcfg.config</a></li>
       <li class="breadcrumb-item active">fastcfg.config.utils</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -69,49 +68,87 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.config.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="c1"># Import modules directly to avoid circular imports</span>
+<span class="kn">from</span> <span class="nn">fastcfg.config</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">items</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">fastcfg.config.cfg</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">Config</span> <span class="o">=</span> <span class="kc">None</span>
+
+
 <div class="viewcode-block" id="create_config_dict">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.utils.create_config_dict">[docs]</a>
-<span></span><span class="k">def</span> <span class="nf">create_config_dict</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">fastcfg.config</span> <span class="kn">import</span> <span class="n">Config</span>
-    <span class="k">return</span> <span class="n">Config</span><span class="p">(</span><span class="o">**</span><span class="n">item</span><span class="p">)</span></div>
+<span class="k">def</span> <span class="nf">create_config_dict</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a dictionary into a `Config` object.</span>
+<span class="sd">    This is abstracted into this module as it&#39;s used in multiple places.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        item (dict): The dictionary to be converted.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Config: A `Config` object initialized with the dictionary&#39;s key-value pairs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="o">**</span><span class="n">item</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="has_recursive_values">
-<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.utils.has_recursive_values">[docs]</a>
-<span class="k">def</span> <span class="nf">has_recursive_values</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">fastcfg.config</span> <span class="kn">import</span> <span class="n">Config</span>
+<div class="viewcode-block" id="potentially_has_recursive_values">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.utils.potentially_has_recursive_values">[docs]</a>
+<span class="k">def</span> <span class="nf">potentially_has_recursive_values</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if the given object is a dictionary or a `Config` object. For use in `resolve_all_values`.</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Config</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">True</span>
+<span class="sd">    Args:</span>
+<span class="sd">        obj (Any): The object to check.</span>
 
-    <span class="k">return</span> <span class="kc">False</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the object is a dictionary or a `Config` object, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Config</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="resolve_all_values">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.utils.resolve_all_values">[docs]</a>
-<span class="k">def</span> <span class="nf">resolve_all_values</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">fastcfg.config.items</span> <span class="kn">import</span> <span class="n">IConfigItem</span>
-    <span class="kn">from</span> <span class="nn">fastcfg.config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="k">def</span> <span class="nf">resolve_all_values</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Config</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively resolves all values in a dictionary or `Config` object.</span>
+
+<span class="sd">    This function traverses the given object, resolving any nested dictionaries or `Config` objects,</span>
+<span class="sd">    and extracting the values of `IConfigItem` instances.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj (Union[dict, Config]): The object to resolve.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: A dictionary with all values resolved.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the object is not a dictionary or `Config` object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">obj_dict</span> <span class="o">=</span> <span class="n">obj</span>
 
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Config</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>  <span class="c1"># Convert Config to dict</span>
         <span class="n">obj_dict</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_dict</span><span class="p">()</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s1">&#39;Resolve all values requires obj type to be dict or Config!&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Resolve all values requires obj type to be dict or Config!&quot;</span><span class="p">)</span>
 
     <span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">has_recursive_values</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
-            <span class="n">v</span> <span class="o">=</span> <span class="n">resolve_all_values</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">potentially_has_recursive_values</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">resolve_all_values</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># Recursively resolve values</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">IConfigItem</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">items</span><span class="o">.</span><span class="n">AbstractConfigItem</span><span class="p">):</span>
             <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span>
 
         <span class="n">values</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>

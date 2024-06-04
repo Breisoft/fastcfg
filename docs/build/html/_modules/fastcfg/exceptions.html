@@ -68,15 +68,25 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.exceptions</h1><div class="highlight"><pre>
-<span></span>
 <div class="viewcode-block" id="ConfigItemValidationError">
 <a class="viewcode-back" href="../../fastcfg.html#fastcfg.exceptions.ConfigItemValidationError">[docs]</a>
-<span class="k">class</span> <span class="nc">ConfigItemValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span></span><span class="k">class</span> <span class="nc">ConfigItemValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when a config item value fails validation.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation failed: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="InvalidOperationError">
+<a class="viewcode-back" href="../../fastcfg.html#fastcfg.exceptions.InvalidOperationError">[docs]</a>
+<span class="k">class</span> <span class="nc">InvalidOperationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an invalid operation is performed.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Invalid operation performed.&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
 
 
 
@@ -87,8 +97,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependency</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dependency</span> <span class="o">=</span> <span class="n">dependency</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Dependency &#39;</span><span class="si">{</span><span class="n">dependency</span><span class="si">}</span><span class="s2">&#39; is missing. Please install it.&quot;</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dependency &#39;</span><span class="si">{</span><span class="n">dependency</span><span class="si">}</span><span class="s2">&#39; is missing. Please install it.&quot;</span><span class="p">)</span></div>
 
 
 
@@ -115,7 +124,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_backoff_policy</span> <span class="o">=</span> <span class="n">backoff_policy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_total_time_slept</span> <span class="o">=</span> <span class="n">total_time_slept</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Backoff failed. Total time slept: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_time_slept</span><span class="si">}</span><span class="s2"> seconds. Policy details: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backoff_policy</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span></div>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Backoff failed. Total time slept: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_time_slept</span><span class="si">}</span><span class="s2"> seconds. Policy details: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backoff_policy</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="p">)</span></div>
 
 
 
@@ -127,7 +137,8 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Config key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; doesn&#39;t exist. Please ensure that it&#39;s set in your config.&quot;</span><span class="p">)</span></div>
+            <span class="sa">f</span><span class="s2">&quot;Config key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; doesn&#39;t exist. Please ensure that it&#39;s set in your config.&quot;</span>
+        <span class="p">)</span></div>
 
 
 
@@ -138,18 +149,20 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Cache key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; not found in cache.&quot;</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cache key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; not found in cache.&quot;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="MissingEnvironmentVariableError">
 <a class="viewcode-back" href="../../fastcfg.html#fastcfg.exceptions.MissingEnvironmentVariableError">[docs]</a>
 <span class="k">class</span> <span class="nc">MissingEnvironmentVariableError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an environment variable doesn&#39;t exist.&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Environment variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; doesn&#39;t exist. Please ensure that it&#39;s set in your environment.&quot;</span><span class="p">)</span></div>
+            <span class="sa">f</span><span class="s2">&quot;Environment variable &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; doesn&#39;t exist. Please ensure that it&#39;s set in your environment.&quot;</span>
+        <span class="p">)</span></div>
 
 </pre></div>
 

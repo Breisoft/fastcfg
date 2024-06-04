@@ -58,7 +58,6 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-          <li class="breadcrumb-item"><a href="../config.html">fastcfg.config</a></li>
       <li class="breadcrumb-item active">fastcfg.config.interface</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -69,16 +68,25 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.config.interface</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastcfg.validation.validatable</span> <span class="kn">import</span> <span class="n">ValidatableMixin</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines the ConfigInterface class, which handles environment-specific configurations</span>
+<span class="sd">and provides additional methods and attributes that are not directly related to configuration values.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    ConfigInterface: Manages configuration attributes and environment settings.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">fastcfg.validation.validatable</span> <span class="kn">import</span> <span class="n">ValidatableMixin</span>
 
 
 <div class="viewcode-block" id="ConfigInterface">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.interface.ConfigInterface">[docs]</a>
 <span class="k">class</span> <span class="nc">ConfigInterface</span><span class="p">(</span><span class="n">ValidatableMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Handles environment-specific configurations and provides additional methods and attributes </span>
-<span class="sd">    that are not directly related to configuration values. This separation allows the Config class </span>
-<span class="sd">    to have public functions and variables without cluttering the main configuration logic.</span>
+<span class="sd">    Handles environment-specific configurations and provides additional public methods and attributes</span>
+<span class="sd">    that are not directly related to configuration values, nor are meant to be overriden by config attributes.</span>
+<span class="sd">    This separation allows the Config class to have public functions and variables without</span>
+<span class="sd">    cluttering the main configuration logic.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        _config_attributes (ConfigAttributes): The configuration attributes.</span>

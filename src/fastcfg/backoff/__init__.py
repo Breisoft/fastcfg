@@ -1,3 +1,16 @@
+"""
+This module provides an implementation of an exponential backoff mechanism.
+
+Classes:
+    BackoffPolicy: Configuration class for the exponential backoff mechanism.
+
+Functions:
+    exponential_backoff: Decorator function to apply exponential backoff retries to a function.
+
+Exceptions:
+    MaxRetriesExceededError: Raised when the maximum number of retries is exceeded.
+"""
+
 import functools
 import random
 import time
@@ -62,9 +75,9 @@ def exponential_backoff(backoff_policy: BackoffPolicy):
                     sleep_time = delay * (backoff_policy.factor**attempt)
 
                     if backoff_policy.jitter:
-                        sleep_time = min(sleep_time, backoff_policy.max_delay) * (
-                            0.5 + random.random() / 2
-                        )
+                        sleep_time = min(
+                            sleep_time, backoff_policy.max_delay
+                        ) * (0.5 + random.random() / 2)
                     else:
                         sleep_time = min(sleep_time, backoff_policy.max_delay)
 

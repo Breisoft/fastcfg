@@ -2,7 +2,8 @@
 This module defines pre-configured backoff policies for use with the exponential backoff mechanism.
 
 Attributes:
-    BASIC_BACKOFF_POLICY (BackoffPolicy): A basic backoff policy configuration with the following settings:
+    BASIC_BACKOFF_POLICY (BackoffPolicy): A basic backoff policy configuration 
+    with the following settings:
         - max_retries: 6 (Maximum number of retry attempts)
         - base_delay: 0.5 seconds (Initial delay between retries)
         - max_delay: 32 seconds (Maximum delay between retries)

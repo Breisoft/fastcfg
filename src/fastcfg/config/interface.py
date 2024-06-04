@@ -1,11 +1,21 @@
+"""
+This module defines the ConfigInterface class, which handles environment-specific configurations
+and provides additional methods and attributes that are not directly related to configuration values.
+
+Classes:
+    ConfigInterface: Manages configuration attributes and environment settings.
+"""
+
+from fastcfg.config.utils import potentially_has_children
 from fastcfg.validation.validatable import ValidatableMixin
 
 
 class ConfigInterface(ValidatableMixin):
     """
-    Handles environment-specific configurations and provides additional methods and attributes
-    that are not directly related to configuration values. This separation allows the Config class
-    to have public functions and variables without cluttering the main configuration logic.
+    Handles environment-specific configurations and provides additional public methods and attributes
+    that are not directly related to configuration values, nor are meant to be overriden by config attributes.
+    This separation allows the Config class to have public functions and variables without
+    cluttering the main configuration logic.
 
     Attributes:
         _config_attributes (ConfigAttributes): The configuration attributes.
@@ -31,16 +41,32 @@ class ConfigInterface(ValidatableMixin):
         self._config_attributes = config_attributes
         self._current_env = None
 
-    def set_environment(self, env):
+    def set_environment(self, env: str | None):
         """
         Sets the current environment.
 
         Args:
             env: The environment to set.
+
+        Raises:
+            ValueError: If the environment is invalid.
         """
+
+        if self._config_attributes.has_attribute(env) or env is None:
+            self._current_env = env
+        else:
+            raise ValueError(f"Invalid environment: {env}")
+
         self._current_env = env
 
-    def get_environment(self):
+    def remove_environment(self):
+        """
+        Removes the current environment.
+        """
+        self.set_environment(None)
+
+    @property
+    def environment(self) -> str | None:
         """
         Gets the current environment.
 
@@ -49,14 +75,54 @@ class ConfigInterface(ValidatableMixin):
         """
         return self._current_env
 
-    def get_dict(self):
+    def _get_env_dict(self, only_has_children=False) -> dict:
+        all_attrs = self._config_attributes.get_attributes()
+
+        envs = {}
+
+        for attr, val in all_attrs.items():
+
+            if only_has_children:
+                # Config or dict is a valid environment
+                if potentially_has_children(val):
+                    envs[attr] = val
+            else:
+                envs[attr] = val
+
+        return envs
+
+    @property
+    def environments(self):
+        """
+        Gets the environments.
+
+        Returns:
+            The environments.
+        """
+
+        from fastcfg.config.cfg import Config
+
+        envs = self._get_env_dict(only_has_children=True)
+
+        return Config(**envs)
+
+    def get_dict(self) -> dict:
         """
         Gets the configuration attributes as a dictionary.
 
         Returns:
             dict: The configuration attributes.
         """
-        return self._config_attributes.get_attributes()
+
+        attrs = self._get_env_dict()
+
+        if self._current_env:
+            attrs = attrs[self._current_env]
+
+        if not isinstance(attrs, dict):
+            attrs = attrs.__dict__
+
+        return attrs
 
     @property
     def value(self):

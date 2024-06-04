@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Any, Union
 
 # Import modules directly to avoid circular imports
-from fastcfg.config import cfg, items
+from fastcfg.config import cfg, items, value_wrapper
 
 if TYPE_CHECKING:
     from fastcfg.config.cfg import Config
@@ -11,7 +11,7 @@ else:
 
 def create_config_dict(item: dict) -> Config:
     """
-    Converts a dictionary into a `Config` object.
+    Converts a dictionary (including a ValueWrapped dictionary) into a `Config` object.
     This is abstracted into this module as it's used in multiple places.
 
     Args:
@@ -21,24 +21,27 @@ def create_config_dict(item: dict) -> Config:
         Config: A `Config` object initialized with the dictionary's key-value pairs.
     """
 
+    if isinstance(item, value_wrapper.ValueWrapper):  # Unwrap ValueWrapper
+        item = value_wrapper.ValueWrapper.unwrap(item)
+
     return cfg.Config(**item)
 
 
-def has_recursive_values(obj: Any) -> bool:
+def potentially_has_children(obj: Any) -> bool:
     """
-    Checks if the given object is a dictionary or a `Config` object. For use in `resolve_all_values`.
+    Checks if the given object is potentially has children. Currently dict and
+    `Config` instances are considered to have children.
 
     Args:
         obj (Any): The object to check.
 
     Returns:
-        bool: True if the object is a dictionary or a `Config` object, False otherwise.
+        bool: True if the object type is in `POTENTIALLY_HAS_CHILDREN`, False otherwise.
     """
 
-    if isinstance(obj, dict) or isinstance(obj, cfg.Config):
-        return True
+    POTENTIALLY_HAS_CHILDREN = (dict, cfg.Config)
 
-    return False
+    return isinstance(obj, POTENTIALLY_HAS_CHILDREN)
 
 
 def resolve_all_values(obj: Union[dict, Config]) -> dict:
@@ -65,12 +68,14 @@ def resolve_all_values(obj: Union[dict, Config]) -> dict:
         obj_dict = obj.get_dict()
 
     else:
-        raise ValueError("Resolve all values requires obj type to be dict or Config!")
+        raise ValueError(
+            "Resolve all values requires obj type to be dict or Config!"
+        )
 
     values = {}
 
     for k, v in obj_dict.items():
-        if has_recursive_values(v):
+        if potentially_has_children(v):
             v = resolve_all_values(v)  # Recursively resolve values
 
         if isinstance(v, items.AbstractConfigItem):

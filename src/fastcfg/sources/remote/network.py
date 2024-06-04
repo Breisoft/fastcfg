@@ -1,15 +1,24 @@
-from fastcfg.config.state import AbstractLiveStateTracker
-from fastcfg.cache import Cache
-from fastcfg.exceptions import NetworkError
-
 import requests
+
+from fastcfg.cache import Cache
+from fastcfg.config.state import AbstractLiveStateTracker
+from fastcfg.exceptions import NetworkError
 
 
 class RequestsLiveTracker(AbstractLiveStateTracker):
     """Concrete class implementing a network tracker with retry support."""
 
-    def __init__(self, url, method, retry: bool = False, use_cache: bool = False,
-                 backoff_policy=None, cache: Cache = None, *args, **kwargs):
+    def __init__(
+        self,
+        url,
+        method,
+        retry: bool = False,
+        use_cache: bool = False,
+        backoff_policy=None,
+        cache: Cache = None,
+        *args,
+        **kwargs
+    ):
 
         super().__init__(retry, use_cache, backoff_policy, cache)
 

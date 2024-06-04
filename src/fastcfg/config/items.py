@@ -1,3 +1,32 @@
+"""
+This module defines the configuration item classes for the `fastcfg` module. 
+These are used as interfaces to interact with when accessing configuration attributes.
+
+Classes:
+    AbstractConfigItem: An abstract base class for configuration items, providing a common interface and shared functionality.
+    BuiltInConfigItem: A concrete class representing configuration items that hold built-in data type values.
+    LiveConfigItem: A concrete class representing configuration items that are dynamically calculated upon access.
+
+Usage Examples:
+
+    ```python
+    # Creating a BuiltInConfigItem
+    config.item = 42 # Automatically wraps the value in a BuiltInConfigItem
+    print(config.item.value)  # Output: 42
+    config.item.value = 100
+    print(config.item.value)  # Output: 100
+
+    # Creating a LiveConfigItem with a state tracker
+    class StateTracker:
+        def get_state(self):
+            return "dynamic_value"
+
+    state_tracker = StateTracker()
+    live_item = LiveConfigItem(state_tracker)
+    print(live_item.value)  # Output: "dynamic_value"
+    ```
+"""
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 

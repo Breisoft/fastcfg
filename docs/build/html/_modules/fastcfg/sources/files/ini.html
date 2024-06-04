@@ -69,32 +69,42 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.sources.files.ini</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastcfg.sources.files.file_state_tracker</span> <span class="kn">import</span> <span class="n">IFileStateTracker</span>
+<span></span><span class="kn">import</span> <span class="nn">configparser</span>
 <span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MissingDependencyError</span><span class="p">,</span> <span class="n">FileReadError</span>
-
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">fastcfg.backoff</span> <span class="kn">import</span> <span class="n">BackoffPolicy</span>
 <span class="kn">from</span> <span class="nn">fastcfg.cache</span> <span class="kn">import</span> <span class="n">Cache</span>
-
-<span class="kn">import</span> <span class="nn">configparser</span>
+<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">FileReadError</span>
+<span class="kn">from</span> <span class="nn">fastcfg.sources.files.file_state_tracker</span> <span class="kn">import</span> <span class="n">AbstractFileStateTracker</span>
 
 
 <div class="viewcode-block" id="IniTracker">
 <a class="viewcode-back" href="../../../../fastcfg.sources.files.html#fastcfg.sources.files.ini.IniTracker">[docs]</a>
-<span class="k">class</span> <span class="nc">IniTracker</span><span class="p">(</span><span class="n">IFileStateTracker</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">IniTracker</span><span class="p">(</span><span class="n">AbstractFileStateTracker</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
-                 <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span>
-                 <span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                 <span class="n">retry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">backoff_policy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BackoffPolicy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Cache</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">file_path</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+        <span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">retry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">backoff_policy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BackoffPolicy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Cache</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="n">use_cache</span><span class="p">,</span>
-                         <span class="n">retry</span><span class="o">=</span><span class="n">retry</span><span class="p">,</span> <span class="n">backoff_policy</span><span class="o">=</span><span class="n">backoff_policy</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">file_path</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
+            <span class="n">use_cache</span><span class="o">=</span><span class="n">use_cache</span><span class="p">,</span>
+            <span class="n">retry</span><span class="o">=</span><span class="n">retry</span><span class="p">,</span>
+            <span class="n">backoff_policy</span><span class="o">=</span><span class="n">backoff_policy</span><span class="p">,</span>
+            <span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_callable</span> <span class="o">=</span> <span class="nb">callable</span>
 

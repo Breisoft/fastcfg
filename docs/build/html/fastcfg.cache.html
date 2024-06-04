@@ -46,13 +46,25 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">fastcfg.cache package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-fastcfg.cache.policies">fastcfg.cache.policies module</a></li>
+<li><a class="reference internal" href="#module-fastcfg.cache.policies">fastcfg.cache.policies module</a><ul>
+<li><a class="reference internal" href="#fastcfg.cache.policies.TEN_MIN_TTL"><code class="docutils literal notranslate"><span class="pre">TEN_MIN_TTL</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.policies.ONE_HOUR_TTL"><code class="docutils literal notranslate"><span class="pre">ONE_HOUR_TTL</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.policies.DAILY_TTL"><code class="docutils literal notranslate"><span class="pre">DAILY_TTL</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.policies.LRU_POLICY"><code class="docutils literal notranslate"><span class="pre">LRU_POLICY</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.policies.MRU_POLICY"><code class="docutils literal notranslate"><span class="pre">MRU_POLICY</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-fastcfg.cache.store">fastcfg.cache.store module</a><ul>
 <li><a class="reference internal" href="#fastcfg.cache.store.CacheStore"><code class="docutils literal notranslate"><span class="pre">CacheStore</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.cache.store.CacheStore._caches"><code class="docutils literal notranslate"><span class="pre">CacheStore._caches</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.store.CacheStore.add_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.add_cache()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.store.CacheStore.clear_all_caches"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_all_caches()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.store.CacheStore.clear_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_cache()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.store.CacheStore.get_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.get_cache()</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">CacheStore.add_cache()</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_all_caches()</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_cache()</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">CacheStore.get_cache()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -60,13 +72,16 @@
 <li><a class="reference internal" href="#module-fastcfg.cache.strategies">fastcfg.cache.strategies module</a><ul>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.LRUCacheStrategy"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy</span></code></a><ul>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.LRUCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy.on_access()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.strategies.LRUCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy.on_insertion()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.MRUCacheStrategy"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy</span></code></a><ul>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.MRUCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy.on_access()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.strategies.MRUCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy.on_insertion()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy._seconds"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy._seconds</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.is_valid()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.on_insertion()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.on_invalidation()</span></code></a></li>
@@ -75,23 +90,25 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#module-fastcfg.cache">Module contents</a><ul>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.is_valid()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.on_access()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.on_insertion()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.on_invalidation()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractUsageCacheStrategy"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractUsageCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.is_valid()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractUsageCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.on_access()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractUsageCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.on_insertion()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.cache.AbstractUsageCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.on_invalidation()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#fastcfg.cache.Cache"><code class="docutils literal notranslate"><span class="pre">Cache</span></code></a><ul>
 <li><a class="reference internal" href="#fastcfg.cache.Cache.get_metadata"><code class="docutils literal notranslate"><span class="pre">Cache.get_metadata()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.Cache.get_value"><code class="docutils literal notranslate"><span class="pre">Cache.get_value()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.Cache.is_valid"><code class="docutils literal notranslate"><span class="pre">Cache.is_valid()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.cache.Cache.set_value"><code class="docutils literal notranslate"><span class="pre">Cache.set_value()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fastcfg.cache.ICacheStrategy"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy</span></code></a><ul>
-<li><a class="reference internal" href="#fastcfg.cache.ICacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.is_valid()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.cache.ICacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_access()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.cache.ICacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_insertion()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.cache.ICacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_invalidation()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fastcfg.cache.IUsageCacheStrategy"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy</span></code></a><ul>
-<li><a class="reference internal" href="#fastcfg.cache.IUsageCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy.is_valid()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.cache.IUsageCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy.on_invalidation()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -131,35 +148,180 @@
 </section>
 <section id="module-fastcfg.cache.policies">
 <span id="fastcfg-cache-policies-module"></span><h2>fastcfg.cache.policies module<a class="headerlink" href="#module-fastcfg.cache.policies" title="Link to this heading"></a></h2>
+<p>This module defines pre-configured cache policies for use with the caching mechanism.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.cache.policies.TEN_MIN_TTL">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.cache.policies.</span></span><span class="sig-name descname"><span class="pre">TEN_MIN_TTL</span></span><a class="headerlink" href="#fastcfg.cache.policies.TEN_MIN_TTL" title="Link to this definition"></a></dt>
+<dd><p>A TTL (Time-To-Live) cache strategy with a duration of 10 minutes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy" title="fastcfg.cache.strategies.TTLCacheStrategy">TTLCacheStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.cache.policies.ONE_HOUR_TTL">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.cache.policies.</span></span><span class="sig-name descname"><span class="pre">ONE_HOUR_TTL</span></span><a class="headerlink" href="#fastcfg.cache.policies.ONE_HOUR_TTL" title="Link to this definition"></a></dt>
+<dd><p>A TTL (Time-To-Live) cache strategy with a duration of 1 hour.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy" title="fastcfg.cache.strategies.TTLCacheStrategy">TTLCacheStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.cache.policies.DAILY_TTL">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.cache.policies.</span></span><span class="sig-name descname"><span class="pre">DAILY_TTL</span></span><a class="headerlink" href="#fastcfg.cache.policies.DAILY_TTL" title="Link to this definition"></a></dt>
+<dd><p>A TTL (Time-To-Live) cache strategy with a duration of 1 day.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.cache.strategies.TTLCacheStrategy" title="fastcfg.cache.strategies.TTLCacheStrategy">TTLCacheStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.cache.policies.LRU_POLICY">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.cache.policies.</span></span><span class="sig-name descname"><span class="pre">LRU_POLICY</span></span><a class="headerlink" href="#fastcfg.cache.policies.LRU_POLICY" title="Link to this definition"></a></dt>
+<dd><p>A Least Recently Used (LRU) cache strategy with a default capacity of 100 entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.cache.strategies.LRUCacheStrategy" title="fastcfg.cache.strategies.LRUCacheStrategy">LRUCacheStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.cache.policies.MRU_POLICY">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.cache.policies.</span></span><span class="sig-name descname"><span class="pre">MRU_POLICY</span></span><a class="headerlink" href="#fastcfg.cache.policies.MRU_POLICY" title="Link to this definition"></a></dt>
+<dd><p>A Most Recently Used (MRU) cache strategy with a default capacity of 100 entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.cache.strategies.MRUCacheStrategy" title="fastcfg.cache.strategies.MRUCacheStrategy">MRUCacheStrategy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-fastcfg.cache.store">
 <span id="fastcfg-cache-store-module"></span><h2>fastcfg.cache.store module<a class="headerlink" href="#module-fastcfg.cache.store" title="Link to this heading"></a></h2>
+<p>This module provides a global store for managing multiple cache instances.</p>
+<dl>
+<dt>Classes:</dt><dd><p>CacheStore: A class that provides a centralized store for cache instances, allowing for adding, retrieving, and clearing caches globally.</p>
+</dd>
+<dt>Global Variables:</dt><dd><p>cache_store (CacheStore): A global instance of the CacheStore class for managing cache instances.</p>
+</dd>
+<dt>Usage Example:</dt><dd><p>from fastcfg.cache.store import cache_store
+from fastcfg.cache import Cache</p>
+<p># Create a new cache instance
+# Automatically added to global store internally
+my_cache = Cache(name=’my_cache’)</p>
+<p># Retrieve the cache from the global store
+retrieved_cache = cache_store.get_cache(‘my_cache’)</p>
+<p># Clear a specific cache
+cache_store.clear_cache(‘my_cache’)</p>
+<p># Clear all caches
+cache_store.clear_all_caches()</p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.cache.store.CacheStore">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.store.</span></span><span class="sig-name descname"><span class="pre">CacheStore</span></span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.store.CacheStore" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A global store for managing multiple cache instances.</p>
+<dl class="simple">
+<dt>Purpose:</dt><dd><ul class="simple">
+<li><p>This class provides a centralized store for cache instances.</p></li>
+<li><p>It allows for adding, retrieving, and clearing caches globally.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.cache.store.CacheStore._caches">
+<span class="sig-name descname"><span class="pre">_caches</span></span><a class="headerlink" href="#fastcfg.cache.store.CacheStore._caches" title="Link to this definition"></a></dt>
+<dd><p>A set to store cache instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.store.CacheStore.add_cache">
 <span class="sig-name descname"><span class="pre">add_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.add_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.store.CacheStore.add_cache" title="Link to this definition"></a></dt>
-<dd><p>Add a cache to the global store.</p>
+<dd><p>Adds a cache instance to the global store.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.store.CacheStore.clear_all_caches">
 <span class="sig-name descname"><span class="pre">clear_all_caches</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.clear_all_caches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.store.CacheStore.clear_all_caches" title="Link to this definition"></a></dt>
-<dd><p>Clears all caches globally.</p>
+<dd><p>Clears all caches in the global store.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.store.CacheStore.clear_cache">
-<span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.clear_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.store.CacheStore.clear_cache" title="Link to this definition"></a></dt>
-<dd><p>Clear a specific cache.</p>
+<span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.clear_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.store.CacheStore.clear_cache" title="Link to this definition"></a></dt>
+<dd><p>Clears a specific cache by name.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.store.CacheStore.get_cache">
-<span class="sig-name descname"><span class="pre">get_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.get_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.store.CacheStore.get_cache" title="Link to this definition"></a></dt>
-<dd><p>Get a specific cache.</p>
+<span class="sig-name descname"><span class="pre">get_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.get_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.store.CacheStore.get_cache" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific cache by name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">add_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.add_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Adds a cache to the global store.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache_name</strong> (<em>str</em>) – The name of the cache.</p></li>
+<li><p><strong>cache</strong> (<a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><em>Cache</em></a>) – The cache instance to add.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If a cache with the same name already exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">clear_all_caches</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.clear_all_caches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Clears all caches globally.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.clear_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Clears a specific cache.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cache_name</strong> (<em>str</em>) – The name of the cache to clear.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/store.html#CacheStore.get_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific cache if it exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cache_name</strong> (<em>str</em>) – The name of the cache to retrieve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cache instance if found, otherwise None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[<a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache">Cache</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -167,14 +329,98 @@
 </section>
 <section id="module-fastcfg.cache.strategies">
 <span id="fastcfg-cache-strategies-module"></span><h2>fastcfg.cache.strategies module<a class="headerlink" href="#module-fastcfg.cache.strategies" title="Link to this heading"></a></h2>
+<p>This module defines various cache strategies for use with the caching mechanism.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><dl class="simple">
+<dt>TTLCacheStrategy (ICacheStrategy): A cache strategy that invalidates entries based on a time-to-live (TTL) value.</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Attributes:</dt><dd><ul>
+<li><p>_seconds (int): The TTL value in seconds.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Methods:</dt><dd><ul>
+<li><p>__init__(seconds: int): Initialize the strategy with a TTL value.</p></li>
+<li><p>is_valid(meta_value: Optional[float]) -&gt; bool: Check if the cache entry is still valid based on the TTL.</p></li>
+<li><p>on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Set the TTL for a cache entry upon insertion.</p></li>
+<li><p>on_invalidation(key: str, cache: Cache) -&gt; None: Perform any invalidation cleanup for a given cache key.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>LRUCacheStrategy (IUsageCacheStrategy): A cache strategy that evicts the least recently used (LRU) entries when capacity is exceeded.</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Methods:</dt><dd><ul>
+<li><p>on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</p></li>
+<li><p>on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>MRUCacheStrategy (IUsageCacheStrategy): A cache strategy that evicts the most recently used (MRU) entries when capacity is exceeded.</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Methods:</dt><dd><ul>
+<li><p>on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</p></li>
+<li><p>on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.LRUCacheStrategy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.strategies.</span></span><span class="sig-name descname"><span class="pre">LRUCacheStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#LRUCacheStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.LRUCacheStrategy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.IUsageCacheStrategy" title="fastcfg.cache.IUsageCacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">IUsageCacheStrategy</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.AbstractUsageCacheStrategy" title="fastcfg.cache.AbstractUsageCacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy</span></code></a></p>
+<p>A cache strategy that evicts the least recently used (LRU) entries when capacity is exceeded.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_access(key</span></span></dt>
+<dd><p>str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_insertion(key</span></span></dt>
+<dd><p>str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.LRUCacheStrategy.on_access">
 <span class="sig-name descname"><span class="pre">on_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#LRUCacheStrategy.on_access"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.LRUCacheStrategy.on_access" title="Link to this definition"></a></dt>
 <dd><p>Update the access order to mark the key as most recently used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The cache key.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The metadata dictionary.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.strategies.LRUCacheStrategy.on_insertion">
+<span class="sig-name descname"><span class="pre">on_insertion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#LRUCacheStrategy.on_insertion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.LRUCacheStrategy.on_insertion" title="Link to this definition"></a></dt>
+<dd><p>Handle insertion and evict if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The cache key.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The cache value.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The metadata dictionary.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -182,11 +428,47 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.MRUCacheStrategy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.strategies.</span></span><span class="sig-name descname"><span class="pre">MRUCacheStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#MRUCacheStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.MRUCacheStrategy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.IUsageCacheStrategy" title="fastcfg.cache.IUsageCacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">IUsageCacheStrategy</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.AbstractUsageCacheStrategy" title="fastcfg.cache.AbstractUsageCacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy</span></code></a></p>
+<p>A cache strategy that evicts the most recently used (MRU) entries when capacity is exceeded.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_access(key</span></span></dt>
+<dd><p>str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_insertion(key</span></span></dt>
+<dd><p>str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.MRUCacheStrategy.on_access">
 <span class="sig-name descname"><span class="pre">on_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#MRUCacheStrategy.on_access"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.MRUCacheStrategy.on_access" title="Link to this definition"></a></dt>
 <dd><p>Update the access order to mark the key as most recently used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The cache key.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The metadata dictionary.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.strategies.MRUCacheStrategy.on_insertion">
+<span class="sig-name descname"><span class="pre">on_insertion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#MRUCacheStrategy.on_insertion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.MRUCacheStrategy.on_insertion" title="Link to this definition"></a></dt>
+<dd><p>Handle insertion and evict if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The cache key.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The cache value.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The metadata dictionary.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -194,23 +476,87 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.TTLCacheStrategy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.strategies.</span></span><span class="sig-name descname"><span class="pre">TTLCacheStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#TTLCacheStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.TTLCacheStrategy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.ICacheStrategy" title="fastcfg.cache.ICacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ICacheStrategy</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy" title="fastcfg.cache.AbstractCacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractCacheStrategy</span></code></a></p>
+<p>A cache strategy that invalidates entries based on a time-to-live (TTL) value.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.cache.strategies.TTLCacheStrategy._seconds">
+<span class="sig-name descname"><span class="pre">_seconds</span></span><a class="headerlink" href="#fastcfg.cache.strategies.TTLCacheStrategy._seconds" title="Link to this definition"></a></dt>
+<dd><p>The TTL value in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">__init__(seconds</span></span></dt>
+<dd><p>int): Initialize the strategy with a TTL value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">is_valid(meta_value</span></span></dt>
+<dd><p>Optional[float]) -&gt; bool: Check if the cache entry is still valid based on the TTL.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_insertion(key</span></span></dt>
+<dd><p>str, value: Any, meta: Dict[str, Any]) -&gt; None: Set the TTL for a cache entry upon insertion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_invalidation(key</span></span></dt>
+<dd><p>str, cache: Cache) -&gt; None: Perform any invalidation cleanup for a given cache key.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.TTLCacheStrategy.is_valid">
 <span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#TTLCacheStrategy.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.TTLCacheStrategy.is_valid" title="Link to this definition"></a></dt>
-<dd><p>Check if the cache entry is still valid based on the time-to-live (TTL).</p>
+<dd><p>Check if the cache entry is still valid based on the TTL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>meta_value</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The metadata value to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the entry is still valid, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.TTLCacheStrategy.on_insertion">
 <span class="sig-name descname"><span class="pre">on_insertion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#TTLCacheStrategy.on_insertion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.TTLCacheStrategy.on_insertion" title="Link to this definition"></a></dt>
-<dd><p>Execute cache strategy policy upon insertion.</p>
+<dd><p>Set the TTL for a cache entry upon insertion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The cache key.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The cache value.</p></li>
+<li><p><strong>meta</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The metadata dictionary.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.strategies.TTLCacheStrategy.on_invalidation">
 <span class="sig-name descname"><span class="pre">on_invalidation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache/strategies.html#TTLCacheStrategy.on_invalidation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.strategies.TTLCacheStrategy.on_invalidation" title="Link to this definition"></a></dt>
 <dd><p>Perform any invalidation cleanup for a given cache key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The cache key.</p></li>
+<li><p><strong>cache</strong> (<a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><em>Cache</em></a>) – The cache instance.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -218,10 +564,199 @@
 </section>
 <section id="module-fastcfg.cache">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fastcfg.cache" title="Link to this heading"></a></h2>
+<p>This module provides the core classes and interfaces for implementing cache strategies in the fastcfg library.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>AbstractCacheStrategy: An abstract base class defining the interface for cache strategies.</p></li>
+<li><p>AbstractUsageCacheStrategy: An abstract base class for usage-based cache eviction strategies.</p></li>
+<li><p>Cache: A class that manages cache entries using a specified cache strategy.</p></li>
+</ul>
+</dd>
+<dt>Exceptions:</dt><dd><ul class="simple">
+<li><p>MissingCacheKeyError: Raised when a requested cache key is not found.</p></li>
+</ul>
+</dd>
+<dt>Modules:</dt><dd><ul class="simple">
+<li><p>cache_store: Provides a global store for managing cache instances.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractCacheStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.</span></span><span class="sig-name descname"><span class="pre">AbstractCacheStrategy</span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractCacheStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractCacheStrategy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>An abstract base class that defines the interface for cache strategies.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">is_valid(meta_value</span></span></dt>
+<dd><p>Any) -&gt; bool: Determine if a cache entry is still valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_insertion(key</span></span></dt>
+<dd><p>str, value: Any, meta: Dict[str, Any]) -&gt; None: Execute policy upon cache insertion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_invalidation(key</span></span></dt>
+<dd><p>str, cache: ‘Cache’) -&gt; Optional[Any]: Perform actions upon cache invalidation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_access(key</span></span></dt>
+<dd><p>str, meta: Dict[str, Any]) -&gt; None: Update metadata or perform actions upon cache access.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractCacheStrategy.is_valid">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractCacheStrategy.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractCacheStrategy.is_valid" title="Link to this definition"></a></dt>
+<dd><p>Determine if the cache entry is still valid based on the strategy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractCacheStrategy.on_access">
+<span class="sig-name descname"><span class="pre">on_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractCacheStrategy.on_access"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractCacheStrategy.on_access" title="Link to this definition"></a></dt>
+<dd><p>Update metadata or perform actions upon cache access.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractCacheStrategy.on_insertion">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_insertion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractCacheStrategy.on_insertion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractCacheStrategy.on_insertion" title="Link to this definition"></a></dt>
+<dd><p>Execute cache strategy policy upon insertion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractCacheStrategy.on_invalidation">
+<span class="sig-name descname"><span class="pre">on_invalidation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractCacheStrategy.on_invalidation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractCacheStrategy.on_invalidation" title="Link to this definition"></a></dt>
+<dd><p>Perform actions upon cache invalidation, implement this on child classes if you need this functionality.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractUsageCacheStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.</span></span><span class="sig-name descname"><span class="pre">AbstractUsageCacheStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractUsageCacheStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractUsageCacheStrategy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy" title="fastcfg.cache.AbstractCacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractCacheStrategy</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>An abstract base class of ICacheStrategy that implements usage-based cache eviction.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">__init__(capacity</span></span></dt>
+<dd><p>int): Initialize the strategy with a given capacity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">is_valid(meta_value</span></span></dt>
+<dd><p>Optional[Any]) -&gt; bool: Determine if a cache entry is valid based on usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">_remove_excess_entries(meta</span></span></dt>
+<dd><p>Dict[str, Any], to_remove_key: str) -&gt; None: Remove excess entries if capacity is exceeded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_invalidation(key</span></span></dt>
+<dd><p>str, cache: ‘Cache’) -&gt; None: Perform any invalidation cleanup for a given cache key.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_insertion(key</span></span></dt>
+<dd><p>str, value: Any, meta: Dict[str, Any]) -&gt; None: Execute cache strategy policy upon insertion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">on_access(key</span></span></dt>
+<dd><p>str, meta: Dict[str, Any]) -&gt; None: Update metadata or perform actions upon cache access.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractUsageCacheStrategy.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractUsageCacheStrategy.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractUsageCacheStrategy.is_valid" title="Link to this definition"></a></dt>
+<dd><p>Determine if a cache entry is valid based on usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>meta_value</strong> (<em>Optional</em><em>[</em><em>Any</em><em>]</em>) – The metadata value to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the entry is valid, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractUsageCacheStrategy.on_access">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractUsageCacheStrategy.on_access"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractUsageCacheStrategy.on_access" title="Link to this definition"></a></dt>
+<dd><p>Update metadata or perform actions upon cache access.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractUsageCacheStrategy.on_insertion">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_insertion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractUsageCacheStrategy.on_insertion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractUsageCacheStrategy.on_insertion" title="Link to this definition"></a></dt>
+<dd><p>Execute cache strategy policy upon insertion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.cache.AbstractUsageCacheStrategy.on_invalidation">
+<span class="sig-name descname"><span class="pre">on_invalidation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#AbstractUsageCacheStrategy.on_invalidation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.AbstractUsageCacheStrategy.on_invalidation" title="Link to this definition"></a></dt>
+<dd><p>Perform any invalidation cleanup for a given cache key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – The key of the entry to invalidate.</p></li>
+<li><p><strong>cache</strong> (<a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><em>Cache</em></a>) – The cache instance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.cache.Cache">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.</span></span><span class="sig-name descname"><span class="pre">Cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fastcfg.cache.ICacheStrategy" title="fastcfg.cache.ICacheStrategy"><span class="pre">ICacheStrategy</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache.html#Cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.Cache" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.</span></span><span class="sig-name descname"><span class="pre">Cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fastcfg.cache.AbstractCacheStrategy" title="fastcfg.cache.AbstractCacheStrategy"><span class="pre">AbstractCacheStrategy</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache.html#Cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.Cache" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that manages cache entries using a specified cache strategy.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">__init__(cache_strategy</span></span></dt>
+<dd><p>ICacheStrategy): Initialize the cache with a given strategy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">set_value(key</span></span></dt>
+<dd><p>str, value: Any) -&gt; None: Set the value and associated metadata for a given key.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">get_value(key</span></span></dt>
+<dd><p>str) -&gt; Any: Retrieve the value for a given key if it’s valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">is_valid(key</span></span></dt>
+<dd><p>str) -&gt; bool: Check if a key is present and valid in the cache.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">get_metadata(key</span></span></dt>
+<dd><p>str) -&gt; Optional[Any]: Get metadata associated with a given cache key.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.cache.Cache.get_metadata">
 <span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#Cache.get_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.Cache.get_metadata" title="Link to this definition"></a></dt>
@@ -244,54 +779,6 @@
 <dt class="sig sig-object py" id="fastcfg.cache.Cache.set_value">
 <span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#Cache.set_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.Cache.set_value" title="Link to this definition"></a></dt>
 <dd><p>Set the value and associated metadata for a given key in the cache.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="fastcfg.cache.ICacheStrategy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.</span></span><span class="sig-name descname"><span class="pre">ICacheStrategy</span></span><a class="reference internal" href="_modules/fastcfg/cache.html#ICacheStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.ICacheStrategy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.cache.ICacheStrategy.is_valid">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#ICacheStrategy.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.ICacheStrategy.is_valid" title="Link to this definition"></a></dt>
-<dd><p>Determine if the cache entry is still valid based on the strategy.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.cache.ICacheStrategy.on_access">
-<span class="sig-name descname"><span class="pre">on_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#ICacheStrategy.on_access"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.ICacheStrategy.on_access" title="Link to this definition"></a></dt>
-<dd><p>Update metadata or perform actions upon cache access.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.cache.ICacheStrategy.on_insertion">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_insertion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#ICacheStrategy.on_insertion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.ICacheStrategy.on_insertion" title="Link to this definition"></a></dt>
-<dd><p>Execute cache strategy policy upon insertion.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.cache.ICacheStrategy.on_invalidation">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_invalidation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#ICacheStrategy.on_invalidation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.ICacheStrategy.on_invalidation" title="Link to this definition"></a></dt>
-<dd><p>Perform actions upon cache invalidation, possibly providing fallback data.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="fastcfg.cache.IUsageCacheStrategy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.cache.</span></span><span class="sig-name descname"><span class="pre">IUsageCacheStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/cache.html#IUsageCacheStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.IUsageCacheStrategy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fastcfg.cache.ICacheStrategy" title="fastcfg.cache.ICacheStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ICacheStrategy</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.cache.IUsageCacheStrategy.is_valid">
-<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#IUsageCacheStrategy.is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.IUsageCacheStrategy.is_valid" title="Link to this definition"></a></dt>
-<dd><p>Usage-based cache entries are always valid if present.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.cache.IUsageCacheStrategy.on_invalidation">
-<span class="sig-name descname"><span class="pre">on_invalidation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/cache.html#IUsageCacheStrategy.on_invalidation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.cache.IUsageCacheStrategy.on_invalidation" title="Link to this definition"></a></dt>
-<dd><p>Perform any invalidation cleanup for a given cache key.</p>
 </dd></dl>
 
 </dd></dl>

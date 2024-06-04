@@ -58,7 +58,6 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-          <li class="breadcrumb-item"><a href="../config.html">fastcfg.config</a></li>
       <li class="breadcrumb-item active">fastcfg.config.state</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -69,30 +68,39 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.config.state</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span><span class="p">,</span> <span class="n">ABC</span>
-
-<span class="kn">from</span> <span class="nn">fastcfg.cache</span> <span class="kn">import</span> <span class="n">Cache</span>
-<span class="kn">from</span> <span class="nn">fastcfg.default</span> <span class="kn">import</span> <span class="n">defaults</span>
-<span class="kn">from</span> <span class="nn">fastcfg.backoff</span> <span class="kn">import</span> <span class="n">exponential_backoff</span>
-<span class="kn">from</span> <span class="nn">fastcfg.backoff.policies</span> <span class="kn">import</span> <span class="n">BackoffPolicy</span>
-<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MissingCacheKeyError</span>
-
-<span class="kn">import</span> <span class="nn">uuid</span>
+<span></span><span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">fastcfg.backoff</span> <span class="kn">import</span> <span class="n">exponential_backoff</span>
+<span class="kn">from</span> <span class="nn">fastcfg.backoff.policies</span> <span class="kn">import</span> <span class="n">BackoffPolicy</span>
+<span class="kn">from</span> <span class="nn">fastcfg.cache</span> <span class="kn">import</span> <span class="n">Cache</span>
+<span class="kn">from</span> <span class="nn">fastcfg.default</span> <span class="kn">import</span> <span class="n">defaults</span>
+<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MissingCacheKeyError</span>
 
-<div class="viewcode-block" id="IStateTracker">
-<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.IStateTracker">[docs]</a>
-<span class="k">class</span> <span class="nc">IStateTracker</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for a state tracker.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="IStateTracker.get_state">
-<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.IStateTracker.get_state">[docs]</a>
+<div class="viewcode-block" id="AbstractStateTracker">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.AbstractStateTracker">[docs]</a>
+<span class="k">class</span> <span class="nc">AbstractStateTracker</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for a state tracker which is used to fetch the current state for LiveConfigItems.</span>
+
+<span class="sd">    Purpose:</span>
+<span class="sd">        - This class defines a common interface for state trackers.</span>
+<span class="sd">        - It ensures that all state trackers can fetch the current state through a consistent method.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        get_state(): Fetches the state by calling `get_state_value()`.</span>
+<span class="sd">        get_state_value(): Abstract method to fetch the internal state, must be implemented by subclasses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AbstractStateTracker.get_state">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.AbstractStateTracker.get_state">[docs]</a>
     <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetches the state.</span>
 
-<span class="sd">        Calls `get_state_value()` and returns the result by default. </span>
+<span class="sd">        Calls `get_state_value()` and returns the result by default.</span>
 <span class="sd">        Child classes may override this behavior.</span>
 
 <span class="sd">        Returns:</span>
@@ -101,8 +109,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state_value</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="IStateTracker.get_state_value">
-<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.IStateTracker.get_state_value">[docs]</a>
+<div class="viewcode-block" id="AbstractStateTracker.get_state_value">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.AbstractStateTracker.get_state_value">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_state_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -121,7 +129,20 @@
 <div class="viewcode-block" id="RetriableMixin">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.RetriableMixin">[docs]</a>
 <span class="k">class</span> <span class="nc">RetriableMixin</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixin providing retry logic.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin providing retry logic.</span>
+
+<span class="sd">    Purpose:</span>
+<span class="sd">        - This mixin adds retry capabilities to state tracker classes that need to handle transient failures.</span>
+<span class="sd">        - It uses an exponential backoff strategy to retry operations.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _retry (bool): Whether to enable retry logic.</span>
+<span class="sd">        _backoff_policy (BackoffPolicy): The backoff policy to use.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        _call_retriable_function(func, *args, **kwargs): Calls a function with optional backoff.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">backoff_policy</span><span class="p">:</span> <span class="n">BackoffPolicy</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -130,11 +151,16 @@
 <span class="sd">        Args:</span>
 <span class="sd">            retry (bool): Whether to enable retry logic.</span>
 <span class="sd">            backoff_policy (BackoffPolicy, optional): The backoff policy to use. Defaults to `defaults.backoff_policy`.</span>
+<span class="sd">            See `fastcfg.default` package for more details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_retry</span> <span class="o">=</span> <span class="n">retry</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backoff_policy</span> <span class="o">=</span> <span class="n">backoff_policy</span> <span class="ow">or</span> <span class="n">defaults</span><span class="o">.</span><span class="n">backoff_policy</span>
 
-    <span class="k">def</span> <span class="nf">_call_retriable_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="RetriableMixin._call_retriable_function">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.RetriableMixin._call_retriable_function">[docs]</a>
+    <span class="k">def</span> <span class="nf">_call_retriable_function</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calls a function with optional backoff.</span>
 
@@ -151,6 +177,7 @@
             <span class="k">return</span> <span class="n">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
 
 
 
@@ -166,13 +193,16 @@
 <span class="sd">        Args:</span>
 <span class="sd">            use_cache (bool): Whether to enable caching.</span>
 <span class="sd">            cache (Cache, optional): The cache instance to use. Defaults to `None`.</span>
+<span class="sd">                If `None` and `use_cache` is True, a new cache instance is created with the default cache policy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">cache</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_cache</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="n">Cache</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">cache_policy</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="n">cache</span>
 
-    <span class="k">def</span> <span class="nf">_call_cached_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_call_cached_function</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calls a function with optional caching.</span>
 
@@ -197,13 +227,35 @@
 
 
 
-<div class="viewcode-block" id="ILiveTracker">
-<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.ILiveTracker">[docs]</a>
-<span class="k">class</span> <span class="nc">ILiveTracker</span><span class="p">(</span><span class="n">IStateTracker</span><span class="p">,</span> <span class="n">RetriableMixin</span><span class="p">,</span> <span class="n">CacheMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for live trackers with optional retry and caching.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AbstractLiveStateTracker">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.AbstractLiveStateTracker">[docs]</a>
+<span class="k">class</span> <span class="nc">AbstractLiveStateTracker</span><span class="p">(</span><span class="n">AbstractStateTracker</span><span class="p">,</span> <span class="n">RetriableMixin</span><span class="p">,</span> <span class="n">CacheMixin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for state trackers with optional retry and caching.</span>
+<span class="sd">    This class provides the basis for all StateTrackers that are</span>
+<span class="sd">    dynamically fetched on attribute access from a `Config` instance.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">backoff_policy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BackoffPolicy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Cache</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="sd">    Purpose:</span>
+<span class="sd">        - This class combines state tracking, retry logic, and caching capabilities.</span>
+<span class="sd">        - It provides a unified interface for fetching state with support for retries and caching.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _cache_uuid_key (str): The cache key for the state.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        __init__(retry, use_cache, backoff_policy, cache): Initializes the ILiveTracker.</span>
+<span class="sd">        get_state(): Fetches the state with retry and caching support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AbstractLiveStateTracker.__init__">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.AbstractLiveStateTracker.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">retry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">backoff_policy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BackoffPolicy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Cache</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the ILiveTracker.</span>
 
@@ -211,7 +263,8 @@
 <span class="sd">            retry (bool): Whether to enable retry logic.</span>
 <span class="sd">            use_cache (bool): Whether to enable caching.</span>
 <span class="sd">            backoff_policy (BackoffPolicy, optional): The backoff policy to use. Defaults to `None`.</span>
-<span class="sd">            cache (Cache, optional): The cache instance to use. Defaults to `None`.</span>
+<span class="sd">            cache (Cache, optional): The cache instance to use. Defaults to `None` and</span>
+<span class="sd">            if `use_cache` is True, a new cache instance is created with the default cache policy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">use_cache</span><span class="p">:</span>
             <span class="c1"># Generate cache key</span>
@@ -219,12 +272,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cache_uuid_key</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="n">IStateTracker</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">AbstractStateTracker</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">RetriableMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retry</span><span class="p">,</span> <span class="n">backoff_policy</span><span class="p">)</span>
-        <span class="n">CacheMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_cache</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
+        <span class="n">CacheMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_cache</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ILiveTracker.get_state">
-<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.ILiveTracker.get_state">[docs]</a>
+
+<div class="viewcode-block" id="AbstractLiveStateTracker.get_state">
+<a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.state.AbstractLiveStateTracker.get_state">[docs]</a>
     <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fetches the state with retry and caching support.</span>
@@ -232,7 +286,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Any: The current state.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_cached_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_uuid_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_retriable_function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state_value</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_cached_function</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache_uuid_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_retriable_function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state_value</span>
+        <span class="p">)</span></div>
 </div>
 
 </pre></div>

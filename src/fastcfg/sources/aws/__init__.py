@@ -1,7 +1,7 @@
-from typing import Any
-from fastcfg.config.state import AbstractLiveStateTracker
 from abc import abstractmethod
+from typing import Any
 
+from fastcfg.config.state import AbstractLiveStateTracker
 from fastcfg.exceptions import MissingDependencyError
 
 try:
@@ -21,10 +21,12 @@ class IBoto3LiveTracker(AbstractLiveStateTracker):
     def get_state_value(self) -> Any:
 
         if boto3 is None:
-            raise MissingDependencyError('boto3')
+            raise MissingDependencyError("boto3")
 
         return self.execute_aws()
 
     @abstractmethod
     def execute_aws(self):
         pass
+
+

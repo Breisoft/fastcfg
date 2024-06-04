@@ -69,45 +69,127 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.cache.store</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides a global store for managing multiple cache instances.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    CacheStore: A class that provides a centralized store for cache instances, allowing for adding, retrieving, and clearing caches globally.</span>
+
+<span class="sd">Global Variables:</span>
+<span class="sd">    cache_store (CacheStore): A global instance of the CacheStore class for managing cache instances.</span>
+
+<span class="sd">Usage Example:</span>
+<span class="sd">    from fastcfg.cache.store import cache_store</span>
+<span class="sd">    from fastcfg.cache import Cache</span>
+
+<span class="sd">    # Create a new cache instance</span>
+<span class="sd">    # Automatically added to global store internally</span>
+<span class="sd">    my_cache = Cache(name=&#39;my_cache&#39;)</span>
+
+<span class="sd">    # Retrieve the cache from the global store</span>
+<span class="sd">    retrieved_cache = cache_store.get_cache(&#39;my_cache&#39;)</span>
+
+<span class="sd">    # Clear a specific cache</span>
+<span class="sd">    cache_store.clear_cache(&#39;my_cache&#39;)</span>
+
+<span class="sd">    # Clear all caches</span>
+<span class="sd">    cache_store.clear_all_caches()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">fastcfg.cache</span> <span class="kn">import</span> <span class="n">Cache</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">Cache</span> <span class="o">=</span> <span class="kc">None</span>
+
+
 <div class="viewcode-block" id="CacheStore">
 <a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.store.CacheStore">[docs]</a>
-<span></span><span class="k">class</span> <span class="nc">CacheStore</span><span class="p">():</span>
-    <span class="c1"># TODO implement global store of caches, that way we can reset all caches.</span>
+<span class="k">class</span> <span class="nc">CacheStore</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A global store for managing multiple cache instances.</span>
+
+<span class="sd">    Purpose:</span>
+<span class="sd">        - This class provides a centralized store for cache instances.</span>
+<span class="sd">        - It allows for adding, retrieving, and clearing caches globally.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _caches (set): A set to store cache instances.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        add_cache(cache): Adds a cache instance to the global store.</span>
+<span class="sd">        clear_all_caches(): Clears all caches in the global store.</span>
+<span class="sd">        clear_cache(cache_name): Clears a specific cache by name.</span>
+<span class="sd">        get_cache(cache_name): Retrieves a specific cache by name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="CacheStore.add_cache">
 <a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.store.CacheStore.add_cache">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a cache to the global store.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">add_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">Cache</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a cache to the global store.</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span></div>
+<span class="sd">        Args:</span>
+<span class="sd">            cache_name (str): The name of the cache.</span>
+<span class="sd">            cache (Cache): The cache instance to add.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a cache with the same name already exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">cache</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cache with name </span><span class="si">{</span><span class="n">cache</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> already exists. Cache names must be globally unique.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span><span class="p">[</span><span class="n">cache</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cache</span></div>
 
 
 <div class="viewcode-block" id="CacheStore.clear_all_caches">
 <a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.store.CacheStore.clear_all_caches">[docs]</a>
     <span class="k">def</span> <span class="nf">clear_all_caches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clears all caches globally.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clears all caches globally.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">cache</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="CacheStore.clear_cache">
 <a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.store.CacheStore.clear_cache">[docs]</a>
     <span class="k">def</span> <span class="nf">clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear a specific cache.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clears a specific cache.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cache_name (str): The name of the cache to clear.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">cache_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span><span class="p">[</span><span class="n">cache_name</span><span class="p">]</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="CacheStore.get_cache">
 <a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.store.CacheStore.get_cache">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a specific cache.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">get_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Cache</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a specific cache if it exists.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cache_name (str): The name of the cache to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Cache]: The cache instance if found, otherwise None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_caches</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cache_name</span><span class="p">)</span></div>
 </div>
 
 
 
+<span class="c1"># Global instance of CacheStore</span>
 <span class="n">cache_store</span> <span class="o">=</span> <span class="n">CacheStore</span><span class="p">()</span>
 </pre></div>
 

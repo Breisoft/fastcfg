@@ -50,6 +50,7 @@
 <li><a class="reference internal" href="#module-fastcfg.exceptions">fastcfg.exceptions module</a><ul>
 <li><a class="reference internal" href="#fastcfg.exceptions.ConfigItemValidationError"><code class="docutils literal notranslate"><span class="pre">ConfigItemValidationError</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.exceptions.FileReadError"><code class="docutils literal notranslate"><span class="pre">FileReadError</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.exceptions.InvalidOperationError"><code class="docutils literal notranslate"><span class="pre">InvalidOperationError</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.exceptions.MaxRetriesExceededError"><code class="docutils literal notranslate"><span class="pre">MaxRetriesExceededError</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.exceptions.MissingCacheKeyError"><code class="docutils literal notranslate"><span class="pre">MissingCacheKeyError</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.exceptions.MissingConfigKeyError"><code class="docutils literal notranslate"><span class="pre">MissingConfigKeyError</span></code></a></li>
@@ -95,14 +96,22 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="fastcfg.backoff.html">fastcfg.backoff package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.backoff.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fastcfg.backoff.html#module-fastcfg.backoff.policies">fastcfg.backoff.policies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.backoff.html#module-fastcfg.backoff.policies">fastcfg.backoff.policies module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.policies.BASIC_BACKOFF_POLICY"><code class="docutils literal notranslate"><span class="pre">BASIC_BACKOFF_POLICY</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.backoff.html#module-fastcfg.backoff">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.max_retries"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_retries</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.base_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.base_delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.max_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_delay</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.factor"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.factor</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.jitter"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.jitter</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.max_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_delay</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy.max_retries"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_retries</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#id0"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.base_delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#id1"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#id2"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.jitter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#id3"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.backoff.html#id4"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_retries</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.exponential_backoff"><code class="docutils literal notranslate"><span class="pre">exponential_backoff()</span></code></a></li>
@@ -112,13 +121,25 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fastcfg.cache.html">fastcfg.cache package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache.policies">fastcfg.cache.policies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache.policies">fastcfg.cache.policies module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.policies.TEN_MIN_TTL"><code class="docutils literal notranslate"><span class="pre">TEN_MIN_TTL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.policies.ONE_HOUR_TTL"><code class="docutils literal notranslate"><span class="pre">ONE_HOUR_TTL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.policies.DAILY_TTL"><code class="docutils literal notranslate"><span class="pre">DAILY_TTL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.policies.LRU_POLICY"><code class="docutils literal notranslate"><span class="pre">LRU_POLICY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.policies.MRU_POLICY"><code class="docutils literal notranslate"><span class="pre">MRU_POLICY</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache.store">fastcfg.cache.store module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore"><code class="docutils literal notranslate"><span class="pre">CacheStore</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore._caches"><code class="docutils literal notranslate"><span class="pre">CacheStore._caches</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.add_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.add_cache()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.clear_all_caches"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_all_caches()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.clear_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_cache()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.store.CacheStore.get_cache"><code class="docutils literal notranslate"><span class="pre">CacheStore.get_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#id0"><code class="docutils literal notranslate"><span class="pre">CacheStore.add_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#id1"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_all_caches()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#id2"><code class="docutils literal notranslate"><span class="pre">CacheStore.clear_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#id3"><code class="docutils literal notranslate"><span class="pre">CacheStore.get_cache()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -126,13 +147,16 @@
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache.strategies">fastcfg.cache.strategies module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.LRUCacheStrategy"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.LRUCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy.on_access()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.LRUCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">LRUCacheStrategy.on_insertion()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.MRUCacheStrategy"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.MRUCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy.on_access()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.MRUCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">MRUCacheStrategy.on_insertion()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy._seconds"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy._seconds</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.is_valid()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.on_insertion()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">TTLCacheStrategy.on_invalidation()</span></code></a></li>
@@ -141,23 +165,25 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.cache.html#module-fastcfg.cache">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.on_access()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.on_insertion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">AbstractCacheStrategy.on_invalidation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.on_access()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.on_insertion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">AbstractUsageCacheStrategy.on_invalidation()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache"><code class="docutils literal notranslate"><span class="pre">Cache</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.get_metadata"><code class="docutils literal notranslate"><span class="pre">Cache.get_metadata()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.get_value"><code class="docutils literal notranslate"><span class="pre">Cache.get_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.is_valid"><code class="docutils literal notranslate"><span class="pre">Cache.is_valid()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache.set_value"><code class="docutils literal notranslate"><span class="pre">Cache.set_value()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.is_valid()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_access"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_access()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_insertion"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_insertion()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">ICacheStrategy.on_invalidation()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy.is_valid"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy.is_valid()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy.on_invalidation"><code class="docutils literal notranslate"><span class="pre">IUsageCacheStrategy.on_invalidation()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -200,19 +226,19 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.items">fastcfg.config.items module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.AbstractConfigItem"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.AbstractConfigItem._wrapped_dict_items"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem._wrapped_dict_items</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.AbstractConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.AbstractConfigItem.value"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.AbstractConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem._get_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.AbstractConfigItem._set_value"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem._set_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.AbstractConfigItem.__getattr__"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.__getattr__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id15"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.value</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem._value"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem._value</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.BuiltInConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem._get_value()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem"><code class="docutils literal notranslate"><span class="pre">IConfigItem</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem._wrapped_dict_items"><code class="docutils literal notranslate"><span class="pre">IConfigItem._wrapped_dict_items</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">IConfigItem.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem.value"><code class="docutils literal notranslate"><span class="pre">IConfigItem.value()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">IConfigItem._get_value()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem._set_value"><code class="docutils literal notranslate"><span class="pre">IConfigItem._set_value()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.IConfigItem.__getattr__"><code class="docutils literal notranslate"><span class="pre">IConfigItem.__getattr__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id7"><code class="docutils literal notranslate"><span class="pre">IConfigItem.value</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem</span></code></a><ul>
@@ -220,28 +246,38 @@
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem._get_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.items.LiveConfigItem.value"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id8"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id16"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.state">fastcfg.config.state module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.AbstractLiveStateTracker"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.AbstractLiveStateTracker._cache_uuid_key"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker._cache_uuid_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.AbstractLiveStateTracker.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.AbstractLiveStateTracker.get_state"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker.get_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id17"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker.get_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.AbstractStateTracker"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.AbstractStateTracker.get_state"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.AbstractStateTracker.get_state_value"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id18"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#id19"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state_value()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.CacheMixin"><code class="docutils literal notranslate"><span class="pre">CacheMixin</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.ILiveTracker"><code class="docutils literal notranslate"><span class="pre">ILiveTracker</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.ILiveTracker.get_state"><code class="docutils literal notranslate"><span class="pre">ILiveTracker.get_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.RetriableMixin"><code class="docutils literal notranslate"><span class="pre">RetriableMixin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.RetriableMixin._retry"><code class="docutils literal notranslate"><span class="pre">RetriableMixin._retry</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.RetriableMixin._backoff_policy"><code class="docutils literal notranslate"><span class="pre">RetriableMixin._backoff_policy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.RetriableMixin._call_retriable_function"><code class="docutils literal notranslate"><span class="pre">RetriableMixin._call_retriable_function()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.IStateTracker"><code class="docutils literal notranslate"><span class="pre">IStateTracker</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.IStateTracker.get_state"><code class="docutils literal notranslate"><span class="pre">IStateTracker.get_state()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.IStateTracker.get_state_value"><code class="docutils literal notranslate"><span class="pre">IStateTracker.get_state_value()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.state.RetriableMixin"><code class="docutils literal notranslate"><span class="pre">RetriableMixin</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config.utils">fastcfg.config.utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.utils.create_config_dict"><code class="docutils literal notranslate"><span class="pre">create_config_dict()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.utils.has_recursive_values"><code class="docutils literal notranslate"><span class="pre">has_recursive_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.utils.potentially_has_recursive_values"><code class="docutils literal notranslate"><span class="pre">potentially_has_recursive_values()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.utils.resolve_all_values"><code class="docutils literal notranslate"><span class="pre">resolve_all_values()</span></code></a></li>
 </ul>
 </li>
@@ -253,24 +289,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config">Module contents</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__attributes"><code class="docutils literal notranslate"><span class="pre">Config.__attributes</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__interface"><code class="docutils literal notranslate"><span class="pre">Config.__interface</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__init__"><code class="docutils literal notranslate"><span class="pre">Config.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__setattr__"><code class="docutils literal notranslate"><span class="pre">Config.__setattr__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__getattr__"><code class="docutils literal notranslate"><span class="pre">Config.__getattr__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__getattribute__"><code class="docutils literal notranslate"><span class="pre">Config.__getattribute__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__eq__"><code class="docutils literal notranslate"><span class="pre">Config.__eq__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="fastcfg.config.html#fastcfg.config.Config.__str__"><code class="docutils literal notranslate"><span class="pre">Config.__str__()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.config.html#module-fastcfg.config">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fastcfg.default.html">fastcfg.default package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fastcfg.default.html#module-fastcfg.default">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcfg.default.html#module-fastcfg.default">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fastcfg.default.html#fastcfg.default.defaults"><code class="docutils literal notranslate"><span class="pre">defaults</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fastcfg.sources.html">fastcfg.sources package</a><ul>
@@ -378,6 +404,13 @@
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="fastcfg.exceptions.InvalidOperationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidOperationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Invalid</span> <span class="pre">operation</span> <span class="pre">performed.'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#InvalidOperationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.InvalidOperationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when an invalid operation is performed.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="fastcfg.exceptions.MaxRetriesExceededError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">MaxRetriesExceededError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backoff_policy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_time_slept</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#MaxRetriesExceededError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.MaxRetriesExceededError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -409,6 +442,7 @@
 <dt class="sig sig-object py" id="fastcfg.exceptions.MissingEnvironmentVariableError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingEnvironmentVariableError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/exceptions.html#MissingEnvironmentVariableError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.exceptions.MissingEnvironmentVariableError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when an environment variable doesn’t exist.</p>
 </dd></dl>
 
 <dl class="py exception">

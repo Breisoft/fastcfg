@@ -62,7 +62,8 @@ class TestConfig(unittest.TestCase):
         and that nested Config objects can be compared to dictionaries.
         """
         config = Config(
-            dict_value={"a": 1, "b": {"nested": 2}}, nested_config=Config(a=1, b=2)
+            dict_value={"a": 1, "b": {"nested": 2}},
+            nested_config=Config(a=1, b=2),
         )
 
         # Access the dictionary attributes using dot notation
@@ -91,6 +92,83 @@ class TestConfig(unittest.TestCase):
         # Modify a nested value and assert the updated value
         config.nested_config.value1 = 20
         self.assertEqual(config.nested_config.value1, 20)
+
+
+class TestConfigEnvironment(unittest.TestCase):
+
+    def setUp(self):
+        self.config = Config(dev={"stage": "dev"}, prod={"stage": "prod"})
+
+    def tearDown(self) -> None:
+        self.config = None
+
+    def _check_env_attrs(self):
+        self.assertIn("dev", self.config.environments)
+        self.assertIn("prod", self.config.environments)
+
+    def test_config_environment(self):
+        """
+        Test the behavior of the Config environment feature.
+        """
+
+        # Assert no active environment
+        self.assertIsNone(self.config.environment)
+
+        # Check environments are properly detected
+        self._check_env_attrs()
+
+        # Assert access to environments with no active environment
+        self.assertEqual(self.config.dev.stage, "dev")
+        self.assertEqual(self.config.prod.stage, "prod")
+
+        # Set active environment
+        self.config.set_environment("dev")
+
+        # Check directly accessing 'stage' attribute with environment alias
+        self.assertEqual(self.config.stage, "dev")
+
+        # Check that we can switch directly to another environment with one
+        # already active
+        self.config.set_environment("prod")
+
+        # Confirm that we can directly access 'stage' attribute with environment alias
+        self.assertEqual(self.config.stage, "prod")
+
+    def test_config_environment_non_active(self):
+
+        # Check environments are properly detected
+        self._check_env_attrs()
+
+        # Set active environnment
+        self.config.set_environment("dev")
+
+        # Check that we can't directly access environments when one is set
+        self.assertNotIn("dev", self.config)
+        self.assertNotIn("prod", self.config)
+
+        # Check that we can still access environments when one is set
+        self.assertIn("dev", self.config.environments)
+        self.assertIn("prod", self.config.environments)
+
+        # Check that we can access the stage attribute by directly accessing environments
+        self.assertIn("stage", self.config.environments.prod)
+        self.assertIn("stage", self.config.environments.dev)
+
+        self.config.set_environment(None)
+
+        # Check that environment aliasing is disabled again
+        self.assertIn("dev", self.config)
+        self.assertIn("prod", self.config)
+
+    def test_config_invalid_environment(self):
+        """
+        Test the behavior of the Config environment feature with an invalid environment.
+        """
+
+        self.assertNotIn("invalid", self.config.environments)
+
+        with self.assertRaises(ValueError):
+            self.config.set_environment("invalid")
 
 
 class TestLiveConfigItem(unittest.TestCase):

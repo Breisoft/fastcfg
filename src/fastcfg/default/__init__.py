@@ -32,4 +32,6 @@ from fastcfg import Config
 from fastcfg.backoff.policies import BASIC_BACKOFF_POLICY
 from fastcfg.cache.policies import TEN_MIN_TTL
 
-defaults = Config(cache_policy=TEN_MIN_TTL, backoff_policy=BASIC_BACKOFF_POLICY)
+defaults = Config(
+    cache_policy=TEN_MIN_TTL, backoff_policy=BASIC_BACKOFF_POLICY
+)

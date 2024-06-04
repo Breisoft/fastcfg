@@ -19,7 +19,9 @@ class MissingDependencyError(Exception):
 
     def __init__(self, dependency: str):
         self.dependency = dependency
-        super().__init__(f"Dependency '{dependency}' is missing. Please install it.")
+        super().__init__(
+            f"Dependency '{dependency}' is missing. Please install it."
+        )
 
 
 class NetworkError(Exception):
@@ -60,6 +62,8 @@ class MissingCacheKeyError(Exception):
 
 
 class MissingEnvironmentVariableError(Exception):
+    """Exception raised when an environment variable doesn't exist."""
+
     def __init__(self, key):
         self.key = key
         super().__init__(

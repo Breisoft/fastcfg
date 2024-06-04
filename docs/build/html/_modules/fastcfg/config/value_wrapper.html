@@ -58,7 +58,6 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-          <li class="breadcrumb-item"><a href="../config.html">fastcfg.config</a></li>
       <li class="breadcrumb-item active">fastcfg.config.value_wrapper</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -69,19 +68,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.config.value_wrapper</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastcfg.config.utils</span> <span class="kn">import</span> <span class="n">create_config_dict</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">fastcfg.config.utils</span> <span class="kn">import</span> <span class="n">create_config_dict</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">fastcfg.config.items</span> <span class="kn">import</span> <span class="n">AbstractConfigItem</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">AbstractConfigItem</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="ValueWrapper">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.value_wrapper.ValueWrapper">[docs]</a>
-<span class="k">class</span> <span class="nc">ValueWrapper</span><span class="p">():</span>
+<span class="k">class</span> <span class="nc">ValueWrapper</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A wrapper class that allows treating an instance of IConfigItem as equivalent to its underlying value.</span>
+<span class="sd">    A wrapper class that allows treating an instance of AbstractConfigItem as equivalent to its underlying value.</span>
 <span class="sd">    This class delegates attribute access to the underlying value or the item itself, enabling seamless</span>
-<span class="sd">    interaction with both the value and the IConfigItem&#39;s methods.</span>
+<span class="sd">    interaction with both the value and the AbstractConfigItem&#39;s methods.</span>
 
 <span class="sd">    This is useful for scenarios where you want to work directly with the value of a configuration item</span>
-<span class="sd">    while still being able to access and utilize the methods of the IConfigItem, such as add_validator.</span>
+<span class="sd">    while still being able to access and utilize the methods of the AbstractConfigItem, such as add_validator.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        config = Config()</span>
@@ -92,14 +98,14 @@
 
 <span class="sd">        print(config.my_number + config.my_number) # Output 84</span>
 
-<span class="sd">        # Using IConfigItem methods</span>
+<span class="sd">        # Using AbstractConfigItem methods</span>
 <span class="sd">        config.my_number.add_validator(RangeValidator(1, 50))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ValueWrapper.factory">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.value_wrapper.ValueWrapper.factory">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ValueWrapper&quot;</span><span class="p">:</span>
 
         <span class="k">return</span> <span class="n">ValueWrapper</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
@@ -107,7 +113,9 @@
 <div class="viewcode-block" id="ValueWrapper.unwrap">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.value_wrapper.ValueWrapper.unwrap">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span>
+        <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">AbstractConfigItem</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ValueWrapper</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">ValueWrapper</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">_item</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -117,25 +125,25 @@
         <span class="k">return</span> <span class="n">value</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">AbstractConfigItem</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the ValueWrapper with an IConfigItem instance.</span>
+<span class="sd">        Initialize the ValueWrapper with an AbstractConfigItem instance.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            item (IConfigItem): The configuration item to wrap.</span>
+<span class="sd">            item (AbstractConfigItem): The configuration item to wrap.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_item</span> <span class="o">=</span> <span class="n">item</span>
 
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delegate attribute access to the underlying value or the IConfigItem instance.</span>
+<span class="sd">        Delegate attribute access to the underlying value or the AbstractConfigItem instance.</span>
 
 <span class="sd">        This method first tries to access the attribute from the underlying value. If the value is a dictionary,</span>
 <span class="sd">        it attempts to retrieve the item from the dictionary. If the item is also a dictionary, it converts it to a Config instance.</span>
 <span class="sd">        If the attribute is not found in the dictionary, it raises an AttributeError.</span>
 
 <span class="sd">        If the value is not a dictionary, it tries to get the attribute from the value directly. If that fails,</span>
-<span class="sd">        it falls back to getting the attribute from the IConfigItem instance.</span>
+<span class="sd">        it falls back to getting the attribute from the AbstractConfigItem instance.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            name (str): The name of the attribute to access.</span>
@@ -144,11 +152,11 @@
 <span class="sd">            Any: The value of the attribute.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            AttributeError: If the attribute does not exist in the value or the IConfigItem instance.</span>
+<span class="sd">            AttributeError: If the attribute does not exist in the value or the AbstractConfigItem instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_item</span><span class="o">.</span><span class="n">value</span>
 
-        <span class="c1"># Check if the attribute is a public method of IConfigItem)</span>
+        <span class="c1"># Check if the attribute is a public method of AbstractConfigItem)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_item</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_item</span><span class="p">,</span> <span class="n">name</span><span class="p">)):</span>
             <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_item</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">attr</span>
@@ -161,7 +169,8 @@
                 <span class="k">return</span> <span class="n">item</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>

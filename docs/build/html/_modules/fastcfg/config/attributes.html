@@ -58,7 +58,6 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-          <li class="breadcrumb-item"><a href="../config.html">fastcfg.config</a></li>
       <li class="breadcrumb-item active">fastcfg.config.attributes</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -69,28 +68,23 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.config.attributes</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides the `ConfigAttributes` class, which manages configuration attributes and their associated values.</span>
 
-<span class="kn">from</span> <span class="nn">fastcfg.config.items</span> <span class="kn">import</span> <span class="n">IConfigItem</span><span class="p">,</span> <span class="n">BuiltInConfigItem</span>
+<span class="sd">The `ConfigAttributes` class acts as a proxy for the `Config` class, allowing it to handle unique attribute management efficiently. By separating attribute storage and retrieval into its own class, the `Config` class remains clean and focused on its primary responsibilities.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">fastcfg.config.items</span> <span class="kn">import</span> <span class="n">AbstractConfigItem</span><span class="p">,</span> <span class="n">BuiltInConfigItem</span>
 
 <span class="c1"># Types that are classified as built-in rather than custom objects</span>
-<span class="n">BUILT_IN_TYPES</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="nb">int</span><span class="p">,</span>
-    <span class="nb">float</span><span class="p">,</span>
-    <span class="nb">str</span><span class="p">,</span>
-    <span class="nb">bool</span><span class="p">,</span>
-    <span class="nb">list</span><span class="p">,</span>
-    <span class="nb">dict</span><span class="p">,</span>
-    <span class="nb">tuple</span><span class="p">,</span>
-    <span class="nb">set</span><span class="p">,</span>
-    <span class="nb">object</span>
-<span class="p">)</span>
+<span class="n">BUILT_IN_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ConfigAttributes">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes">[docs]</a>
-<span class="k">class</span> <span class="nc">ConfigAttributes</span><span class="p">():</span>
+<span class="k">class</span> <span class="nc">ConfigAttributes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the actual configuration attributes and their associated values, ensuring they are stored and retrieved correctly.</span>
 
@@ -113,12 +107,12 @@
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IConfigItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AbstractConfigItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 
 <div class="viewcode-block" id="ConfigAttributes.get_attribute">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.get_attribute">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IConfigItem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractConfigItem</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves an attribute by name.</span>
 
@@ -135,13 +129,12 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Attribute `</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">` does not exist.&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span></div>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attribute `</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">` does not exist.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span></div>
 
 
 <div class="viewcode-block" id="ConfigAttributes.get_attributes">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes.get_attributes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IConfigItem</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AbstractConfigItem</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns all attributes.</span>
 
@@ -153,7 +146,7 @@
 
 <div class="viewcode-block" id="ConfigAttributes._convert_value_to_item">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes._convert_value_to_item">[docs]</a>
-    <span class="k">def</span> <span class="nf">_convert_value_to_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IConfigItem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_convert_value_to_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractConfigItem</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts a raw value to an `IConfigItem`.</span>
 
@@ -169,7 +162,7 @@
 
         <span class="kn">from</span> <span class="nn">fastcfg.config</span> <span class="kn">import</span> <span class="n">Config</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">IConfigItem</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">AbstractConfigItem</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
 
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Config</span><span class="p">):</span>
@@ -179,12 +172,12 @@
             <span class="k">return</span> <span class="n">BuiltInConfigItem</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid data type!&#39;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid data type!&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ConfigAttributes._add_attribute">
 <a class="viewcode-back" href="../../../fastcfg.config.html#fastcfg.config.attributes.ConfigAttributes._add_attribute">[docs]</a>
-    <span class="k">def</span> <span class="nf">_add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IConfigItem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractConfigItem</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a new attribute to the configuration.</span>
 <span class="sd">        Overrides existing IConfigItem if it already exists.</span>

@@ -1,3 +1,42 @@
+"""
+This module provides the `Config` class for managing configuration settings in a structured and flexible manner.
+
+The `Config` class is the primary basis for interacting with the `fastcfg` library. 
+
+It supports:
+    - Dynamic attribute management
+    - Nested configurations
+    - Validation mechanisms
+    - Live-updating attributes that are fetched on attribute access.
+    - Environment-specific configurations. 
+    
+It allows for easy setting, getting, and updating of configuration attributes, and ensures configuration integrity through optional validation.
+
+Usage Example:
+
+    ```python
+    from fastcfg.config.cfg import Config
+
+    # Initialize a configuration with nested dictionaries
+    config = Config(database={'host': 'localhost', 'port': 5432})
+
+    # Access nested configuration attributes with dot notation
+    print(config.database.host) # Output: localhost
+
+    # Add or update attributes dynamically
+    config.new_attr = 'value'
+
+    print(config.new_attr) # Output: value
+
+    # Compare configuration with a dictionary
+    assert config == {'database': {'host': 'localhost', 'port': 5432}, 'new_attr': 'value'}
+    
+    # Get string representation of the configuration
+    print(str(config)) # Output: {'database': {'host': 'localhost', 'port': 5432}, 'new_attr': 'value'}
+    ```
+
+"""
+
 from typing import Any
 
 from fastcfg.config.attributes import ConfigAttributes
@@ -126,9 +165,11 @@ class Config:
             return getattr(interface, name)
 
         # Second choice is check if our interface has environment mode enabled which effectively aliases attribute access
-        environment = interface.get_environment()
+        environment = interface.environment
 
         if environment:
+            if name == "environments":
+                return getattr(self, name)
             try:
                 return getattr(getattr(self, environment), name)
             except AttributeError:
@@ -179,6 +220,28 @@ class Config:
             # Otherwise return a ValueWrapped instance of the attribute
             return ValueWrapper.factory(attr)
 
+    def __getitem__(self, key):
+        """
+        Retrieve an attribute using subscript notation.
+
+        Args:
+            key (str): The attribute name to retrieve.
+
+        Returns:
+            Any: The value of the attribute.
+        """
+        return getattr(self, key)
+
+    def __setitem__(self, key, value):
+        """
+        Set an attribute using subscript notation.
+
+        Args:
+            key (str): The attribute name to set.
+            value (Any): The value to set the attribute to.
+        """
+        setattr(self, key, value)
+
     def __eq__(self, other):
         """
         Compares the `Config` object with another object for equality.
@@ -198,11 +261,26 @@ class Config:
             attr = attributes.get_attributes()
             # Convert internal attributes to a dictionary for comparison
             to_dict = {
-                k: v.value if isinstance(v, AbstractConfigItem) else v.to_dict()
+                k: (
+                    v.value
+                    if isinstance(v, AbstractConfigItem)
+                    else v.to_dict()
+                )
                 for k, v in attr.items()
             }
             return to_dict == other
         return super().__eq__(other)
+
+    def __iter__(self):
+        """
+        Allows iteration over configuration attribute names, enabling checks like 'if "dev" in config'.
+
+        Yields:
+            str: The name of each attribute in the configuration.
+        """
+        get_dict = self.__dict__["__interface"].get_dict()
+        for key in get_dict:
+            yield key
 
     def __str__(self):
         """
@@ -214,4 +292,14 @@ class Config:
         Returns:
             str: The string representation of the `Config` object.
         """
-        return str(self.get_dict())
+        str_dict = {}
+
+        get_dict = self.__dict__["__interface"].get_dict()
+
+        if not hasattr(get_dict, "items"):
+            return str(get_dict)
+
+        for k, v in get_dict.items():
+            str_dict[k] = str(v)
+
+        return str(str_dict)

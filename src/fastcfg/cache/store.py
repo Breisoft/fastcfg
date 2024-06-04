@@ -1,3 +1,30 @@
+"""
+This module provides a global store for managing multiple cache instances.
+
+Classes:
+    CacheStore: A class that provides a centralized store for cache instances, allowing for adding, retrieving, and clearing caches globally.
+
+Global Variables:
+    cache_store (CacheStore): A global instance of the CacheStore class for managing cache instances.
+
+Usage Example:
+    from fastcfg.cache.store import cache_store
+    from fastcfg.cache import Cache
+
+    # Create a new cache instance
+    # Automatically added to global store internally
+    my_cache = Cache(name='my_cache')
+
+    # Retrieve the cache from the global store
+    retrieved_cache = cache_store.get_cache('my_cache')
+
+    # Clear a specific cache
+    cache_store.clear_cache('my_cache')
+
+    # Clear all caches
+    cache_store.clear_all_caches()
+"""
+
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
@@ -27,7 +54,7 @@ class CacheStore:
     def __init__(self):
         self._caches = {}
 
-    def add_cache(self, cache_name: str, cache: Cache):
+    def add_cache(self, cache: Cache):
         """
         Adds a cache to the global store.
 
@@ -39,12 +66,12 @@ class CacheStore:
             ValueError: If a cache with the same name already exists.
         """
 
-        if cache_name in self._caches:
+        if cache.name in self._caches:
             raise ValueError(
-                f"Cache with name {cache_name} already exists. Cache names must be globally unique."
+                f"Cache with name {cache.name} already exists. Cache names must be globally unique."
             )
 
-        self._caches[cache_name] = cache
+        self._caches[cache.name] = cache
 
     def clear_all_caches(self):
         """

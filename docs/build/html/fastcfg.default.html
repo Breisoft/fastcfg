@@ -45,7 +45,10 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">fastcfg.default package</a><ul>
-<li><a class="reference internal" href="#module-fastcfg.default">Module contents</a></li>
+<li><a class="reference internal" href="#module-fastcfg.default">Module contents</a><ul>
+<li><a class="reference internal" href="#fastcfg.default.defaults"><code class="docutils literal notranslate"><span class="pre">defaults</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -78,6 +81,43 @@
 <h1>fastcfg.default package<a class="headerlink" href="#fastcfg-default-package" title="Link to this heading"></a></h1>
 <section id="module-fastcfg.default">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fastcfg.default" title="Link to this heading"></a></h2>
+<p>This module sets up the default config for the <cite>fastcfg</cite> package.</p>
+<dl class="simple">
+<dt>Modules Imported:</dt><dd><ul class="simple">
+<li><p><cite>Config</cite> from <cite>fastcfg</cite>: The main configuration class used to manage settings.</p></li>
+<li><p><cite>TEN_MIN_TTL</cite> from <cite>fastcfg.cache.policies</cite>: A caching policy with a time-to-live of ten minutes.</p></li>
+<li><p><cite>BASIC_BACKOFF_POLICY</cite> from <cite>fastcfg.backoff.policies</cite>: A basic backoff policy for retry mechanisms.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.default.defaults">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.default.</span></span><span class="sig-name descname"><span class="pre">defaults</span></span><a class="headerlink" href="#fastcfg.default.defaults" title="Link to this definition"></a></dt>
+<dd><p>An instance of the <cite>Config</cite> class initialized with default settings for cache and backoff policies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Config</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl>
+<dt>Usage:</dt><dd><p>The <cite>defaults</cite> configuration can be used throughout the application to access and manage default settings.
+Internally, this configuration is used to set the default cache policy and backoff policy, ensuring consistent behavior across the codebase.</p>
+<dl class="simple">
+<dt>Example:</dt><dd><p>The <cite>defaults</cite> configuration can be used throughout the application to access and manage default settings.</p>
+</dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">from</span> <span class="pre">fastcfg.default</span> <span class="pre">import</span> <span class="pre">defaults</span>
+<span class="pre">#</span> <span class="pre">Accessing</span> <span class="pre">cache</span> <span class="pre">policy</span>
+<span class="pre">print(defaults.cache_policy)</span>
+<span class="pre">#</span> <span class="pre">Accessing</span> <span class="pre">backoff</span> <span class="pre">policy</span>
+<span class="pre">print(defaults.backoff_policy)</span>
+<span class="pre">`</span></code></p>
+<p>We love our library so much, we use it ourselves! This default configuration shows how fastcfg maintains consistent settings internally. So meta, wow!</p>
+</dd>
+</dl>
 </section>
 </section>
 

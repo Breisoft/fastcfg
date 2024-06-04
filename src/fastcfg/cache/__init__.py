@@ -1,3 +1,19 @@
+"""
+This module provides the core classes and interfaces for implementing cache
+strategies in the fastcfg library.
+
+Classes:
+    - AbstractCacheStrategy: An abstract base class defining the interface for cache strategies.
+    - AbstractUsageCacheStrategy: An abstract base class for usage-based cache eviction strategies.
+    - Cache: A class that manages cache entries using a specified cache strategy.
+
+Exceptions:
+    - MissingCacheKeyError: Raised when a requested cache key is not found.
+
+Modules:
+    - cache_store: Provides a global store for managing cache instances.
+"""
+
 import uuid
 from abc import ABC, abstractmethod
 from collections import OrderedDict
@@ -14,27 +30,26 @@ class AbstractCacheStrategy(ABC):
     Methods:
         - is_valid(meta_value: Any) -> bool: Determine if a cache entry is still valid.
         - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -> None: Execute policy upon cache insertion.
-        - on_invalidation(key: str, cache: 'Cache') -> Optional[Any]: Perform actions upon cache invalidation.
+        - on_invalidation(key: str, cache: 'Cache') -> Optional[Any]: Performs
+          any invalidation cleanup for a given cache key and optionally returns a
+          default value.
         - on_access(key: str, meta: Dict[str, Any]) -> None: Update metadata or perform actions upon cache access.
     """
 
     @abstractmethod
     def is_valid(self, meta_value: Any) -> bool:
         """Determine if the cache entry is still valid based on the strategy."""
-        pass
 
     @abstractmethod
     def on_insertion(self, key: str, value: Any, meta: Dict[str, Any]) -> None:
         """Execute cache strategy policy upon insertion."""
-        pass
 
     def on_invalidation(self, key: str, cache: "Cache") -> Optional[Any]:
-        """Perform actions upon cache invalidation, implement this on child classes if you need this functionality."""
-        pass
+        """Performs any invalidation cleanup for a given cache key and
+        optionally returns a default value."""
 
     def on_access(self, key: str, meta: Dict[str, Any]) -> None:
         """Update metadata or perform actions upon cache access."""
-        pass
 
 
 class AbstractUsageCacheStrategy(AbstractCacheStrategy, ABC):
@@ -72,7 +87,9 @@ class AbstractUsageCacheStrategy(AbstractCacheStrategy, ABC):
         """
         return meta_value is not None
 
-    def _remove_excess_entries(self, meta: Dict[str, Any], to_remove_key: str) -> None:
+    def _remove_excess_entries(
+        self, meta: Dict[str, Any], to_remove_key: str
+    ) -> None:
         """
         Remove the excess entry if capacity is exceeded.
 
@@ -117,11 +134,14 @@ class Cache:
         - get_metadata(key: str) -> Optional[Any]: Get metadata associated with a given cache key.
     """
 
-    def __init__(self, cache_strategy: AbstractCacheStrategy, name: str = None):
+    def __init__(
+        self, cache_strategy: AbstractCacheStrategy, name: str = None
+    ):
         self._cache_strategy = cache_strategy
         self._cache: Dict[str, Any] = {}
         self._meta: Dict[str, Any] = {}
-        self._name = name
+
+        self.name = name
 
         self._handle_new_cache()
 
@@ -140,11 +160,11 @@ class Cache:
             ValueError: If a cache with the same name already exists in the global cache store.
         """
 
-        if not self._name:
+        if not self.name:
             # Generate a unique name if not provided
-            self._name = str(uuid.uuid4())
+            self.name = str(uuid.uuid4())
 
-        cache_store.add_cache(self._name, self)
+        cache_store.add_cache(self)
 
     def set_value(self, key: str, value: Any) -> None:
         """Set the value and associated metadata for a given key in the cache."""
@@ -160,15 +180,23 @@ class Cache:
                 return self._cache[key]
             else:
                 value = self._cache_strategy.on_invalidation(key, self)
+
                 del self._cache[key]
                 del self._meta[key]
-                return value
+
+                # If we have a default value returned by on_validation, return it
+                if value:
+                    return value
+                else:
+                    raise MissingCacheKeyError(key)
         else:
             raise MissingCacheKeyError(key)
 
     def is_valid(self, key: str) -> bool:
         """Check if a key is present and valid in the cache."""
-        return key in self._cache and self._cache_strategy.is_valid(self._meta[key])
+        return key in self._cache and self._cache_strategy.is_valid(
+            self._meta[key]
+        )
 
     def get_metadata(self, key: str) -> Optional[Any]:
         """Get metadata associated with a given cache key."""

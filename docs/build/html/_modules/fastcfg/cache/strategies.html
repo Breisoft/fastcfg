@@ -69,74 +69,207 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.cache.strategies</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastcfg.cache</span> <span class="kn">import</span> <span class="n">ICacheStrategy</span><span class="p">,</span> <span class="n">IUsageCacheStrategy</span><span class="p">,</span> <span class="n">Cache</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines various cache strategies for use with the caching mechanism.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    TTLCacheStrategy (ICacheStrategy): A cache strategy that invalidates entries based on a time-to-live (TTL) value.</span>
+<span class="sd">        - Attributes:</span>
+<span class="sd">            - _seconds (int): The TTL value in seconds.</span>
+<span class="sd">        - Methods:</span>
+<span class="sd">            - __init__(seconds: int): Initialize the strategy with a TTL value.</span>
+<span class="sd">            - is_valid(meta_value: Optional[float]) -&gt; bool: Check if the cache entry is still valid based on the TTL.</span>
+<span class="sd">            - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Set the TTL for a cache entry upon insertion.</span>
+<span class="sd">            - on_invalidation(key: str, cache: Cache) -&gt; None: Perform any invalidation cleanup for a given cache key.</span>
+
+<span class="sd">    LRUCacheStrategy (IUsageCacheStrategy): A cache strategy that evicts the least recently used (LRU) entries when capacity is exceeded.</span>
+<span class="sd">        - Methods:</span>
+<span class="sd">            - on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</span>
+<span class="sd">            - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</span>
+
+<span class="sd">    MRUCacheStrategy (IUsageCacheStrategy): A cache strategy that evicts the most recently used (MRU) entries when capacity is exceeded.</span>
+<span class="sd">        - Methods:</span>
+<span class="sd">            - on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</span>
+<span class="sd">            - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">fastcfg.cache</span> <span class="kn">import</span> <span class="n">AbstractCacheStrategy</span><span class="p">,</span> <span class="n">AbstractUsageCacheStrategy</span><span class="p">,</span> <span class="n">Cache</span>
 
 
 <div class="viewcode-block" id="TTLCacheStrategy">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy">[docs]</a>
-<span class="k">class</span> <span class="nc">TTLCacheStrategy</span><span class="p">(</span><span class="n">ICacheStrategy</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.TTLCacheStrategy">[docs]</a>
+<span class="k">class</span> <span class="nc">TTLCacheStrategy</span><span class="p">(</span><span class="n">AbstractCacheStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A cache strategy that invalidates entries based on a time-to-live (TTL) value.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _seconds (int): The TTL value in seconds.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        - __init__(seconds: int): Initialize the strategy with a TTL value.</span>
+<span class="sd">        - is_valid(meta_value: Optional[float]) -&gt; bool: Check if the cache entry is still valid based on the TTL.</span>
+<span class="sd">        - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Set the TTL for a cache entry upon insertion.</span>
+<span class="sd">        - on_invalidation(key: str, cache: Cache) -&gt; None: Perform any invalidation cleanup for a given cache key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the strategy with a TTL value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            seconds (int): The TTL value in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_seconds</span> <span class="o">=</span> <span class="n">seconds</span>
 
 <div class="viewcode-block" id="TTLCacheStrategy.is_valid">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.is_valid">[docs]</a>
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.TTLCacheStrategy.is_valid">[docs]</a>
     <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the cache entry is still valid based on the time-to-live (TTL).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the cache entry is still valid based on the TTL.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            meta_value (Optional[float]): The metadata value to check.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the entry is still valid, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">meta_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">meta_value</span></div>
 
 
 <div class="viewcode-block" id="TTLCacheStrategy.on_insertion">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.on_insertion">[docs]</a>
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.TTLCacheStrategy.on_insertion">[docs]</a>
     <span class="k">def</span> <span class="nf">on_insertion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the TTL for a cache entry upon insertion.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The cache key.</span>
+<span class="sd">            value (Any): The cache value.</span>
+<span class="sd">            meta (Dict[str, Any]): The metadata dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seconds</span></div>
 
 
 <div class="viewcode-block" id="TTLCacheStrategy.on_invalidation">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.TTLCacheStrategy.on_invalidation">[docs]</a>
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.TTLCacheStrategy.on_invalidation">[docs]</a>
     <span class="k">def</span> <span class="nf">on_invalidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">Cache</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform any invalidation cleanup for a given cache key.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform any invalidation cleanup for a given cache key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The cache key.</span>
+<span class="sd">            cache (Cache): The cache instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="LRUCacheStrategy">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.LRUCacheStrategy">[docs]</a>
-<span class="k">class</span> <span class="nc">LRUCacheStrategy</span><span class="p">(</span><span class="n">IUsageCacheStrategy</span><span class="p">):</span>
-<div class="viewcode-block" id="LRUCacheStrategy.on_access">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.LRUCacheStrategy.on_access">[docs]</a>
-    <span class="k">def</span> <span class="nf">on_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the access order to mark the key as most recently used.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.LRUCacheStrategy">[docs]</a>
+<span class="k">class</span> <span class="nc">LRUCacheStrategy</span><span class="p">(</span><span class="n">AbstractUsageCacheStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A cache strategy that evicts the least recently used (LRU) entries when capacity is exceeded.</span>
 
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">meta</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span><span class="p">:</span>
-                <span class="n">lru_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_excess_entries</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">lru_key</span><span class="p">)</span></div>
+<span class="sd">    Methods:</span>
+<span class="sd">        - on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</span>
+<span class="sd">        - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the strategy with a capacity value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            capacity (int): The maximum number of entries that can be stored in the cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">capacity</span><span class="o">=</span><span class="n">capacity</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LRUCacheStrategy.on_access">
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.LRUCacheStrategy.on_access">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the access order to mark the key as most recently used.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The cache key.</span>
+<span class="sd">            meta (Dict[str, Any]): The metadata dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LRUCacheStrategy.on_insertion">
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.LRUCacheStrategy.on_insertion">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_insertion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle insertion and evict if necessary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The cache key.</span>
+<span class="sd">            value (Any): The cache value.</span>
+<span class="sd">            meta (Dict[str, Any]): The metadata dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span><span class="p">:</span>
+            <span class="n">lru_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_excess_entries</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">lru_key</span><span class="p">)</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="MRUCacheStrategy">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.MRUCacheStrategy">[docs]</a>
-<span class="k">class</span> <span class="nc">MRUCacheStrategy</span><span class="p">(</span><span class="n">IUsageCacheStrategy</span><span class="p">):</span>
-<div class="viewcode-block" id="MRUCacheStrategy.on_access">
-<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.strategies.MRUCacheStrategy.on_access">[docs]</a>
-    <span class="k">def</span> <span class="nf">on_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the access order to mark the key as most recently used.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.MRUCacheStrategy">[docs]</a>
+<span class="k">class</span> <span class="nc">MRUCacheStrategy</span><span class="p">(</span><span class="n">AbstractUsageCacheStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A cache strategy that evicts the most recently used (MRU) entries when capacity is exceeded.</span>
 
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">meta</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span><span class="p">:</span>
-                <span class="n">mru_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_excess_entries</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">mru_key</span><span class="p">)</span></div>
+<span class="sd">    Methods:</span>
+<span class="sd">        - on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update the access order to mark the key as most recently used.</span>
+<span class="sd">        - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Handle insertion and evict if necessary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the strategy with a capacity value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            capacity (int): The maximum number of entries that can be stored in the cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">capacity</span><span class="o">=</span><span class="n">capacity</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MRUCacheStrategy.on_access">
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.MRUCacheStrategy.on_access">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the access order to mark the key as most recently used.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The cache key.</span>
+<span class="sd">            meta (Dict[str, Any]): The metadata dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MRUCacheStrategy.on_insertion">
+<a class="viewcode-back" href="../../../fastcfg.cache.html#fastcfg.cache.policies.MRUCacheStrategy.on_insertion">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_insertion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle insertion and evict if necessary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The cache key.</span>
+<span class="sd">            value (Any): The cache value.</span>
+<span class="sd">            meta (Dict[str, Any]): The metadata dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span><span class="p">:</span>
+            <span class="n">mru_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_excess_entries</span><span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">mru_key</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

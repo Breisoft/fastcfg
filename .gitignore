@@ -24,3 +24,4 @@ src/notebooks/
 # VS Code settings
 .vscode/
 
+.flake8

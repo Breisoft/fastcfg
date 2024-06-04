@@ -46,14 +46,22 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">fastcfg.backoff package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-fastcfg.backoff.policies">fastcfg.backoff.policies module</a></li>
+<li><a class="reference internal" href="#module-fastcfg.backoff.policies">fastcfg.backoff.policies module</a><ul>
+<li><a class="reference internal" href="#fastcfg.backoff.policies.BASIC_BACKOFF_POLICY"><code class="docutils literal notranslate"><span class="pre">BASIC_BACKOFF_POLICY</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-fastcfg.backoff">Module contents</a><ul>
 <li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy.max_retries"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_retries</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy.base_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.base_delay</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy.max_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_delay</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy.factor"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.factor</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy.jitter"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.jitter</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy.max_delay"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_delay</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy.max_retries"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_retries</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.base_delay</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.factor</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.jitter</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_delay</span></code></a></li>
+<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">BackoffPolicy.max_retries</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fastcfg.backoff.exponential_backoff"><code class="docutils literal notranslate"><span class="pre">exponential_backoff()</span></code></a></li>
@@ -94,36 +102,118 @@
 </section>
 <section id="module-fastcfg.backoff.policies">
 <span id="fastcfg-backoff-policies-module"></span><h2>fastcfg.backoff.policies module<a class="headerlink" href="#module-fastcfg.backoff.policies" title="Link to this heading"></a></h2>
+<p>This module defines pre-configured backoff policies for use with the exponential backoff mechanism.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.backoff.policies.BASIC_BACKOFF_POLICY">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.backoff.policies.</span></span><span class="sig-name descname"><span class="pre">BASIC_BACKOFF_POLICY</span></span><a class="headerlink" href="#fastcfg.backoff.policies.BASIC_BACKOFF_POLICY" title="Link to this definition"></a></dt>
+<dd><p>A basic backoff policy configuration with the following settings:
+- max_retries: 6 (Maximum number of retry attempts)
+- base_delay: 0.5 seconds (Initial delay between retries)
+- max_delay: 32 seconds (Maximum delay between retries)
+- factor: 2 (Delay is doubled each time)
+- jitter: True (Random jitter is added to the delay to reduce collision)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.backoff.BackoffPolicy" title="fastcfg.backoff.BackoffPolicy">BackoffPolicy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-fastcfg.backoff">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fastcfg.backoff" title="Link to this heading"></a></h2>
+<p>This module provides an implementation of an exponential backoff mechanism.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>BackoffPolicy: Configuration class for the exponential backoff mechanism.</p>
+</dd>
+<dt>Functions:</dt><dd><p>exponential_backoff: Decorator function to apply exponential backoff retries to a function.</p>
+</dd>
+<dt>Exceptions:</dt><dd><p>MaxRetriesExceededError: Raised when the maximum number of retries is exceeded.</p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.backoff.</span></span><span class="sig-name descname"><span class="pre">BackoffPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jitter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/backoff.html#BackoffPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration for the exponential backoff mechanism.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.max_retries">
+<span class="sig-name descname"><span class="pre">max_retries</span></span><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.max_retries" title="Link to this definition"></a></dt>
+<dd><p>Maximum number of retry attempts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.base_delay">
-<span class="sig-name descname"><span class="pre">base_delay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.base_delay" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.factor">
-<span class="sig-name descname"><span class="pre">factor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.factor" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.jitter">
-<span class="sig-name descname"><span class="pre">jitter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.jitter" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">base_delay</span></span><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.base_delay" title="Link to this definition"></a></dt>
+<dd><p>Initial delay between retries in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.max_delay">
-<span class="sig-name descname"><span class="pre">max_delay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.max_delay" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">max_delay</span></span><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.max_delay" title="Link to this definition"></a></dt>
+<dd><p>Maximum delay between retries in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.factor">
+<span class="sig-name descname"><span class="pre">factor</span></span><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.factor" title="Link to this definition"></a></dt>
+<dd><p>Multiplicative factor for delay growth.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.jitter">
+<span class="sig-name descname"><span class="pre">jitter</span></span><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.jitter" title="Link to this definition"></a></dt>
+<dd><p>If True, adds a random jitter to the delay.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">base_delay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="fastcfg.backoff.BackoffPolicy.max_retries">
-<span class="sig-name descname"><span class="pre">max_retries</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#fastcfg.backoff.BackoffPolicy.max_retries" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">factor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">jitter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">max_delay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">max_retries</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

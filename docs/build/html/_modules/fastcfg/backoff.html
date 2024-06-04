@@ -68,19 +68,42 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.backoff</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">time</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides an implementation of an exponential backoff mechanism.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    BackoffPolicy: Configuration class for the exponential backoff mechanism.</span>
+
+<span class="sd">Functions:</span>
+<span class="sd">    exponential_backoff: Decorator function to apply exponential backoff retries to a function.</span>
+
+<span class="sd">Exceptions:</span>
+<span class="sd">    MaxRetriesExceededError: Raised when the maximum number of retries is exceeded.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
 <span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MaxRetriesExceededError</span>
 
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-
 
 <div class="viewcode-block" id="BackoffPolicy">
-<a class="viewcode-back" href="../../fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy">[docs]</a>
+<a class="viewcode-back" href="../../fastcfg.backoff.html#fastcfg.backoff.policies.BackoffPolicy">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">BackoffPolicy</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configuration for the exponential backoff mechanism.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        max_retries (int): Maximum number of retry attempts.</span>
+<span class="sd">        base_delay (float): Initial delay between retries in seconds.</span>
+<span class="sd">        max_delay (float): Maximum delay between retries in seconds.</span>
+<span class="sd">        factor (float): Multiplicative factor for delay growth.</span>
+<span class="sd">        jitter (bool): If True, adds a random jitter to the delay.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">base_delay</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">max_delay</span><span class="p">:</span> <span class="nb">float</span>
@@ -90,7 +113,7 @@
 
 
 <div class="viewcode-block" id="exponential_backoff">
-<a class="viewcode-back" href="../../fastcfg.backoff.html#fastcfg.backoff.exponential_backoff">[docs]</a>
+<a class="viewcode-back" href="../../fastcfg.backoff.html#fastcfg.backoff.policies.exponential_backoff">[docs]</a>
 <span class="k">def</span> <span class="nf">exponential_backoff</span><span class="p">(</span><span class="n">backoff_policy</span><span class="p">:</span> <span class="n">BackoffPolicy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for exponential backoff retries.</span>
@@ -106,6 +129,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        function: Wrapped function with retry mechanism.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -120,13 +144,15 @@
 
                     <span class="k">if</span> <span class="n">attempt</span> <span class="o">==</span> <span class="n">backoff_policy</span><span class="o">.</span><span class="n">max_retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">MaxRetriesExceededError</span><span class="p">(</span>
-                            <span class="n">backoff_policy</span><span class="p">,</span> <span class="n">total_time_slept</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+                            <span class="n">backoff_policy</span><span class="p">,</span> <span class="n">total_time_slept</span>
+                        <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
 
-                    <span class="n">sleep_time</span> <span class="o">=</span> <span class="n">delay</span> <span class="o">*</span> <span class="p">(</span><span class="n">backoff_policy</span><span class="o">.</span><span class="n">factor</span> <span class="o">**</span> <span class="n">attempt</span><span class="p">)</span>
+                    <span class="n">sleep_time</span> <span class="o">=</span> <span class="n">delay</span> <span class="o">*</span> <span class="p">(</span><span class="n">backoff_policy</span><span class="o">.</span><span class="n">factor</span><span class="o">**</span><span class="n">attempt</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">backoff_policy</span><span class="o">.</span><span class="n">jitter</span><span class="p">:</span>
-                        <span class="n">sleep_time</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">,</span> <span class="n">backoff_policy</span><span class="o">.</span><span class="n">max_delay</span><span class="p">)</span> <span class="o">*</span> \
-                            <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                        <span class="n">sleep_time</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">,</span> <span class="n">backoff_policy</span><span class="o">.</span><span class="n">max_delay</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+                            <span class="mf">0.5</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span>
+                        <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">sleep_time</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">,</span> <span class="n">backoff_policy</span><span class="o">.</span><span class="n">max_delay</span><span class="p">)</span>
 
@@ -134,7 +160,9 @@
                     <span class="n">total_time_slept</span> <span class="o">+=</span> <span class="n">sleep_time</span>
 
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">wrapper</span>
+
     <span class="k">return</span> <span class="n">decorator</span></div>
 
 </pre></div>

@@ -1,0 +1,7 @@
+dev:
+  stage: dev
+  url: http://dev.example.com
+prod:
+  stage: prod
+  url: invalid-url
+

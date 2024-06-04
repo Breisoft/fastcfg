@@ -2,7 +2,8 @@ import hashlib
 from abc import ABC, abstractmethod
 from typing import Any, List
 
-from fastcfg.config.utils import has_recursive_values, resolve_all_values
+from fastcfg.config import items
+from fastcfg.config.utils import potentially_has_children, resolve_all_values
 from fastcfg.exceptions import ConfigItemValidationError
 from fastcfg.validation import IConfigValidator
 
@@ -56,9 +57,14 @@ class ValidatableMixin(ABC):
         Raises:
         ConfigItemValidationError: If any of the validators fail.
         """
-        from fastcfg.config.items import LiveConfigItem
 
-        if isinstance(self, LiveConfigItem):
+        # TODO: Skip _get_value() if not necessary (no validators and not
+        # force_live)
+        # this prevents us from calling unnecessary state checks and
+        # potentially breaking code
+        # If we skip that, still validate children
+
+        if isinstance(self, items.LiveConfigItem):
 
             current_value = self._get_value()
 
@@ -79,7 +85,7 @@ class ValidatableMixin(ABC):
 
         validate_value = value
 
-        if has_recursive_values(value):
+        if potentially_has_children(value):
             validate_value = resolve_all_values(validate_value)
 
         for validator in self._validators:

@@ -5,7 +5,7 @@ from typing import Optional
 from fastcfg.backoff import BackoffPolicy
 from fastcfg.cache import Cache
 from fastcfg.exceptions import FileReadError
-from fastcfg.sources.files.file_state_tracker import AbstractFileStateTracker
+from fastcfg.sources.files.file_loader import AbstractFileStateTracker
 
 
 class JsonTracker(AbstractFileStateTracker):
@@ -46,7 +46,9 @@ class JsonTracker(AbstractFileStateTracker):
         """Reads the file at the given path."""
 
         try:
-            with open(self._file_path, self._mode, encoding=self._encoding) as stream:
+            with open(
+                self._file_path, self._mode, encoding=self._encoding
+            ) as stream:
                 data = json.load(stream, *self._args, **self._kwargs)
 
                 return data

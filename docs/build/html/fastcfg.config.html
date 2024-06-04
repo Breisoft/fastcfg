@@ -80,19 +80,19 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#module-fastcfg.config.items">fastcfg.config.items module</a><ul>
+<li><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem._wrapped_dict_items"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem._wrapped_dict_items</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem.value"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.value()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem._get_value()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem._set_value"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem._set_value()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem.__getattr__"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.__getattr__()</span></code></a></li>
+<li><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">AbstractConfigItem.value</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#fastcfg.config.items.BuiltInConfigItem"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem</span></code></a><ul>
 <li><a class="reference internal" href="#fastcfg.config.items.BuiltInConfigItem._value"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem._value</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.config.items.BuiltInConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">BuiltInConfigItem._get_value()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fastcfg.config.items.IConfigItem"><code class="docutils literal notranslate"><span class="pre">IConfigItem</span></code></a><ul>
-<li><a class="reference internal" href="#fastcfg.config.items.IConfigItem._wrapped_dict_items"><code class="docutils literal notranslate"><span class="pre">IConfigItem._wrapped_dict_items</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.items.IConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">IConfigItem.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.items.IConfigItem.value"><code class="docutils literal notranslate"><span class="pre">IConfigItem.value()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.items.IConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">IConfigItem._get_value()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.items.IConfigItem._set_value"><code class="docutils literal notranslate"><span class="pre">IConfigItem._set_value()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.items.IConfigItem.__getattr__"><code class="docutils literal notranslate"><span class="pre">IConfigItem.__getattr__()</span></code></a></li>
-<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">IConfigItem.value</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fastcfg.config.items.LiveConfigItem"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem</span></code></a><ul>
@@ -100,28 +100,38 @@
 <li><a class="reference internal" href="#fastcfg.config.items.LiveConfigItem.__init__"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.config.items.LiveConfigItem._get_value"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem._get_value()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.config.items.LiveConfigItem.value"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value()</span></code></a></li>
-<li><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value</span></code></a></li>
+<li><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">LiveConfigItem.value</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-fastcfg.config.state">fastcfg.config.state module</a><ul>
+<li><a class="reference internal" href="#fastcfg.config.state.AbstractLiveStateTracker"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.config.state.AbstractLiveStateTracker._cache_uuid_key"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker._cache_uuid_key</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.state.AbstractLiveStateTracker.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.state.AbstractLiveStateTracker.get_state"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker.get_state()</span></code></a></li>
+<li><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">AbstractLiveStateTracker.get_state()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fastcfg.config.state.AbstractStateTracker"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.config.state.AbstractStateTracker.get_state"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.state.AbstractStateTracker.get_state_value"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state_value()</span></code></a></li>
+<li><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state()</span></code></a></li>
+<li><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">AbstractStateTracker.get_state_value()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#fastcfg.config.state.CacheMixin"><code class="docutils literal notranslate"><span class="pre">CacheMixin</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.state.ILiveTracker"><code class="docutils literal notranslate"><span class="pre">ILiveTracker</span></code></a><ul>
-<li><a class="reference internal" href="#fastcfg.config.state.ILiveTracker.get_state"><code class="docutils literal notranslate"><span class="pre">ILiveTracker.get_state()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.state.RetriableMixin"><code class="docutils literal notranslate"><span class="pre">RetriableMixin</span></code></a><ul>
+<li><a class="reference internal" href="#fastcfg.config.state.RetriableMixin._retry"><code class="docutils literal notranslate"><span class="pre">RetriableMixin._retry</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.state.RetriableMixin._backoff_policy"><code class="docutils literal notranslate"><span class="pre">RetriableMixin._backoff_policy</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.state.RetriableMixin._call_retriable_function"><code class="docutils literal notranslate"><span class="pre">RetriableMixin._call_retriable_function()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fastcfg.config.state.IStateTracker"><code class="docutils literal notranslate"><span class="pre">IStateTracker</span></code></a><ul>
-<li><a class="reference internal" href="#fastcfg.config.state.IStateTracker.get_state"><code class="docutils literal notranslate"><span class="pre">IStateTracker.get_state()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.state.IStateTracker.get_state_value"><code class="docutils literal notranslate"><span class="pre">IStateTracker.get_state_value()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#fastcfg.config.state.RetriableMixin"><code class="docutils literal notranslate"><span class="pre">RetriableMixin</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-fastcfg.config.utils">fastcfg.config.utils module</a><ul>
 <li><a class="reference internal" href="#fastcfg.config.utils.create_config_dict"><code class="docutils literal notranslate"><span class="pre">create_config_dict()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.utils.has_recursive_values"><code class="docutils literal notranslate"><span class="pre">has_recursive_values()</span></code></a></li>
+<li><a class="reference internal" href="#fastcfg.config.utils.potentially_has_recursive_values"><code class="docutils literal notranslate"><span class="pre">potentially_has_recursive_values()</span></code></a></li>
 <li><a class="reference internal" href="#fastcfg.config.utils.resolve_all_values"><code class="docutils literal notranslate"><span class="pre">resolve_all_values()</span></code></a></li>
 </ul>
 </li>
@@ -133,20 +143,7 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-fastcfg.config">Module contents</a><ul>
-<li><a class="reference internal" href="#fastcfg.config.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a><ul>
-<li><a class="reference internal" href="#fastcfg.config.Config.__attributes"><code class="docutils literal notranslate"><span class="pre">Config.__attributes</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.Config.__interface"><code class="docutils literal notranslate"><span class="pre">Config.__interface</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.Config.__init__"><code class="docutils literal notranslate"><span class="pre">Config.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.Config.__setattr__"><code class="docutils literal notranslate"><span class="pre">Config.__setattr__()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.Config.__getattr__"><code class="docutils literal notranslate"><span class="pre">Config.__getattr__()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.Config.__getattribute__"><code class="docutils literal notranslate"><span class="pre">Config.__getattribute__()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.Config.__eq__"><code class="docutils literal notranslate"><span class="pre">Config.__eq__()</span></code></a></li>
-<li><a class="reference internal" href="#fastcfg.config.Config.__str__"><code class="docutils literal notranslate"><span class="pre">Config.__str__()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#module-fastcfg.config">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -182,6 +179,8 @@
 </section>
 <section id="module-fastcfg.config.attributes">
 <span id="fastcfg-config-attributes-module"></span><h2>fastcfg.config.attributes module<a class="headerlink" href="#module-fastcfg.config.attributes" title="Link to this heading"></a></h2>
+<p>This module provides the <cite>ConfigAttributes</cite> class, which manages configuration attributes and their associated values.</p>
+<p>The <cite>ConfigAttributes</cite> class acts as a proxy for the <cite>Config</cite> class, allowing it to handle unique attribute management efficiently. By separating attribute storage and retrieval into its own class, the <cite>Config</cite> class remains clean and focused on its primary responsibilities.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.config.attributes.ConfigAttributes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.attributes.</span></span><span class="sig-name descname"><span class="pre">ConfigAttributes</span></span><a class="reference internal" href="_modules/fastcfg/config/attributes.html#ConfigAttributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.attributes.ConfigAttributes" title="Link to this definition"></a></dt>
@@ -195,7 +194,7 @@ By separating attribute storage and retrieval into its own class, the <cite>Conf
 <dd><p>A dictionary to store configuration attributes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict[str, <a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem">IConfigItem</a>]</p>
+<dd class="field-odd"><p>dict[str, IConfigItem]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -255,7 +254,7 @@ If the attribute does not exist, it is added as a new attribute.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">get_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem"><span class="pre">IConfigItem</span></a></span></span><a class="reference internal" href="_modules/fastcfg/config/attributes.html#ConfigAttributes.get_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem" title="fastcfg.config.items.AbstractConfigItem"><span class="pre">AbstractConfigItem</span></a></span></span><a class="reference internal" href="_modules/fastcfg/config/attributes.html#ConfigAttributes.get_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd><p>Retrieves an attribute by name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -265,7 +264,7 @@ If the attribute does not exist, it is added as a new attribute.</p>
 <dd class="field-even"><p>The configuration item associated with the given name.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem">IConfigItem</a></p>
+<dd class="field-odd"><p>IConfigItem</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>AttributeError</strong> – If the attribute does not exist.</p>
@@ -275,14 +274,14 @@ If the attribute does not exist, it is added as a new attribute.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">get_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem"><span class="pre">IConfigItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/fastcfg/config/attributes.html#ConfigAttributes.get_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem" title="fastcfg.config.items.AbstractConfigItem"><span class="pre">AbstractConfigItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/fastcfg/config/attributes.html#ConfigAttributes.get_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
 <dd><p>Returns all attributes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A dictionary of all configuration attributes.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict[str, <a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem">IConfigItem</a>]</p>
+<dd class="field-even"><p>dict[str, IConfigItem]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -292,13 +291,20 @@ If the attribute does not exist, it is added as a new attribute.</p>
 </section>
 <section id="module-fastcfg.config.interface">
 <span id="fastcfg-config-interface-module"></span><h2>fastcfg.config.interface module<a class="headerlink" href="#module-fastcfg.config.interface" title="Link to this heading"></a></h2>
+<p>This module defines the ConfigInterface class, which handles environment-specific configurations
+and provides additional methods and attributes that are not directly related to configuration values.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>ConfigInterface: Manages configuration attributes and environment settings.</p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.config.interface.ConfigInterface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.interface.</span></span><span class="sig-name descname"><span class="pre">ConfigInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_attributes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/interface.html#ConfigInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.interface.ConfigInterface" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin" title="fastcfg.validation.validatable.ValidatableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidatableMixin</span></code></a></p>
-<p>Handles environment-specific configurations and provides additional methods and attributes
-that are not directly related to configuration values. This separation allows the Config class
-to have public functions and variables without cluttering the main configuration logic.</p>
+<p>Handles environment-specific configurations and provides additional public methods and attributes
+that are not directly related to configuration values, nor are meant to be overriden by config attributes.
+This separation allows the Config class to have public functions and variables without
+cluttering the main configuration logic.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="fastcfg.config.interface.ConfigInterface._config_attributes">
 <span class="sig-name descname"><span class="pre">_config_attributes</span></span><a class="headerlink" href="#fastcfg.config.interface.ConfigInterface._config_attributes" title="Link to this definition"></a></dt>
@@ -407,15 +413,129 @@ Primarily used to get the value for validation.</p>
 </section>
 <section id="module-fastcfg.config.items">
 <span id="fastcfg-config-items-module"></span><h2>fastcfg.config.items module<a class="headerlink" href="#module-fastcfg.config.items" title="Link to this heading"></a></h2>
+<p>This module defines the configuration item classes for the <cite>fastcfg</cite> module.
+These are used as interfaces to interact with when accessing configuration attributes.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>AbstractConfigItem: An abstract base class for configuration items, providing a common interface and shared functionality.
+BuiltInConfigItem: A concrete class representing configuration items that hold built-in data type values.
+LiveConfigItem: A concrete class representing configuration items that are dynamically calculated upon access.</p>
+</dd>
+</dl>
+<p>Usage Examples:</p>
+<blockquote>
+<div><p><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a>python
+# Creating a BuiltInConfigItem
+config.item = 42 # Automatically wraps the value in a BuiltInConfigItem
+print(config.item.value)  # Output: 42
+config.item.value = 100
+print(config.item.value)  # Output: 100</p>
+<p># Creating a LiveConfigItem with a state tracker
+class StateTracker:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def get_state(self):</dt><dd><p>return “dynamic_value”</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>state_tracker = StateTracker()
+live_item = LiveConfigItem(state_tracker)
+print(live_item.value)  # Output: “dynamic_value”
+<a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a></p>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="fastcfg.config.items.AbstractConfigItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.items.</span></span><span class="sig-name descname"><span class="pre">AbstractConfigItem</span></span><a class="reference internal" href="_modules/fastcfg/config/items.html#AbstractConfigItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.AbstractConfigItem" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin" title="fastcfg.validation.validatable.ValidatableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidatableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>The <cite>AbstractConfigItem</cite> class serves as an abstract base class for configuration items in the <cite>fastcfg</cite> module.</p>
+<dl class="simple">
+<dt>Purpose:</dt><dd><ul class="simple">
+<li><p>The primary purpose of the <cite>AbstractConfigItem</cite> class is to define a common interface and shared functionality for all configuration items.</p></li>
+<li><p>It ensures that all configuration items can be validated and have a consistent way of getting and setting their values.</p></li>
+<li><p>This class also provides mechanisms to handle nested dictionary values by wrapping them in <cite>ValueWrapper</cite> instances.</p></li>
+<li><p>By using <cite>AbstractConfigItem</cite> as the base class for configuration attributes, the <cite>Config</cite> class can manage different types of configuration items uniformly.</p></li>
+<li><p>The design choice to use <cite>AbstractConfigItem</cite> allows for flexibility and extensibility, enabling the creation of custom configuration items (e.g., <cite>BuiltInConfigItem</cite>, <cite>LiveConfigItem</cite>) that can have specialized behavior.</p></li>
+<li><p>The <cite>ValueWrapper</cite> class leverages <cite>AbstractConfigItem</cite> to provide seamless interaction with both the underlying value and the configuration item’s methods, ensuring that validation and other functionalities are consistently applied.</p></li>
+</ul>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><strong>Validation</strong>: Inherits from <cite>ValidatableMixin</cite> to provide validation capabilities.</p></li>
+<li><p><strong>Abstract Methods</strong>: Defines abstract methods <cite>_get_value</cite> and <cite>_set_value</cite> that must be implemented by subclasses.</p></li>
+<li><p><strong>Value Handling</strong>: Provides a <cite>value</cite> property to get and set the configuration item’s value, with special handling for dictionary values.</p></li>
+<li><p><strong>Dynamic Attribute Access</strong>: Implements <cite>__getattr__</cite> to suppress type hint errors and handle dynamic attribute access.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.config.items.AbstractConfigItem._wrapped_dict_items">
+<span class="sig-name descname"><span class="pre">_wrapped_dict_items</span></span><a class="headerlink" href="#fastcfg.config.items.AbstractConfigItem._wrapped_dict_items" title="Link to this definition"></a></dt>
+<dd><p>A dictionary to store wrapped dictionary items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, <a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem" title="fastcfg.config.items.AbstractConfigItem">AbstractConfigItem</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.items.AbstractConfigItem.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#AbstractConfigItem.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.AbstractConfigItem.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the <cite>AbstractConfigItem</cite> object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.items.AbstractConfigItem.value">
+<span class="sig-name descname"><span class="pre">value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fastcfg.config.items.AbstractConfigItem.value" title="Link to this definition"></a></dt>
+<dd><p>Property to get and set the configuration item’s value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.items.AbstractConfigItem._get_value">
+<span class="sig-name descname"><span class="pre">_get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#AbstractConfigItem._get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.AbstractConfigItem._get_value" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to get the configuration item’s value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.items.AbstractConfigItem._set_value">
+<span class="sig-name descname"><span class="pre">_set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#AbstractConfigItem._set_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.AbstractConfigItem._set_value" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to set the configuration item’s value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.items.AbstractConfigItem.__getattr__">
+<span class="sig-name descname"><span class="pre">__getattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#AbstractConfigItem.__getattr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.AbstractConfigItem.__getattr__" title="Link to this definition"></a></dt>
+<dd><p>Dynamically handles attribute access to suppress type hint errors.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id15">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><p>Gets the value of the configuration item.</p>
+<p>This property retrieves the value of the configuration item by calling the <cite>_get_value</cite> method.
+If the value is a dictionary, it wraps the dictionary items in <cite>ValueWrapper</cite> instances to ensure
+consistent interaction with both the underlying value and the configuration item’s methods.</p>
+<p>The <cite>value</cite> is implemented as a property instead of a direct attribute to provide controlled access
+and allow for additional processing (such as wrapping dictionary values) when the value is retrieved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The value of the configuration item. If the value is a dictionary, the dictionary items are wrapped in <cite>ValueWrapper</cite> instances.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.config.items.BuiltInConfigItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.items.</span></span><span class="sig-name descname"><span class="pre">BuiltInConfigItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#BuiltInConfigItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.BuiltInConfigItem" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">IConfigItem</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem" title="fastcfg.config.items.AbstractConfigItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractConfigItem</span></code></a></p>
 <p>The <cite>BuiltInConfigItem</cite> class represents a configuration item that holds a built-in data type value.</p>
 <dl class="simple">
 <dt>Purpose:</dt><dd><ul class="simple">
 <li><p>This concrete class is used to wrap built-in data types (e.g., int, float, str) as configuration items.</p></li>
-<li><p>It provides implementations for the abstract methods <cite>_get_value</cite> and <cite>_set_value</cite> defined in <cite>IConfigItem</cite>.</p></li>
+<li><p>It provides implementations for the abstract methods <cite>_get_value</cite> and <cite>_set_value</cite> defined in <cite>AbstractConfigItem</cite>.</p></li>
 <li><p>It’s used for static data types which don’t change unless the attribute itself is directly modified.</p></li>
 </ul>
 </dd>
@@ -452,99 +572,14 @@ Primarily used to get the value for validation.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="fastcfg.config.items.IConfigItem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.items.</span></span><span class="sig-name descname"><span class="pre">IConfigItem</span></span><a class="reference internal" href="_modules/fastcfg/config/items.html#IConfigItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.IConfigItem" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="fastcfg.validation.html#fastcfg.validation.validatable.ValidatableMixin" title="fastcfg.validation.validatable.ValidatableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidatableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>The <cite>IConfigItem</cite> class serves as an abstract base class for configuration items in the <cite>fastcfg</cite> module.</p>
-<dl class="simple">
-<dt>Purpose:</dt><dd><ul class="simple">
-<li><p>The primary purpose of the <cite>IConfigItem</cite> class is to define a common interface and shared functionality for all configuration items.</p></li>
-<li><p>It ensures that all configuration items can be validated and have a consistent way of getting and setting their values.</p></li>
-<li><p>This class also provides mechanisms to handle nested dictionary values by wrapping them in <cite>ValueWrapper</cite> instances.</p></li>
-<li><p>By using <cite>IConfigItem</cite> as the base class for configuration attributes, the <cite>Config</cite> class can manage different types of configuration items uniformly.</p></li>
-<li><p>The design choice to use <cite>IConfigItem</cite> allows for flexibility and extensibility, enabling the creation of custom configuration items (e.g., <cite>BuiltInConfigItem</cite>, <cite>LiveConfigItem</cite>) that can have specialized behavior.</p></li>
-<li><p>The <cite>ValueWrapper</cite> class leverages <cite>IConfigItem</cite> to provide seamless interaction with both the underlying value and the configuration item’s methods, ensuring that validation and other functionalities are consistently applied.</p></li>
-</ul>
-</dd>
-<dt>Features:</dt><dd><ul class="simple">
-<li><p><strong>Validation</strong>: Inherits from <cite>ValidatableMixin</cite> to provide validation capabilities.</p></li>
-<li><p><strong>Abstract Methods</strong>: Defines abstract methods <cite>_get_value</cite> and <cite>_set_value</cite> that must be implemented by subclasses.</p></li>
-<li><p><strong>Value Handling</strong>: Provides a <cite>value</cite> property to get and set the configuration item’s value, with special handling for dictionary values.</p></li>
-<li><p><strong>Dynamic Attribute Access</strong>: Implements <cite>__getattr__</cite> to suppress type hint errors and handle dynamic attribute access.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="fastcfg.config.items.IConfigItem._wrapped_dict_items">
-<span class="sig-name descname"><span class="pre">_wrapped_dict_items</span></span><a class="headerlink" href="#fastcfg.config.items.IConfigItem._wrapped_dict_items" title="Link to this definition"></a></dt>
-<dd><p>A dictionary to store wrapped dictionary items.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Dict[str, <a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem">IConfigItem</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.items.IConfigItem.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#IConfigItem.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.IConfigItem.__init__" title="Link to this definition"></a></dt>
-<dd><p>Initializes the <cite>IConfigItem</cite> object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.items.IConfigItem.value">
-<span class="sig-name descname"><span class="pre">value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fastcfg.config.items.IConfigItem.value" title="Link to this definition"></a></dt>
-<dd><p>Property to get and set the configuration item’s value.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.items.IConfigItem._get_value">
-<span class="sig-name descname"><span class="pre">_get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#IConfigItem._get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.IConfigItem._get_value" title="Link to this definition"></a></dt>
-<dd><p>Abstract method to get the configuration item’s value.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.items.IConfigItem._set_value">
-<span class="sig-name descname"><span class="pre">_set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#IConfigItem._set_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.IConfigItem._set_value" title="Link to this definition"></a></dt>
-<dd><p>Abstract method to set the configuration item’s value.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.items.IConfigItem.__getattr__">
-<span class="sig-name descname"><span class="pre">__getattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#IConfigItem.__getattr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.IConfigItem.__getattr__" title="Link to this definition"></a></dt>
-<dd><p>Dynamically handles attribute access to suppress type hint errors.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="id7">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd><p>Gets the value of the configuration item.</p>
-<p>This property retrieves the value of the configuration item by calling the <cite>_get_value</cite> method.
-If the value is a dictionary, it wraps the dictionary items in <cite>ValueWrapper</cite> instances to ensure
-consistent interaction with both the underlying value and the configuration item’s methods.</p>
-<p>The <cite>value</cite> is implemented as a property instead of a direct attribute to provide controlled access
-and allow for additional processing (such as wrapping dictionary values) when the value is retrieved.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The value of the configuration item. If the value is a dictionary, the dictionary items are wrapped in <cite>ValueWrapper</cite> instances.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Any</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.config.items.LiveConfigItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.items.</span></span><span class="sig-name descname"><span class="pre">LiveConfigItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_tracker</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/items.html#LiveConfigItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.items.LiveConfigItem" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fastcfg.config.items.IConfigItem" title="fastcfg.config.items.IConfigItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">IConfigItem</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#fastcfg.config.items.AbstractConfigItem" title="fastcfg.config.items.AbstractConfigItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractConfigItem</span></code></a></p>
 <p>The <cite>LiveConfigItem</cite> class represents a configuration item that is dynamically calculated upon access.</p>
 <dl class="simple">
 <dt>Purpose:</dt><dd><ul class="simple">
 <li><p>This class is used for configuration items that need to be dynamically validated based on an external state.</p></li>
-<li><p>It provides implementations for the abstract methods <cite>_get_value</cite> and <cite>_set_value</cite> defined in <cite>IConfigItem</cite>.</p></li>
+<li><p>It provides implementations for the abstract methods <cite>_get_value</cite> and <cite>_set_value</cite> defined in <cite>AbstractConfigItem</cite>.</p></li>
 <li><p>Unlike <cite>BuiltInConfigItem</cite>, it does not allow direct setting of its value.</p></li>
 </ul>
 </dd>
@@ -585,8 +620,8 @@ and allow for additional processing (such as wrapping dictionary values) when th
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="id8">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id16">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
 <dd><p>Gets the current state of the configuration item and triggers validation.</p>
 <p>This property retrieves the current state from the state tracker by calling the <cite>_get_value</cite> method.
 It also triggers validation to ensure the state is valid.</p>
@@ -606,20 +641,45 @@ It also triggers validation to ensure the state is valid.</p>
 <section id="module-fastcfg.config.state">
 <span id="fastcfg-config-state-module"></span><h2>fastcfg.config.state module<a class="headerlink" href="#module-fastcfg.config.state" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="fastcfg.config.state.CacheMixin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.state.</span></span><span class="sig-name descname"><span class="pre">CacheMixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#CacheMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.CacheMixin" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Mixin providing caching logic.</p>
+<dt class="sig sig-object py" id="fastcfg.config.state.AbstractLiveStateTracker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.state.</span></span><span class="sig-name descname"><span class="pre">AbstractLiveStateTracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backoff_policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy" title="fastcfg.backoff.BackoffPolicy"><span class="pre">BackoffPolicy</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractLiveStateTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.AbstractLiveStateTracker" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fastcfg.config.state.AbstractStateTracker" title="fastcfg.config.state.AbstractStateTracker"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractStateTracker</span></code></a>, <a class="reference internal" href="#fastcfg.config.state.RetriableMixin" title="fastcfg.config.state.RetriableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RetriableMixin</span></code></a>, <a class="reference internal" href="#fastcfg.config.state.CacheMixin" title="fastcfg.config.state.CacheMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">CacheMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for state trackers with optional retry and caching.
+This class provides the basis for all StateTrackers that are
+dynamically fetched on attribute access from a <cite>Config</cite> instance.</p>
+<dl class="simple">
+<dt>Purpose:</dt><dd><ul class="simple">
+<li><p>This class combines state tracking, retry logic, and caching capabilities.</p></li>
+<li><p>It provides a unified interface for fetching state with support for retries and caching.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.config.state.AbstractLiveStateTracker._cache_uuid_key">
+<span class="sig-name descname"><span class="pre">_cache_uuid_key</span></span><a class="headerlink" href="#fastcfg.config.state.AbstractLiveStateTracker._cache_uuid_key" title="Link to this definition"></a></dt>
+<dd><p>The cache key for the state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="fastcfg.config.state.ILiveTracker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.state.</span></span><span class="sig-name descname"><span class="pre">ILiveTracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backoff_policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy" title="fastcfg.backoff.BackoffPolicy"><span class="pre">BackoffPolicy</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#ILiveTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.ILiveTracker" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fastcfg.config.state.IStateTracker" title="fastcfg.config.state.IStateTracker"><code class="xref py py-class docutils literal notranslate"><span class="pre">IStateTracker</span></code></a>, <a class="reference internal" href="#fastcfg.config.state.RetriableMixin" title="fastcfg.config.state.RetriableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RetriableMixin</span></code></a>, <a class="reference internal" href="#fastcfg.config.state.CacheMixin" title="fastcfg.config.state.CacheMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">CacheMixin</span></code></a></p>
-<p>Base class for live trackers with optional retry and caching.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.state.ILiveTracker.get_state">
-<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#ILiveTracker.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.ILiveTracker.get_state" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="fastcfg.config.state.AbstractLiveStateTracker.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backoff_policy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractLiveStateTracker.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.AbstractLiveStateTracker.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the ILiveTracker.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.state.AbstractLiveStateTracker.get_state">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractLiveStateTracker.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.AbstractLiveStateTracker.get_state" title="Link to this definition"></a></dt>
+<dd><p>Fetches the state with retry and caching support.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractLiveStateTracker.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
 <dd><p>Fetches the state with retry and caching support.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -634,13 +694,32 @@ It also triggers validation to ensure the state is valid.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="fastcfg.config.state.IStateTracker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.state.</span></span><span class="sig-name descname"><span class="pre">IStateTracker</span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#IStateTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.IStateTracker" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="fastcfg.config.state.AbstractStateTracker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.state.</span></span><span class="sig-name descname"><span class="pre">AbstractStateTracker</span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractStateTracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.AbstractStateTracker" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Abstract base class for a state tracker.</p>
+<p>Abstract base class for a state tracker which is used to fetch the current state for LiveConfigItems.</p>
+<dl class="simple">
+<dt>Purpose:</dt><dd><ul class="simple">
+<li><p>This class defines a common interface for state trackers.</p></li>
+<li><p>It ensures that all state trackers can fetch the current state through a consistent method.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.state.IStateTracker.get_state">
-<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#IStateTracker.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.IStateTracker.get_state" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="fastcfg.config.state.AbstractStateTracker.get_state">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractStateTracker.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.AbstractStateTracker.get_state" title="Link to this definition"></a></dt>
+<dd><p>Fetches the state by calling <cite>get_state_value()</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.state.AbstractStateTracker.get_state_value">
+<span class="sig-name descname"><span class="pre">get_state_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractStateTracker.get_state_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.AbstractStateTracker.get_state_value" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to fetch the internal state, must be implemented by subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractStateTracker.get_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
 <dd><p>Fetches the state.</p>
 <p>Calls <cite>get_state_value()</cite> and returns the result by default.
 Child classes may override this behavior.</p>
@@ -655,8 +734,8 @@ Child classes may override this behavior.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.state.IStateTracker.get_state_value">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_state_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#IStateTracker.get_state_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.IStateTracker.get_state_value" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id19">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_state_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/fastcfg/config/state.html#AbstractStateTracker.get_state_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
 <dd><p>Fetches the internal state.</p>
 <p>Must be implemented by child classes to define the actual state fetching logic.</p>
 <dl class="field-list simple">
@@ -672,10 +751,52 @@ Child classes may override this behavior.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="fastcfg.config.state.CacheMixin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.state.</span></span><span class="sig-name descname"><span class="pre">CacheMixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fastcfg.cache.html#fastcfg.cache.Cache" title="fastcfg.cache.Cache"><span class="pre">Cache</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#CacheMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.CacheMixin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Mixin providing caching logic.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.config.state.RetriableMixin">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.state.</span></span><span class="sig-name descname"><span class="pre">RetriableMixin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backoff_policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy" title="fastcfg.backoff.BackoffPolicy"><span class="pre">BackoffPolicy</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#RetriableMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.RetriableMixin" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Mixin providing retry logic.</p>
+<dl class="simple">
+<dt>Purpose:</dt><dd><ul class="simple">
+<li><p>This mixin adds retry capabilities to state tracker classes that need to handle transient failures.</p></li>
+<li><p>It uses an exponential backoff strategy to retry operations.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.config.state.RetriableMixin._retry">
+<span class="sig-name descname"><span class="pre">_retry</span></span><a class="headerlink" href="#fastcfg.config.state.RetriableMixin._retry" title="Link to this definition"></a></dt>
+<dd><p>Whether to enable retry logic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fastcfg.config.state.RetriableMixin._backoff_policy">
+<span class="sig-name descname"><span class="pre">_backoff_policy</span></span><a class="headerlink" href="#fastcfg.config.state.RetriableMixin._backoff_policy" title="Link to this definition"></a></dt>
+<dd><p>The backoff policy to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="fastcfg.backoff.html#fastcfg.backoff.BackoffPolicy" title="fastcfg.backoff.BackoffPolicy">BackoffPolicy</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fastcfg.config.state.RetriableMixin._call_retriable_function">
+<span class="sig-name descname"><span class="pre">_call_retriable_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/state.html#RetriableMixin._call_retriable_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.state.RetriableMixin._call_retriable_function" title="Link to this definition"></a></dt>
+<dd><p>Calls a function with optional backoff.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -683,47 +804,89 @@ Child classes may override this behavior.</p>
 <span id="fastcfg-config-utils-module"></span><h2>fastcfg.config.utils module<a class="headerlink" href="#module-fastcfg.config.utils" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="fastcfg.config.utils.create_config_dict">
-<span class="sig-prename descclassname"><span class="pre">fastcfg.config.utils.</span></span><span class="sig-name descname"><span class="pre">create_config_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/utils.html#create_config_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.utils.create_config_dict" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">fastcfg.config.utils.</span></span><span class="sig-name descname"><span class="pre">create_config_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/fastcfg/config/utils.html#create_config_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.utils.create_config_dict" title="Link to this definition"></a></dt>
+<dd><p>Converts a dictionary into a <cite>Config</cite> object.
+This is abstracted into this module as it’s used in multiple places.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item</strong> (<em>dict</em>) – The dictionary to be converted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <cite>Config</cite> object initialized with the dictionary’s key-value pairs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Config</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="fastcfg.config.utils.has_recursive_values">
-<span class="sig-prename descclassname"><span class="pre">fastcfg.config.utils.</span></span><span class="sig-name descname"><span class="pre">has_recursive_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/utils.html#has_recursive_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.utils.has_recursive_values" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="fastcfg.config.utils.potentially_has_recursive_values">
+<span class="sig-prename descclassname"><span class="pre">fastcfg.config.utils.</span></span><span class="sig-name descname"><span class="pre">potentially_has_recursive_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/fastcfg/config/utils.html#potentially_has_recursive_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.utils.potentially_has_recursive_values" title="Link to this definition"></a></dt>
+<dd><p>Checks if the given object is a dictionary or a <cite>Config</cite> object. For use in <cite>resolve_all_values</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>Any</em>) – The object to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the object is a dictionary or a <cite>Config</cite> object, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="fastcfg.config.utils.resolve_all_values">
-<span class="sig-prename descclassname"><span class="pre">fastcfg.config.utils.</span></span><span class="sig-name descname"><span class="pre">resolve_all_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/utils.html#resolve_all_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.utils.resolve_all_values" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">fastcfg.config.utils.</span></span><span class="sig-name descname"><span class="pre">resolve_all_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/fastcfg/config/utils.html#resolve_all_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.utils.resolve_all_values" title="Link to this definition"></a></dt>
+<dd><p>Recursively resolves all values in a dictionary or <cite>Config</cite> object.</p>
+<p>This function traverses the given object, resolving any nested dictionaries or <cite>Config</cite> objects,
+and extracting the values of <cite>IConfigItem</cite> instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>Config</em><em>]</em>) – The object to resolve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with all values resolved.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the object is not a dictionary or <cite>Config</cite> object.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-fastcfg.config.value_wrapper">
 <span id="fastcfg-config-value-wrapper-module"></span><h2>fastcfg.config.value_wrapper module<a class="headerlink" href="#module-fastcfg.config.value_wrapper" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="fastcfg.config.value_wrapper.ValueWrapper">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.value_wrapper.</span></span><span class="sig-name descname"><span class="pre">ValueWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/value_wrapper.html#ValueWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.value_wrapper.ValueWrapper" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.value_wrapper.</span></span><span class="sig-name descname"><span class="pre">ValueWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/value_wrapper.html#ValueWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.value_wrapper.ValueWrapper" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A wrapper class that allows treating an instance of IConfigItem as equivalent to its underlying value.
+<p>A wrapper class that allows treating an instance of AbstractConfigItem as equivalent to its underlying value.
 This class delegates attribute access to the underlying value or the item itself, enabling seamless
-interaction with both the value and the IConfigItem’s methods.</p>
+interaction with both the value and the AbstractConfigItem’s methods.</p>
 <p>This is useful for scenarios where you want to work directly with the value of a configuration item
-while still being able to access and utilize the methods of the IConfigItem, such as add_validator.</p>
+while still being able to access and utilize the methods of the AbstractConfigItem, such as add_validator.</p>
 <p class="rubric">Example</p>
 <p>config = Config()
 config.my_number = 42 # Automatically wraps built-in types with a BuiltInConfigItem</p>
 <p># Accessing the value directly
 print(config.my_number)  # Output: 42</p>
 <p>print(config.my_number + config.my_number) # Output 84</p>
-<p># Using IConfigItem methods
+<p># Using AbstractConfigItem methods
 config.my_number.add_validator(RangeValidator(1, 50))</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.config.value_wrapper.ValueWrapper.factory">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/value_wrapper.html#ValueWrapper.factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.value_wrapper.ValueWrapper.factory" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#fastcfg.config.value_wrapper.ValueWrapper" title="fastcfg.config.value_wrapper.ValueWrapper"><span class="pre">ValueWrapper</span></a></span></span><a class="reference internal" href="_modules/fastcfg/config/value_wrapper.html#ValueWrapper.factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.value_wrapper.ValueWrapper.factory" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fastcfg.config.value_wrapper.ValueWrapper.unwrap">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config/value_wrapper.html#ValueWrapper.unwrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.value_wrapper.ValueWrapper.unwrap" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/fastcfg/config/value_wrapper.html#ValueWrapper.unwrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.value_wrapper.ValueWrapper.unwrap" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -731,96 +894,21 @@ config.my_number.add_validator(RangeValidator(1, 50))</p>
 </section>
 <section id="module-fastcfg.config">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fastcfg.config" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="fastcfg.config.Config">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fastcfg.config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config.html#Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.Config" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The <cite>Config</cite> class is designed to manage configuration settings in a structured and flexible manner.</p>
-<dl class="simple">
-<dt>Features:</dt><dd><ul class="simple">
-<li><p><strong>Dynamic Attribute Management</strong>: Allows dynamic setting and getting of attributes.</p></li>
-<li><p><strong>Nested Configuration</strong>: Supports nested dictionaries by converting them into <cite>Config</cite> objects.</p></li>
-<li><p><strong>Validation</strong>: Integrates with validation mechanisms to ensure configuration integrity.</p></li>
-<li><p><strong>Environment-Specific Configurations</strong>: Supports environment-specific configurations through the <cite>ConfigInterface</cite>.</p></li>
-</ul>
-</dd>
-<dt>How it Works:</dt><dd><ul class="simple">
-<li><p><strong>Initialization</strong>: Accepts keyword arguments to set initial configuration values.</p></li>
-<li><p><strong>Attribute Setting</strong>: Uses <cite>__setattr__</cite> to add or update attributes, converting dictionaries to <cite>Config</cite> objects.</p></li>
-<li><p><strong>Attribute Getting</strong>: Uses <cite>__getattr__</cite> and <cite>__getattribute__</cite> to retrieve attributes, supporting environment-specific lookups and wrapping values in <cite>ValueWrapper</cite>.</p></li>
-<li><p><strong>Equality Check</strong>: Compares the configuration with dictionaries by converting internal attributes to a dictionary.</p></li>
-<li><p><strong>String Representation</strong>: Provides a string representation of the configuration by converting it to a dictionary.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Example:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">python</span>
+<p>This module initializes the <cite>fastcfg.config</cite> package, making the <cite>Config</cite> class available for importing.</p>
+<p>The <cite>Config</cite> class is designed to manage configuration settings in a structured and flexible manner, supporting dynamic attribute management, nested configurations, validation, and environment-specific configurations.</p>
+<p>Usage Example:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">from</span> <span class="pre">fastcfg.config</span> <span class="pre">import</span> <span class="pre">Config</span>
+<span class="pre">#</span> <span class="pre">Initialize</span> <span class="pre">a</span> <span class="pre">Config</span> <span class="pre">object</span> <span class="pre">with</span> <span class="pre">some</span> <span class="pre">settings</span>
 <span class="pre">config</span> <span class="pre">=</span> <span class="pre">Config(database={'host':</span> <span class="pre">'localhost',</span> <span class="pre">'port':</span> <span class="pre">5432})</span>
+<span class="pre">#</span> <span class="pre">Access</span> <span class="pre">configuration</span> <span class="pre">values</span>
 <span class="pre">print(config.database.host)</span> <span class="pre">#</span> <span class="pre">Output:</span> <span class="pre">localhost</span>
+<span class="pre">#</span> <span class="pre">Add</span> <span class="pre">new</span> <span class="pre">configuration</span> <span class="pre">attributes</span>
 <span class="pre">config.new_attr</span> <span class="pre">=</span> <span class="pre">'value'</span>
 <span class="pre">print(config.new_attr)</span> <span class="pre">#</span> <span class="pre">Output:</span> <span class="pre">value</span>
 <span class="pre">`</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__attributes">
-<span class="sig-name descname"><span class="pre">__attributes</span></span><a class="headerlink" href="#fastcfg.config.Config.__attributes" title="Link to this definition"></a></dt>
-<dd><p>Manages the actual configuration values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.config.attributes.ConfigAttributes" title="fastcfg.config.attributes.ConfigAttributes">ConfigAttributes</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__interface">
-<span class="sig-name descname"><span class="pre">__interface</span></span><a class="headerlink" href="#fastcfg.config.Config.__interface" title="Link to this definition"></a></dt>
-<dd><p>Handles public-facing functions and attributes on behalf of the Config class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#fastcfg.config.interface.ConfigInterface" title="fastcfg.config.interface.ConfigInterface">ConfigInterface</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config.html#Config.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.Config.__init__" title="Link to this definition"></a></dt>
-<dd><p>Initializes the configuration with given keyword arguments.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__setattr__">
-<span class="sig-name descname"><span class="pre">__setattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config.html#Config.__setattr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.Config.__setattr__" title="Link to this definition"></a></dt>
-<dd><p>Sets or updates an attribute.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__getattr__">
-<span class="sig-name descname"><span class="pre">__getattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config.html#Config.__getattr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.Config.__getattr__" title="Link to this definition"></a></dt>
-<dd><p>Retrieves an attribute, supporting environment-specific lookups.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__getattribute__">
-<span class="sig-name descname"><span class="pre">__getattribute__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config.html#Config.__getattribute__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.Config.__getattribute__" title="Link to this definition"></a></dt>
-<dd><p>Retrieves an attribute, wrapping values in <cite>ValueWrapper</cite> or returning a nested <cite>Config</cite> directly.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__eq__">
-<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config.html#Config.__eq__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.Config.__eq__" title="Link to this definition"></a></dt>
-<dd><p>Compares the configuration with a dictionary.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="fastcfg.config.Config.__str__">
-<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/fastcfg/config.html#Config.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fastcfg.config.Config.__str__" title="Link to this definition"></a></dt>
-<dd><p>Returns a string representation of the configuration.</p>
-</dd></dl>
-
-</dd></dl>
-
+</div></blockquote>
 </section>
 </section>
 

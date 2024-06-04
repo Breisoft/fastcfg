@@ -1,12 +1,20 @@
-from fastcfg.sources.aws import IBoto3LiveTracker
 import json
+
+from fastcfg.sources.aws import IBoto3LiveTracker
 
 
 class LambdaLiveTracker(IBoto3LiveTracker):
     """Concrete class implementing a live lambda tracker."""
 
-    def __init__(self, function_name: str, payload: dict, invocation_type: str = 'RequestResponse', *args, **kwargs):
-        super().__init__('lambda', *args, **kwargs)
+    def __init__(
+        self,
+        function_name: str,
+        payload: dict,
+        invocation_type: str = "RequestResponse",
+        *args,
+        **kwargs
+    ):
+        super().__init__("lambda", *args, **kwargs)
         self._function_name = function_name
         self._payload = payload
         self._invocation_type = invocation_type
@@ -19,4 +27,4 @@ class LambdaLiveTracker(IBoto3LiveTracker):
             **self._kwargs
         )
 
-        return json.loads(response['Payload'].read())
+        return json.loads(response["Payload"].read())

@@ -68,41 +68,153 @@
            <div itemprop="articleBody">
              
   <h1>Source code for fastcfg.cache</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MissingCacheKeyError</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides the core classes and interfaces for implementing cache strategies in the fastcfg library.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    - AbstractCacheStrategy: An abstract base class defining the interface for cache strategies.</span>
+<span class="sd">    - AbstractUsageCacheStrategy: An abstract base class for usage-based cache eviction strategies.</span>
+<span class="sd">    - Cache: A class that manages cache entries using a specified cache strategy.</span>
+
+<span class="sd">Exceptions:</span>
+<span class="sd">    - MissingCacheKeyError: Raised when a requested cache key is not found.</span>
+
+<span class="sd">Modules:</span>
+<span class="sd">    - cache_store: Provides a global store for managing cache instances.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">fastcfg.cache.store</span> <span class="kn">import</span> <span class="n">cache_store</span>
+<span class="kn">from</span> <span class="nn">fastcfg.exceptions</span> <span class="kn">import</span> <span class="n">MissingCacheKeyError</span>
+
+<span class="c1"># (rest of the code)</span>
 
 
-<div class="viewcode-block" id="ICacheStrategy">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.ICacheStrategy">[docs]</a>
-<span class="k">class</span> <span class="nc">ICacheStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<div class="viewcode-block" id="ICacheStrategy.is_valid">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.ICacheStrategy.is_valid">[docs]</a>
+<div class="viewcode-block" id="AbstractCacheStrategy">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy">[docs]</a>
+<span class="k">class</span> <span class="nc">AbstractCacheStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An abstract base class that defines the interface for cache strategies.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        - is_valid(meta_value: Any) -&gt; bool: Determine if a cache entry is still valid.</span>
+<span class="sd">        - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Execute policy upon cache insertion.</span>
+<span class="sd">        - on_invalidation(key: str, cache: &#39;Cache&#39;) -&gt; Optional[Any]: Perform actions upon cache invalidation.</span>
+<span class="sd">        - on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update metadata or perform actions upon cache access.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AbstractCacheStrategy.is_valid">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.is_valid">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine if the cache entry is still valid based on the strategy.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ICacheStrategy.on_insertion">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_insertion">[docs]</a>
+<div class="viewcode-block" id="AbstractCacheStrategy.on_insertion">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.on_insertion">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">on_insertion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute cache strategy policy upon insertion.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ICacheStrategy.on_invalidation">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_invalidation">[docs]</a>
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">on_invalidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="s1">&#39;Cache&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform actions upon cache invalidation, possibly providing fallback data.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AbstractCacheStrategy.on_invalidation">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.on_invalidation">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_invalidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="s2">&quot;Cache&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform actions upon cache invalidation, implement this on child classes if you need this functionality.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ICacheStrategy.on_access">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.ICacheStrategy.on_access">[docs]</a>
+<div class="viewcode-block" id="AbstractCacheStrategy.on_access">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractCacheStrategy.on_access">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata or perform actions upon cache access.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AbstractUsageCacheStrategy">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy">[docs]</a>
+<span class="k">class</span> <span class="nc">AbstractUsageCacheStrategy</span><span class="p">(</span><span class="n">AbstractCacheStrategy</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An abstract base class of ICacheStrategy that implements usage-based cache eviction.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        - __init__(capacity: int): Initialize the strategy with a given capacity.</span>
+<span class="sd">        - is_valid(meta_value: Optional[Any]) -&gt; bool: Determine if a cache entry is valid based on usage.</span>
+<span class="sd">        - _remove_excess_entries(meta: Dict[str, Any], to_remove_key: str) -&gt; None: Remove excess entries if capacity is exceeded.</span>
+<span class="sd">        - on_invalidation(key: str, cache: &#39;Cache&#39;) -&gt; None: Perform any invalidation cleanup for a given cache key.</span>
+<span class="sd">        - on_insertion(key: str, value: Any, meta: Dict[str, Any]) -&gt; None: Execute cache strategy policy upon insertion.</span>
+<span class="sd">        - on_access(key: str, meta: Dict[str, Any]) -&gt; None: Update metadata or perform actions upon cache access.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the strategy with a given capacity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            capacity (int): The maximum number of entries the cache can hold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span> <span class="o">=</span> <span class="n">capacity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AbstractUsageCacheStrategy.is_valid">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.is_valid">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine if a cache entry is valid based on usage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            meta_value (Optional[Any]): The metadata value to check.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the entry is valid, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">meta_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_remove_excess_entries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">to_remove_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the excess entry if capacity is exceeded.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            meta (Dict[str, Any]): The metadata dictionary.</span>
+<span class="sd">            to_remove_key (str): The key of the entry to remove.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">to_remove_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="n">to_remove_key</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">meta</span><span class="p">[</span><span class="n">to_remove_key</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AbstractUsageCacheStrategy.on_invalidation">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.on_invalidation">[docs]</a>
+    <span class="k">def</span> <span class="nf">on_invalidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="s2">&quot;Cache&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform any invalidation cleanup for a given cache key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key (str): The key of the entry to invalidate.</span>
+<span class="sd">            cache (Cache): The cache instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AbstractUsageCacheStrategy.on_insertion">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.on_insertion">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">on_insertion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute cache strategy policy upon insertion.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="AbstractUsageCacheStrategy.on_access">
+<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.AbstractUsageCacheStrategy.on_access">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">on_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata or perform actions upon cache access.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
@@ -113,10 +225,46 @@
 <div class="viewcode-block" id="Cache">
 <a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.Cache">[docs]</a>
 <span class="k">class</span> <span class="nc">Cache</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_strategy</span><span class="p">:</span> <span class="n">ICacheStrategy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that manages cache entries using a specified cache strategy.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        - __init__(cache_strategy: ICacheStrategy): Initialize the cache with a given strategy.</span>
+<span class="sd">        - set_value(key: str, value: Any) -&gt; None: Set the value and associated metadata for a given key.</span>
+<span class="sd">        - get_value(key: str) -&gt; Any: Retrieve the value for a given key if it&#39;s valid.</span>
+<span class="sd">        - is_valid(key: str) -&gt; bool: Check if a key is present and valid in the cache.</span>
+<span class="sd">        - get_metadata(key: str) -&gt; Optional[Any]: Get metadata associated with a given cache key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_strategy</span><span class="p">:</span> <span class="n">AbstractCacheStrategy</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache_strategy</span> <span class="o">=</span> <span class="n">cache_strategy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_handle_new_cache</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_handle_new_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle the initialization of a new cache instance.</span>
+
+<span class="sd">        Purpose:</span>
+<span class="sd">            - This method ensures that each cache instance has a unique name.</span>
+<span class="sd">            - If a name is not provided during initialization, it generates a unique name using UUID.</span>
+<span class="sd">            - It then adds the cache instance to the global cache store.</span>
+
+<span class="sd">        As a part of the initialization, this method also adds the cache instance to the global cache store, to keep track of all cache instances.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If a cache with the same name already exists in the global cache store.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="c1"># Generate a unique name if not provided</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+
+        <span class="n">cache_store</span><span class="o">.</span><span class="n">add_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Cache.set_value">
 <a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.Cache.set_value">[docs]</a>
@@ -156,35 +304,6 @@
     <span class="k">def</span> <span class="nf">get_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get metadata associated with a given cache key.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
-</div>
-
-
-
-<div class="viewcode-block" id="IUsageCacheStrategy">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy">[docs]</a>
-<span class="k">class</span> <span class="nc">IUsageCacheStrategy</span><span class="p">(</span><span class="n">ICacheStrategy</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span> <span class="o">=</span> <span class="n">capacity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-
-<div class="viewcode-block" id="IUsageCacheStrategy.is_valid">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy.is_valid">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Usage-based cache entries are always valid if present.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">meta_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
-
-
-    <span class="k">def</span> <span class="nf">_remove_excess_entries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">to_remove_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the excess entry if capacity is exceeded.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">to_remove_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">[</span><span class="n">to_remove_key</span><span class="p">]</span>
-            <span class="k">del</span> <span class="n">meta</span><span class="p">[</span><span class="n">to_remove_key</span><span class="p">]</span>
-
-<div class="viewcode-block" id="IUsageCacheStrategy.on_invalidation">
-<a class="viewcode-back" href="../../fastcfg.cache.html#fastcfg.cache.IUsageCacheStrategy.on_invalidation">[docs]</a>
-    <span class="k">def</span> <span class="nf">on_invalidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="s1">&#39;Cache&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform any invalidation cleanup for a given cache key.&quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
 </div>
 
 </pre></div>
