@@ -30,14 +30,18 @@ class ValidatableMixin(ABC):
         self._last_state_hash = None  # Used for LiveConfigItem state tracking
         self._validators: List[IConfigValidator] = []
 
-    def add_validator(self, validator: IConfigValidator):
+    def add_validator(self, validator: IConfigValidator) -> "ValidatableMixin":
         self._validators.append(validator)
 
         if validator.validate_immediately:
             # Validate immediately when a new validator is added
             self.validate(force_live=True)
 
+        # Allows for method chaining
+        return self
+
     def get_validators(self):
+        """Get the validators for the current validatable item."""
         return self._validators
 
     def validate(self, force_live: bool = False):
@@ -58,19 +62,13 @@ class ValidatableMixin(ABC):
         ConfigItemValidationError: If any of the validators fail.
         """
 
-        # TODO: Skip _get_value() if not necessary (no validators and not
-        # force_live)
-        # this prevents us from calling unnecessary state checks and
-        # potentially breaking code
-        # If we skip that, still validate children
-
         if isinstance(self, items.LiveConfigItem):
 
             current_value = self._get_value()
 
             state_hash = md5_hash_state(current_value)
 
-            # State has changed, we need to re-validate
+            # Check if state has changed and we need to re-validate
             if not force_live and state_hash == self._last_state_hash:
                 return  # We don't need to validate self or children
             else:

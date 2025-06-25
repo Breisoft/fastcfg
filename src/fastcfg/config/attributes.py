@@ -6,13 +6,14 @@ The `ConfigAttributes` class acts as a proxy for the `Config` class, allowing it
 
 from typing import Any
 
+from fastcfg.config.base import AbstractConfigUnit
 from fastcfg.config.items import AbstractConfigItem, BuiltInConfigItem
 
 # Types that are classified as built-in rather than custom objects
 BUILT_IN_TYPES = (int, float, str, bool, list, dict, tuple, set, object)
 
 
-class ConfigAttributes:
+class ConfigAttributes(AbstractConfigUnit):
     """
     Manages the actual configuration attributes and their associated values, ensuring they are stored and retrieved correctly.
 

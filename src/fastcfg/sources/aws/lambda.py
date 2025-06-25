@@ -19,11 +19,15 @@ class LambdaLiveTracker(IBoto3LiveTracker):
         self._payload = payload
         self._invocation_type = invocation_type
 
+        self._args = args
+        self._kwargs = kwargs
+
     def execute_aws(self):
         response = self._client.invoke(
             FunctionName=self._function_name,
             InvocationType=self._invocation_type,
             Payload=json.dumps(self._payload),
+            *self._args,
             **self._kwargs
         )
 

@@ -119,6 +119,13 @@ class AbstractConfigItem(ValidatableMixin, ABC):
     def value(self, new_value: Any) -> None:
         self._set_value(new_value)
 
+    def as_callable(self):
+        """
+        Raises:
+            TypeError: If the configuration item is not a LiveConfigItem.
+        """
+        raise TypeError("Can only call as_callable on LiveConfigItem")
+
     def _set_value(self, new_value: Any):
         """
         Sets the value of the configuration item.
@@ -156,6 +163,9 @@ class AbstractConfigItem(ValidatableMixin, ABC):
             raise AttributeError(
                 f"'ConfigItem' object has no attribute '{name}'"
             ) from exc
+
+    def __str__(self) -> str:
+        return str(self.value)
 
 
 class BuiltInConfigItem(AbstractConfigItem):
@@ -251,6 +261,15 @@ class LiveConfigItem(AbstractConfigItem):
         self.validate()
 
         return val
+    
+    def as_callable(self):
+        """
+        Returns a callable that always returns the current state of the configuration item.
+
+        Returns:
+            Callable: A callable that always returns the current state of the configuration item.
+        """
+        return lambda: self.value
 
     def _get_value(self) -> Any:
         """

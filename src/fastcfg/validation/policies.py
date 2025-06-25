@@ -67,7 +67,7 @@ class URLValidator(RegexValidator):
 
 
 class PydanticValidator(IConfigValidator):
-    def __init__(self, model: BaseModel, validate_immediately: bool = True):
+    def __init__(self, model: BaseModel, validate_immediately: bool = True, transform: bool = False):
         super().__init__(validate_immediately=validate_immediately)
         self.model = model
 
@@ -80,6 +80,11 @@ class PydanticValidator(IConfigValidator):
         try:
             unwrapped_value = ValueWrapper.unwrap(value)
             self.model.model_validate(unwrapped_value)
+
+            # TODO: Transform the value if transform is True
+            # This will involve mapping the end result of the model 
+            # to the Config object
+
             return True
         except ValidationError as exc:
             self._latest_error = exc

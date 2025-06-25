@@ -1,3 +1,4 @@
+import sys
 from typing import Callable
 
 from fastcfg.config.items import LiveConfigItem

@@ -6,11 +6,12 @@ Classes:
     ConfigInterface: Manages configuration attributes and environment settings.
 """
 
+from fastcfg.config.base import AbstractConfigUnit
 from fastcfg.config.utils import potentially_has_children
 from fastcfg.validation.validatable import ValidatableMixin
 
 
-class ConfigInterface(ValidatableMixin):
+class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
     """
     Handles environment-specific configurations and provides additional public methods and attributes
     that are not directly related to configuration values, nor are meant to be overriden by config attributes.
@@ -41,7 +42,21 @@ class ConfigInterface(ValidatableMixin):
         self._config_attributes = config_attributes
         self._current_env = None
 
-    def set_environment(self, env: str | None):
+    def update(self, **kwargs) -> "ConfigInterface":
+        """
+        Updates the configuration attributes. Adds or updates each key-value pair as an attribute.
+
+        Args:
+            **kwargs: Additional keyword arguments.
+        """
+
+        for key, value in kwargs.items():
+            self._config_attributes.add_or_update_attribute(key, value)
+
+        # Allows for method chaining
+        return self
+
+    def set_environment(self, env: str | None) -> "ConfigInterface":
         """
         Sets the current environment.
 
@@ -59,11 +74,17 @@ class ConfigInterface(ValidatableMixin):
 
         self._current_env = env
 
-    def remove_environment(self):
+        # Allows for method chaining
+        return self
+
+    def remove_environment(self) -> "ConfigInterface":
         """
         Removes the current environment.
         """
         self.set_environment(None)
+
+        # Allows for method chaining
+        return self
 
     @property
     def environment(self) -> str | None:

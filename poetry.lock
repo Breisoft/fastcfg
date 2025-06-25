@@ -1095,6 +1095,20 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "python-dotenv"
+version = "1.0.1"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "python-dotenv-1.0.1.tar.gz", hash = "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca"},
+    {file = "python_dotenv-1.0.1-py3-none-any.whl", hash = "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "pywin32"
 version = "306"
 description = "Python for Window Extensions"
@@ -1597,4 +1611,4 @@ addons = ["boto3", "pydantic", "pyyaml", "requests"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "b8e5d199ec169c4839b84675950e0f64a8adc5930855acbc3e5449af841a5a98"
+content-hash = "aaa2fd6c1cf4604a87eae0aed6be7ed0bbdc1cf8fb0d0883751dfb1819439fa9"

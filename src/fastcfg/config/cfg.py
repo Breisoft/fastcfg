@@ -39,14 +39,56 @@ Usage Example:
 
 from typing import Any
 
+from fastcfg.config.base import AbstractConfigUnit
 from fastcfg.config.attributes import ConfigAttributes
 from fastcfg.config.interface import ConfigInterface
 from fastcfg.config.items import AbstractConfigItem
 from fastcfg.config.utils import create_config_dict
 from fastcfg.config.value_wrapper import ValueWrapper
 
+def _get_dict(config: "Config") -> dict:
+    """
+    Gets the dictionary representation of the Config object.
+    """
+    get_dict = config.__dict__["__interface"].get_dict()
 
-class Config:
+    new_dict = {}
+
+    for k, v in get_dict.items():
+
+        # Resolve the value of the config item
+        if isinstance(v, AbstractConfigItem):
+            new_dict[k] = v.value
+
+    print('new_dict: ', new_dict)
+    
+    return new_dict
+
+def _chain_return_helper(config: "Config", return_obj: Any) -> Any:
+    """
+    This function is used to help with method chaining.
+    """
+    # This is used to allow for method chaining on any Config-related
+    # object
+    # Some functions on Config, ConfigInterface, and ConfigAttributes
+    # return the object itself, so we need to return the Config object
+    # in that case.
+    # AbstractConfigUnit is currently only used as a base to simplify this
+    # return process
+
+    # We always want to return Config itself to allow for broad attribute and
+    # method access for chaining
+    if isinstance(return_obj, AbstractConfigUnit):
+        return config
+    return return_obj
+
+def _config_to_dict(config: "Config") -> dict:
+    """
+    Converts a Config object to a dictionary.
+    """
+    return config.get_dict()
+
+class Config(AbstractConfigUnit):
     """
     The `Config` class is designed to manage configuration settings in a structured and flexible manner.
 
@@ -177,7 +219,10 @@ class Config:
 
         # Last choice is directly checking config attributes
         attributes = object.__getattribute__(self, "__attributes")
-        return attributes.get_attribute(name)
+        
+        attr = attributes.get_attribute(name)
+
+        return _chain_return_helper(self, attr)
 
     def __getattribute__(self, name):
         """
@@ -278,7 +323,8 @@ class Config:
         Yields:
             str: The name of each attribute in the configuration.
         """
-        get_dict = self.__dict__["__interface"].get_dict()
+        get_dict = _get_dict(self)
+
         for key in get_dict:
             yield key
 
@@ -292,12 +338,9 @@ class Config:
         Returns:
             str: The string representation of the `Config` object.
         """
+        get_dict = _get_dict(self)
+
         str_dict = {}
-
-        get_dict = self.__dict__["__interface"].get_dict()
-
-        if not hasattr(get_dict, "items"):
-            return str(get_dict)
 
         for k, v in get_dict.items():
             str_dict[k] = str(v)
