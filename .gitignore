@@ -25,3 +25,14 @@ src/notebooks/
 .vscode/
 
 .flake8
+
+# Coverage files
+.coverage
+.coverage.*
+htmlcov/
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+coverage.xml
+*.coveragerc
