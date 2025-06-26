@@ -102,6 +102,45 @@ value = config.setting.value  # Always safe
 
 **That's it!** FastCFG handles the complexity so you don't have to.
 
+## 🤯 The Magic Behind FastCFG
+
+FastCFG values are **indistinguishable from regular Python values** in most cases:
+
+```python
+config.port = 8080
+config.ratio = 0.95
+config.name = "FastAPI"
+
+# 🎭 Type checking passes!
+isinstance(config.port, int)     # True ✅
+isinstance(config.ratio, float)  # True ✅
+isinstance(config.name, str)     # True ✅
+
+# 🧮 All operators work!
+config.timeout = 30
+config.retries = 3
+
+# Math operations
+total_time = config.timeout * config.retries  # 90
+half_timeout = config.timeout / 2             # 15.0
+config.timeout += 10                           # 40
+
+# String operations
+config.prefix = "Hello"
+config.suffix = "World"
+message = config.prefix + " " + config.suffix  # "Hello World"
+```
+
+### 🔧 But How?!
+
+FastCFG uses a transparent wrapper that:
+- ✅ Overrides `__class__` to fool `isinstance()`
+- ✅ Implements **all** Python operators (`__add__`, `__mul__`, `__lt__`, etc.)
+- ✅ Delegates attribute access intelligently
+- ✅ Maintains full compatibility with the underlying value
+
+The only time you need `.value` is when C extensions bypass Python's protocols (like some NumPy operations).
+
 ## 🤔 Why FastCFG?
 
 **Born from the frustration of managing serverless configuration at scale.** After a year of wrestling with environment variables, AWS Parameter Store, and hardcoded values across Lambda functions, we built the configuration system serverless deserves.
