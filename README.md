@@ -295,11 +295,9 @@ if ENVIRONMENT == "production":
 
 ## 🌟 Key Features
 
-### 🚄 **Blazing Fast**
-- **31.7x faster** than DynaConf
-- Sub-microsecond access times
-- Intelligent caching strategies
-- Optimized for serverless cold starts
+### 📊 Blazing Fast
+
+vein is blazing fast - see our [detailed benchmarks](BENCHMARKS.md).
 
 ### 🔄 **Live Configuration**
 ```python
@@ -495,3 +493,20 @@ Built with frustration, maintained with love. Special thanks to the serverless c
 **vein**: Because your serverless functions deserve a proper nervous system. 🧠⚡️
 
 *Built with ❤️ by Josh Breidinger - Making configuration management suck less, one Lambda at a time.*
+
+# vein Performance Benchmarks ⚡️
+
+## Executive Summary
+vein is **31.7x faster** than DynaConf for configuration access.
+
+## Detailed Results
+
+### 1 Million Configuration Accesses
+| Library | Time | Relative Performance |
+|---------|------|---------------------|
+| vein | 0.55s | **1.0x** (baseline) |
+| DynaConf | 17.66s | 31.7x slower |
+| Raw dict | 0.52s | 1.06x faster |
+
+### Real-World Impact
+...
