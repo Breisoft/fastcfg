@@ -55,6 +55,34 @@ print(config.app_name)  # "my-service"
 print(config.database.host)  # "localhost"
 ```
 
+### 🌍 Global vs Instance Configs
+
+```python
+# Option 1: Use the global config (most common)
+from fastcfg import config  # Same instance everywhere!
+
+# In app.py
+config.api_key = "secret"
+
+# In database.py
+from fastcfg import config
+print(config.api_key)  # "secret" - it's the same config!
+
+# Option 2: Create your own instances
+from fastcfg import Config
+
+# Create separate configs for different purposes
+app_config = Config()
+test_config = Config()
+feature_flags = Config()
+
+# They're completely independent
+app_config.debug = True
+test_config.debug = False  # Different config, different value
+```
+
+**Pro tip**: Use the global `config` for your main app configuration, and create separate `Config()` instances for isolated subsystems or testing.
+
 ## 🎓 The 3 Simple Rules
 
 FastCFG's magic makes config values behave like regular Python values 99% of the time. For that 1%, here are the only rules you need:
