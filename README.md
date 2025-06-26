@@ -1,5 +1,7 @@
 # vein ⚡️
 
+[![Benchmarks](https://img.shields.io/badge/benchmarks-31.7x_faster-brightgreen)](BENCHMARKS.md)
+
 **Configuration that flows** - Real-time updates pulse through your application
 instantly. From localhost to production, your settings stay alive - no restarts,
 no downtime, just pure performance.
