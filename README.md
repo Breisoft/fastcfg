@@ -1,15 +1,15 @@
-# FastCFG ⚡️
+# vein ⚡️
 
 **Serverless's missing nervous system** - Real-time, dynamic configuration
 management that scales from localhost to billions of invocations. No more
 restarting your container or server for configuration updates!
 
-[![PyPI version](https://badge.fury.io/py/fastcfg.svg)](https://badge.fury.io/py/fastcfg)
-[![Python Support](https://img.shields.io/pypi/pyversions/fastcfg.svg)](https://pypi.org/project/fastcfg/)
+[![PyPI version](https://badge.fury.io/py/vein.svg)](https://badge.fury.io/py/vein)
+[![Python Support](https://img.shields.io/pypi/pyversions/vein.svg)](https://pypi.org/project/vein/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ```python
-from fastcfg import config
+from vein import config
 
 # This is all you need
 config.api_key = "sk-..."
@@ -20,26 +20,26 @@ config.max_retries = 3
 print(config.temperature)  # 0.8
 ```
 
-**Pro tip**: We even optimized the typing experience - `fastcfg` is all left-hand keys, because you'll be importing it everywhere. ⌨️
+**Pro tip**: We even optimized the typing experience - `vein` is all left-hand keys, because you'll be importing it everywhere. ⌨️
 
 ## 🚀 Quick Start
 
 ### Installation
 
 ```bash
-pip install fastcfg
+pip install vein
 
 # With AWS support
-pip install "fastcfg[aws]"
+pip install "vein[aws]"
 
 # With all features
-pip install "fastcfg[all]"
+pip install "vein[all]"
 ```
 
 ### Basic Usage
 
 ```python
-from fastcfg import config, Config
+from vein import config, Config
 
 # Simple assignment
 config.app_name = "my-service"
@@ -61,17 +61,17 @@ print(config.database.host)  # "localhost"
 
 ```python
 # Option 1: Use the global config (most common)
-from fastcfg import config  # Same instance everywhere!
+from vein import config  # Same instance everywhere!
 
 # In app.py
 config.api_key = "secret"
 
 # In database.py
-from fastcfg import config
+from vein import config
 print(config.api_key)  # "secret" - it's the same config!
 
 # Option 2: Create your own instances
-from fastcfg import Config
+from vein import Config
 
 # Create separate configs for different purposes
 app_config = Config()
@@ -87,7 +87,7 @@ test_config.debug = False  # Different config, different value
 
 ## 🎓 The 3 Simple Rules
 
-FastCFG's magic makes config values behave like regular Python values 99% of the time. For that 1%, here are the only rules you need:
+vein's magic makes config values behave like regular Python values 99% of the time. For that 1%, here are the only rules you need:
 
 ```python
 # Rule 1: Your code → Just use it normally ✨
@@ -102,11 +102,11 @@ requests.get(url, timeout=config.timeout.value)  # External code needs .value
 value = config.setting.value  # Always safe
 ```
 
-**That's it!** FastCFG handles the complexity so you don't have to.
+**That's it!** vein handles the complexity so you don't have to.
 
-## 🤯 The Magic Behind FastCFG
+## 🤯 The Magic Behind vein
 
-FastCFG values are **indistinguishable from regular Python values** in most cases:
+vein values are **indistinguishable from regular Python values** in most cases:
 
 ```python
 config.port = 8080
@@ -135,7 +135,7 @@ message = config.prefix + " " + config.suffix  # "Hello World"
 
 ### 🔧 But How?!
 
-FastCFG uses a transparent wrapper that:
+vein uses a transparent wrapper that:
 - ✅ Overrides `__class__` to fool `isinstance()`
 - ✅ Implements **all** Python operators (`__add__`, `__mul__`, `__lt__`, etc.)
 - ✅ Delegates attribute access intelligently
@@ -143,7 +143,7 @@ FastCFG uses a transparent wrapper that:
 
 The only time you need `.value` is when C extensions bypass Python's protocols (like some NumPy operations).
 
-## 🤔 Why FastCFG?
+## 🤔 Why vein?
 
 **Born from the frustration of managing serverless configuration at scale.** After a year of wrestling with environment variables, AWS Parameter Store, and hardcoded values across Lambda functions, we built the configuration system serverless deserves.
 
@@ -155,29 +155,29 @@ The only time you need `.value` is when C extensions bypass Python's protocols (
 - **No validation until runtime** - Your Lambda fails at 3 AM
 - **AWS Parameter Store is slow without caching** - 50ms per parameter adds up
 
-### FastCFG: Your Serverless Nervous System
+### vein: Your Serverless Nervous System
 
-Just like your nervous system instantly responds to stimuli, FastCFG gives your serverless applications instant access to configuration with real-time updates, automatic retries, and intelligent caching.
+Just like your nervous system instantly responds to stimuli, vein gives your serverless applications instant access to configuration with real-time updates, automatic retries, and intelligent caching.
 
 ## ⚡ Performance That Matters
 
 ```python
 # Benchmark results (1M operations)
-FastCFG:           0.5μs per access  ⚡️
+vein:           0.5μs per access  ⚡️
 Pydantic Settings: 0.04μs per access (but static)
 DynaConf:          17μs per access   (31.7x slower)
 Raw AWS SDK:       50,000μs per access (100,000x slower!)
 ```
 
-**In real terms**: FastCFG adds just 0.0005ms overhead while saving you 50ms+ on AWS API calls through intelligent caching.
+**In real terms**: vein adds just 0.0005ms overhead while saving you 50ms+ on AWS API calls through intelligent caching.
 
 ## 🎯 Real-World Use Cases
 
 ### 1. Multi-Stage Serverless API
 
 ```python
-from fastcfg import config
-from fastcfg.sources.aws import from_appconfig
+from vein import config
+from vein.sources.aws import from_appconfig
 
 # Load configuration for your stage
 config.update(from_appconfig("my-api", os.environ["STAGE"]))
@@ -198,8 +198,8 @@ def process_request():
 ### 2. ML Model Configuration
 
 ```python
-from fastcfg import config
-from fastcfg.validation.policies import RangeValidator
+from vein import config
+from vein.validation.policies import RangeValidator
 
 # Type-safe model parameters
 config.temperature = 0.8
@@ -219,8 +219,8 @@ def reload_model(event):
 ### 3. Database Connection Management
 
 ```python
-from fastcfg import config
-from fastcfg.sources.aws import from_secrets_manager
+from vein import config
+from vein.sources.aws import from_secrets_manager
 
 # Load secrets securely
 config.update(from_secrets_manager("prod/database"))
@@ -241,10 +241,10 @@ db = create_connection(
 ### 4. Feature Flags & A/B Testing
 
 ```python
-from fastcfg import config
-from fastcfg.sources.aws import from_appconfig
-from fastcfg.cache import Cache
-from fastcfg.cache.strategies import TTLCacheStrategy
+from vein import config
+from vein.sources.aws import from_appconfig
+from vein.cache import Cache
+from vein.cache.strategies import TTLCacheStrategy
 
 # Poll for updates every 30 seconds
 config.features = from_appconfig(
@@ -268,9 +268,9 @@ def should_show_new_ui(user_id: str) -> bool:
 ### 5. Microservice Configuration
 
 ```python
-from fastcfg import config
+from vein import config
 from pydantic import BaseModel
-from fastcfg.validation.policies import PydanticValidator
+from vein.validation.policies import PydanticValidator
 
 # Define your schema with Pydantic
 class ServiceConfig(BaseModel):
@@ -327,7 +327,7 @@ config.port = 70000  # Raises ConfigItemValidationError
 ### ☁️ **AWS Native**
 ```python
 # First-class AWS support
-from fastcfg.sources.aws import (
+from vein.sources.aws import (
     from_appconfig,
     from_parameter_store,
     from_secrets_manager,
@@ -357,7 +357,7 @@ config.database.add_validator(PydanticValidator(DatabaseConfig))
 
 ### 🎯 **Smart Defaults**
 ```python
-from fastcfg import config
+from vein import config
 
 # Just works - no setup required
 config.debug = False
@@ -374,7 +374,7 @@ if running_in_aws():
 ### Environment Management
 
 ```python
-from fastcfg import Config
+from vein import Config
 
 # Create environment-specific configs
 config = Config(
@@ -391,8 +391,8 @@ print(config.api_url)  # https://api.com
 ### Loading from Files
 
 ```python
-from fastcfg import config
-from fastcfg.sources.files import from_yaml, from_json
+from vein import config
+from vein.sources.files import from_yaml, from_json
 
 # Load configurations
 config.update(from_yaml("config/base.yml"))
@@ -406,8 +406,8 @@ for env in ["base", "prod", "local"]:
 ### AWS Integration
 
 ```python
-from fastcfg import config
-from fastcfg.sources.aws import from_appconfig
+from vein import config
+from vein.sources.aws import from_appconfig
 
 # Load from AppConfig with automatic refresh
 config.update(
@@ -453,11 +453,11 @@ config.rollback_to(timestamp="2024-01-10T10:00:00")
 
 ## 🤝 Contributing
 
-We love contributions! FastCFG is built by developers who needed better configuration management, for developers who need better configuration management.
+We love contributions! vein is built by developers who needed better configuration management, for developers who need better configuration management.
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/fastcfg.git
+git clone https://github.com/yourusername/vein.git
 
 # Install in development mode
 pip install -e ".[dev]"
@@ -475,7 +475,7 @@ cd benchmarks
 python benchmark_comprehensive.py
 ```
 
-## 🏢 Who's Using FastCFG?
+## 🏢 Who's Using vein?
 
 - **Startups** love the simplicity and speed
 - **Enterprises** trust the AWS integration and validation
@@ -491,6 +491,6 @@ Built with frustration, maintained with love. Special thanks to the serverless c
 
 ---
 
-**FastCFG**: Because your serverless functions deserve a proper nervous system. 🧠⚡️
+**vein**: Because your serverless functions deserve a proper nervous system. 🧠⚡️
 
 *Built with ❤️ by Josh Breidinger - Making configuration management suck less, one Lambda at a time.*
