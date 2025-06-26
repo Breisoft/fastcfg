@@ -41,7 +41,19 @@ class TypeValidator(IConfigValidator):
 
     def error_message(self) -> str:
         return f"Value must be of type {self.expected_type.__name__}."
+    
 
+class LengthValidator(IConfigValidator):
+    def __init__(self, length: int, validate_immediately: bool = True):
+        super().__init__(validate_immediately=validate_immediately)
+        self.length = length
+
+    def validate(self, value: Any) -> bool:
+        return len(value) == self.length
+
+    def error_message(self) -> str:
+        return f"Value must be of length {self.length}."
+    
 
 class RegexValidator(IConfigValidator):
     def __init__(self, pattern: str, validate_immediately: bool = True):
