@@ -399,4 +399,4 @@ Built with frustration, maintained with love. Special thanks to the serverless c
 
 **FastCFG**: Because your serverless functions deserve a proper nervous system. 🧠⚡️
 
-*Built by [Your Name] - Making configuration management suck less, one Lambda at a time.*
+*Built with love by Josh Breidinger - Making configuration management suck less, one Lambda at a time.*
