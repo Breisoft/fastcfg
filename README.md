@@ -20,6 +20,8 @@ config.max_retries = 3
 print(config.temperature)  # 0.8
 ```
 
+**Pro tip**: We even optimized the typing experience - `fastcfg` is all left-hand keys, because you'll be importing it everywhere. ⌨️
+
 ## 🚀 Quick Start
 
 ### Installation
