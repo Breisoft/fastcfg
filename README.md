@@ -1,8 +1,9 @@
 # vein ⚡️
 
-**Serverless's missing nervous system** - Real-time, dynamic configuration
-management that scales from localhost to billions of invocations. No more
-restarting your container or server for configuration updates!
+**Configuration that flows** - Real-time updates pulse through your application
+instantly. From localhost to production, your settings stay alive - no restarts,
+no downtime, just pure performance.
+
 
 [![PyPI version](https://badge.fury.io/py/vein.svg)](https://badge.fury.io/py/vein)
 [![Python Support](https://img.shields.io/pypi/pyversions/vein.svg)](https://pypi.org/project/vein/)
