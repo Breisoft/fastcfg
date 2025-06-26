@@ -20,7 +20,61 @@ config.max_retries = 3
 print(config.temperature)  # 0.8
 ```
 
-## 🚀 Why FastCFG?
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+pip install fastcfg
+
+# With AWS support
+pip install "fastcfg[aws]"
+
+# With all features
+pip install "fastcfg[all]"
+```
+
+### Basic Usage
+
+```python
+from fastcfg import config, Config
+
+# Simple assignment
+config.app_name = "my-service"
+config.debug = True
+config.max_workers = 10
+
+# Nested configuration
+config.database = Config(host="localhost", port=5432)
+
+# Dictionary-style access
+config["api"]["key"] = "secret"
+
+# It just works™
+print(config.app_name)  # "my-service"
+print(config.database.host)  # "localhost"
+```
+
+## 🎓 The 3 Simple Rules
+
+FastCFG's magic makes config values behave like regular Python values 99% of the time. For that 1%, here are the only rules you need:
+
+```python
+# Rule 1: Your code → Just use it normally ✨
+if config.timeout > 30:
+    config.retries = 5
+
+# Rule 2: External libraries → Use .value 📦
+import requests
+requests.get(url, timeout=config.timeout.value)  # External code needs .value
+
+# Rule 3: When in doubt → .value always works 🤷
+value = config.setting.value  # Always safe
+```
+
+**That's it!** FastCFG handles the complexity so you don't have to.
+
+## 🤔 Why FastCFG?
 
 **Born from the frustration of managing serverless configuration at scale.** After a year of wrestling with environment variables, AWS Parameter Store, and hardcoded values across Lambda functions, we built the configuration system serverless deserves.
 
@@ -246,36 +300,7 @@ if running_in_aws():
     config.update(from_lambda_environment())
 ```
 
-## 📦 Installation
-
-```bash
-pip install fastcfg
-
-# With AWS support
-pip install "fastcfg[aws]"
-
-# With all features
-pip install "fastcfg[all]"
-```
-
-## 🚀 Quick Start
-
-### Basic Usage
-
-```python
-from fastcfg import config, Config
-
-# Simple assignment
-config.app_name = "my-service"
-config.debug = True
-config.max_workers = 10
-
-# Nested configuration
-config.database = Config(host = "localhost", port=5432)
-
-# Dictionary-style access
-config["api"]["key"] = "secret"
-```
+## 🔧 Advanced Usage
 
 ### Environment Management
 
@@ -327,9 +352,9 @@ config.update(
 # Your config now auto-updates when AppConfig changes!
 ```
 
-## 🔥 Advanced Features
+## 🔥 Coming Soon
 
-### Event Listeners (Coming Soon)
+### Event Listeners
 
 ```python
 @config.on_change("database.connection_string")
@@ -342,7 +367,7 @@ def handle_feature_change(event):
     clear_feature_cache()
 ```
 
-### State Tracking (Coming Soon)
+### State Tracking
 
 ```python
 # Enable state tracking
@@ -399,4 +424,4 @@ Built with frustration, maintained with love. Special thanks to the serverless c
 
 **FastCFG**: Because your serverless functions deserve a proper nervous system. 🧠⚡️
 
-*Built with love by Josh Breidinger - Making configuration management suck less, one Lambda at a time.*
+*Built with ❤️ by Josh Breininger - Making configuration management suck less, one Lambda at a time.*
