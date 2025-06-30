@@ -405,3 +405,36 @@ class TestSerialization(unittest.TestCase):
         # Try to import invalid JSON
         with self.assertRaises(json.JSONDecodeError):
             config.import_values(temp_file)
+
+    def test_import_values_deep_merge_edge_cases(self):
+        """Test edge cases in deep merge behavior."""
+        config = Config(
+            nested={
+                "level1": {
+                    "level2": {
+                        "existing": "value",
+                        "to_replace": "old"
+                    }
+                }
+            }
+        )
+        
+        import_data = {
+            "nested": {
+                "level1": {
+                    "level2": {
+                        "to_replace": "new",
+                        "added": "fresh"
+                    }
+                }
+            }
+        }
+        
+        # Test 3-level deep merge
+        temp_file = self._create_temp_file('.json')
+        with open(temp_file, 'w') as f:
+            json.dump(import_data, f)
+        config.import_values(temp_file)
+        self.assertEqual(config.nested.level1.level2.existing, "value")  # preserved
+        self.assertEqual(config.nested.level1.level2.to_replace, "new")  # updated
+        self.assertEqual(config.nested.level1.level2.added, "fresh")     # added
