@@ -8,7 +8,7 @@ Classes:
 
 from fastcfg.config.items import AbstractConfigItem
 from fastcfg.config.base import AbstractConfigUnit
-from fastcfg.config.utils import potentially_has_children
+from fastcfg.config.utils import potentially_has_children, deep_merge_config
 from fastcfg.validation.validatable import ValidatableMixin
 import pickle
 import json
@@ -28,7 +28,7 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
         __init__(config_attributes, **kwargs): Initializes the `ConfigInterface` object.
         set_environment(env): Sets the current environment.
         get_environment(): Retrieves the current environment.
-        get_dict(): Returns the configuration attributes as a dictionary.
+        to_dict(): Returns the configuration attributes as a dictionary.
         value: Property that gets the configuration attributes as a dictionary.
     """
 
@@ -47,27 +47,34 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
 
     def update(self, other=None, **kwargs) -> "ConfigInterface":
         """
-        Updates the configuration attributes. Works like dict.update().
+        Updates the configuration attributes using deep merge. Works like dict.update() but preserves nested values.
         
         Can accept either a dict-like object or keyword arguments.
+        If an environment is currently active, updates will only affect that environment.
+        Dictionaries are automatically converted to Config objects.
 
         Args:
             other: A dict-like object or iterable of key-value pairs.
             **kwargs: Additional keyword arguments.
         """
+        # Determine the target for updates
+        if self._current_env:
+            target = getattr(self._config, self._current_env)
+        else:
+            target = self._config
+        
+        # Process the main data
         if other is not None:
             if hasattr(other, 'items'):
                 # Handle dict-like objects
-                for key, value in other.items():
-                    self._config_attributes.add_or_update_attribute(key, value)
+                deep_merge_config(target, other)
             else:
                 # Handle sequence of pairs
-                for key, value in other:
-                    self._config_attributes.add_or_update_attribute(key, value)
+                deep_merge_config(target, dict(other))
         
         # Handle keyword arguments
-        for key, value in kwargs.items():
-            self._config_attributes.add_or_update_attribute(key, value)
+        if kwargs:
+            deep_merge_config(target, kwargs)
 
         # Allows for method chaining
         return self
@@ -90,17 +97,21 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
         """
         Exports the current configuration values to a file.
         """
-        with open(file_path, "wb") as f:
-            data_dict = self._config.get_dict()
-            print(data_dict)
-            json.dump(self._config.get_dict(), f)
+        from fastcfg.util import save_file
+        save_file(file_path, self._config.to_dict())
 
     def import_values(self, file_path: str):
         """
-        Imports the current configuration values from a file.
+        Imports the current configuration values from a file using deep merge.
+        
+        If an environment is currently active, the import will only affect that environment.
+        If no environment is active, the import will affect the root configuration.
+        Existing nested values are preserved unless explicitly overwritten.
         """
-        with open(file_path, "r") as f:
-            self._config = json.load(f)
+        from fastcfg.util import load_file
+
+        data = load_file(file_path)
+        self.update(data)
 
     def set_environment(self, env: str | None) -> "ConfigInterface":
         """
@@ -173,7 +184,7 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
 
         return Config(**envs)
 
-    def get_dict(self) -> dict:
+    def to_dict(self) -> dict:
         """
         Gets the configuration attributes as a dictionary. Fully serializable.
         It will also resolve nested Config objects to their dictionary
@@ -190,7 +201,7 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
         # representation and their value.
         for k, v in attrs.items():
             if isinstance(v, Config):
-                attrs[k] = v.get_dict()
+                attrs[k] = v.to_dict()
             elif isinstance(v, AbstractConfigItem):
                 attrs[k] = v.value
 
@@ -211,25 +222,25 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
         Returns:
             dict: The configuration attributes.
         """
-        return self.get_dict()
+        return self.to_dict()
     
     def keys(self):
         """
         Returns a view of the configuration's keys.
         """
-        return self.get_dict().keys()
+        return self.to_dict().keys()
     
     def values(self):
         """
         Returns a view of the configuration's values.
         """
-        return self.get_dict().values()
+        return self.to_dict().values()
     
     def items(self):
         """
         Returns a view of the configuration's (key, value) pairs.
         """
-        return self.get_dict().items()
+        return self.to_dict().items()
     
     def get(self, key, default=None):
         """

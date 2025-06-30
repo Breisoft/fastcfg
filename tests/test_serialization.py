@@ -176,3 +176,232 @@ class TestSerialization(unittest.TestCase):
         }
         
         self.assertEqual(exported_data, expected_data)
+
+    def test_import_values_json(self):
+        """
+        Test importing configuration values from JSON format.
+        
+        This should import values and update the existing configuration
+        without affecting live connections or internal state.
+        """
+        # Create a new config with minimal initial values
+        import_config = Config(
+            database={
+                "host": "initial.db.example.com",
+                "port": 3306
+            },
+            api={
+                "base_url": "https://initial-api.example.com"
+            }
+        )
+        
+        # Create JSON file with new values to import
+        import_data = {
+            "database": {
+                "host": "imported.db.example.com",
+                "port": 5432,
+                "credentials": {
+                    "username": "imported_user",
+                    "password": "imported_pass"
+                }
+            },
+            "api": {
+                "base_url": "https://imported-api.example.com",
+                "timeout": 60,
+                "retries": 5
+            },
+            "new_section": {
+                "feature_flag": True,
+                "max_connections": 100
+            }
+        }
+        
+        temp_file = self._create_temp_file('.json')
+        
+        # Write the import data to the file
+        with open(temp_file, 'w') as f:
+            json.dump(import_data, f)
+        
+        # Import the values
+        import_config.import_values(temp_file)
+        
+        # Verify the imported values are correctly applied
+        self.assertEqual(import_config.database.host, "imported.db.example.com")
+        self.assertEqual(import_config.database.port, 5432)
+        self.assertEqual(import_config.database.credentials.username, "imported_user")
+        self.assertEqual(import_config.database.credentials.password, "imported_pass")
+        
+        self.assertEqual(import_config.api.base_url, "https://imported-api.example.com")
+        self.assertEqual(import_config.api.timeout, 60)
+        self.assertEqual(import_config.api.retries, 5)
+        
+        # Verify new sections are added
+        self.assertEqual(import_config.new_section.feature_flag, True)
+        self.assertEqual(import_config.new_section.max_connections, 100)
+
+    def test_import_values_yaml(self):
+        """
+        Test importing configuration values from YAML format.
+        """
+        # Create a new config with minimal initial values
+        import_config = Config(
+            database={
+                "host": "initial.db.example.com"
+            }
+        )
+        
+        # Create YAML file with new values to import
+        import_data = {
+            "database": {
+                "host": "yaml-imported.db.example.com",
+                "port": 8080
+            },
+            "logging": {
+                "level": "DEBUG",
+                "format": "json"
+            }
+        }
+        
+        temp_file = self._create_temp_file('.yaml')
+        
+        # Write the import data to the file
+        with open(temp_file, 'w') as f:
+            yaml.dump(import_data, f)
+        
+        # Import the values
+        import_config.import_values(temp_file)
+        
+        # Verify the imported values are correctly applied
+        self.assertEqual(import_config.database.host, "yaml-imported.db.example.com")
+        self.assertEqual(import_config.database.port, 8080)
+        self.assertEqual(import_config.logging.level, "DEBUG")
+        self.assertEqual(import_config.logging.format, "json")
+
+    def test_import_values_with_environments(self):
+        """
+        Test importing values when using environment-specific configurations.
+        """
+        # Create config with environments
+        env_config = Config(
+            dev={
+                "database": {"host": "dev.db.example.com", "port": 5432},
+                "api": {"base_url": "https://dev-api.example.com"}
+            },
+            prod={
+                "database": {"host": "prod.db.example.com", "port": 5432},
+                "api": {"base_url": "https://prod-api.example.com"}
+            }
+        )
+        
+        # Set active environment
+        env_config.set_environment("dev")
+        
+        # Create import data
+        import_data = {
+            "database": {
+                "host": "imported-dev.db.example.com",
+                "port": 3306
+            },
+            "api": {
+                "base_url": "https://imported-dev-api.example.com",
+                "timeout": 45
+            }
+        }
+        
+        temp_file = self._create_temp_file('.json')
+        
+        # Write the import data to the file
+        with open(temp_file, 'w') as f:
+            json.dump(import_data, f)
+        
+        # Import the values
+        env_config.import_values(temp_file)
+        
+        # Verify the imported values are correctly applied to the current environment
+        self.assertEqual(env_config.database.host, "imported-dev.db.example.com")
+        self.assertEqual(env_config.database.port, 3306)
+        self.assertEqual(env_config.api.base_url, "https://imported-dev-api.example.com")
+        self.assertEqual(env_config.api.timeout, 45)
+        
+        # Switch to prod environment and verify it's unchanged
+        env_config.set_environment("prod")
+        self.assertEqual(env_config.database.host, "prod.db.example.com")
+        self.assertEqual(env_config.api.base_url, "https://prod-api.example.com")
+
+    def test_import_values_partial_update(self):
+        """
+        Test importing values that only update some existing fields.
+        """
+        # Create config with existing values
+        config = Config(
+            database={
+                "host": "existing.db.example.com",
+                "port": 5432,
+                "credentials": {
+                    "username": "existing_user",
+                    "password": "existing_pass"
+                }
+            },
+            api={
+                "base_url": "https://existing-api.example.com",
+                "timeout": 30
+            }
+        )
+        
+        # Create import data that only updates some fields
+        import_data = {
+            "database": {
+                "host": "updated.db.example.com",
+                "credentials": {
+                    "password": "updated_pass"
+                }
+            },
+            "api": {
+                "timeout": 60
+            }
+        }
+        
+        temp_file = self._create_temp_file('.json')
+        
+        # Write the import data to the file
+        with open(temp_file, 'w') as f:
+            json.dump(import_data, f)
+        
+        # Import the values
+        config.import_values(temp_file)
+        
+        # Verify updated fields are changed
+        self.assertEqual(config.database.host, "updated.db.example.com")
+        self.assertEqual(config.database.credentials.password, "updated_pass")
+        self.assertEqual(config.api.timeout, 60)
+        
+        # Verify unchanged fields remain the same
+        # Note: Dictionaries are converted to Config objects, so we can access them as attributes
+        self.assertEqual(config.database.port, 5432)
+        self.assertEqual(config.database.credentials.username, "existing_user")
+        self.assertEqual(config.api.base_url, "https://existing-api.example.com")
+
+    def test_import_values_file_not_found(self):
+        """
+        Test that import_values raises an appropriate error when file doesn't exist.
+        """
+        config = Config()
+        
+        # Try to import from a non-existent file
+        with self.assertRaises(FileNotFoundError):
+            config.import_values("non_existent_file.json")
+
+    def test_import_values_invalid_json(self):
+        """
+        Test that import_values handles invalid JSON gracefully.
+        """
+        config = Config()
+        
+        # Create a file with invalid JSON
+        temp_file = self._create_temp_file('.json')
+        with open(temp_file, 'w') as f:
+            f.write('{"invalid": json}')
+        
+        # Try to import invalid JSON
+        with self.assertRaises(json.JSONDecodeError):
+            config.import_values(temp_file)

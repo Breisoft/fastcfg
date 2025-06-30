@@ -39,7 +39,7 @@ class TestDictBehavior(unittest.TestCase):
         self.assertEqual(config.nested_config, {"a": 1, "b": 2})
 
     def test_dict_behavior_with_nested_config(self):
-        self.assertEqual(self.config.get_dict(),
+        self.assertEqual(self.config.to_dict(),
                         {
                             "data": {
                                 "data": {
@@ -55,7 +55,7 @@ class TestDictBehavior(unittest.TestCase):
     def test_dict_function(self):
         """Test the dict() function works as expected"""
         
-        self.assertEqual(self.config.get_dict(), dict(self.config))
+        self.assertEqual(self.config.to_dict(), dict(self.config))
 
 
     def test_items_and_keys_and_values(self):

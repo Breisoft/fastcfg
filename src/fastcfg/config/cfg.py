@@ -53,7 +53,7 @@ def _get_dict(config: "Config") -> dict:
     """
     Gets the dictionary representation of the Config object.
     """
-    return config.__dict__["__interface"].get_dict()
+    return config.__dict__["__interface"].to_dict()
 
 def _chain_return_helper(config: "Config", return_obj: Any) -> Any:
     """
@@ -82,11 +82,6 @@ def _chain_return_helper(config: "Config", return_obj: Any) -> Any:
         return config
     return return_obj
 
-def _config_to_dict(config: "Config") -> dict:
-    """
-    Converts a Config object to a dictionary.
-    """
-    return config.get_dict()
 
 class Config(AbstractConfigUnit):
     """
@@ -175,9 +170,6 @@ class Config(AbstractConfigUnit):
             # These are private internal values (like __attributes and __interace)
             self.__dict__[name] = value
         else:
-            if isinstance(value, dict):
-                # Convert dict to nested Config object
-                value = create_config_dict(value)
             attributes = self.__dict__["__attributes"]
 
             # Add or update the existing attribute in ConfigAttributes

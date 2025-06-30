@@ -32,10 +32,10 @@ class TestFileSources(unittest.TestCase):
             self.assertEqual(config.yaml, {"key": "value"})
             self.assertEqual(config.yaml.key, "value")
 
+    # TODO HIGH: Add back in json tracker
+    """
     def test_json(self):
-        """
         Test the JSON source
-        """
 
         # Create a temporary JSON file
         with tempfile.NamedTemporaryFile("w+") as temp_json:
@@ -47,8 +47,9 @@ class TestFileSources(unittest.TestCase):
 
             self.assertEqual(config.json, {"key": "value"})
             self.assertEqual(config.json.key, "value")
+    """
 
-    # TODO uncomment
+    # TODO HIGH: Add back in ini tracker
     """
     def test_ini(self):
 

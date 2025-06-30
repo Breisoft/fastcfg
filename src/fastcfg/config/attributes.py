@@ -8,6 +8,7 @@ from typing import Any
 
 from fastcfg.config.base import AbstractConfigUnit
 from fastcfg.config.items import AbstractConfigItem, BuiltInConfigItem
+from fastcfg.config.utils import create_config_dict
 
 # Types that are classified as built-in rather than custom objects
 BUILT_IN_TYPES = (int, float, str, bool, list, dict, tuple, set, object)
@@ -130,6 +131,10 @@ class ConfigAttributes(AbstractConfigUnit):
             name (str): The name of the attribute.
             value (Any): The value of the attribute, which will be converted to an IConfigItem.
         """
+
+        if isinstance(value, dict):
+            # Convert dict to nested Config object
+            value = create_config_dict(value)
 
         if (
             name in self.__attributes

@@ -259,3 +259,6 @@ class TestValidation(unittest.TestCase):
         # Should not raise ConfigItemValidationError exception
         with self.assertRaises(ConfigItemValidationError):
             config.int_val.add_validator(immediate_range_validator)
+
+
+            
