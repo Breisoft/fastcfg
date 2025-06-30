@@ -6,10 +6,12 @@ Classes:
     ConfigInterface: Manages configuration attributes and environment settings.
 """
 
+from fastcfg.config.items import AbstractConfigItem
 from fastcfg.config.base import AbstractConfigUnit
 from fastcfg.config.utils import potentially_has_children
 from fastcfg.validation.validatable import ValidatableMixin
-
+import pickle
+import json
 
 class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
     """
@@ -30,7 +32,7 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
         value: Property that gets the configuration attributes as a dictionary.
     """
 
-    def __init__(self, config_attributes, **kwargs):
+    def __init__(self, config, config_attributes, **kwargs):
         """
         Initializes the ConfigInterface.
 
@@ -39,22 +41,66 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
             **kwargs: Additional keyword arguments.
         """
         super().__init__()
+        self._config = config
         self._config_attributes = config_attributes
         self._current_env = None
 
-    def update(self, **kwargs) -> "ConfigInterface":
+    def update(self, other=None, **kwargs) -> "ConfigInterface":
         """
-        Updates the configuration attributes. Adds or updates each key-value pair as an attribute.
+        Updates the configuration attributes. Works like dict.update().
+        
+        Can accept either a dict-like object or keyword arguments.
 
         Args:
+            other: A dict-like object or iterable of key-value pairs.
             **kwargs: Additional keyword arguments.
         """
-
+        if other is not None:
+            if hasattr(other, 'items'):
+                # Handle dict-like objects
+                for key, value in other.items():
+                    self._config_attributes.add_or_update_attribute(key, value)
+            else:
+                # Handle sequence of pairs
+                for key, value in other:
+                    self._config_attributes.add_or_update_attribute(key, value)
+        
+        # Handle keyword arguments
         for key, value in kwargs.items():
             self._config_attributes.add_or_update_attribute(key, value)
 
         # Allows for method chaining
         return self
+    
+    def save(self, file_path: str):
+        """
+        Saves the full configuration state to a file.
+        """
+        with open(file_path, "wb") as f:
+            pickle.dump(self._config, f)
+
+    def load(self, file_path: str):
+        """
+        Loads the full configuration state from a file.
+        """
+        with open(file_path, "rb") as f:
+            self._config = pickle.load(f)
+
+    def export_values(self, file_path: str):
+        """
+        Exports the current configuration values to a file.
+        """
+        with open(file_path, "wb") as f:
+            data_dict = self._config.get_dict()
+            print(data_dict)
+            json.dump(self._config.get_dict(), f)
+
+    def import_values(self, file_path: str):
+        """
+        Imports the current configuration values from a file.
+        """
+        with open(file_path, "r") as f:
+            self._config = json.load(f)
 
     def set_environment(self, env: str | None) -> "ConfigInterface":
         """
@@ -129,13 +175,24 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
 
     def get_dict(self) -> dict:
         """
-        Gets the configuration attributes as a dictionary.
+        Gets the configuration attributes as a dictionary. Fully serializable.
+        It will also resolve nested Config objects to their dictionary
+        representation and ConfigItems as their value.
 
         Returns:
             dict: The configuration attributes.
         """
+        from fastcfg.config.cfg import Config
 
         attrs = self._get_env_dict()
+
+        # Recursively resolve nested Config objects and ConfigItems to their dictionary
+        # representation and their value.
+        for k, v in attrs.items():
+            if isinstance(v, Config):
+                attrs[k] = v.get_dict()
+            elif isinstance(v, AbstractConfigItem):
+                attrs[k] = v.value
 
         if self._current_env:
             attrs = attrs[self._current_env]
@@ -155,3 +212,46 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
             dict: The configuration attributes.
         """
         return self.get_dict()
+    
+    def keys(self):
+        """
+        Returns a view of the configuration's keys.
+        """
+        return self.get_dict().keys()
+    
+    def values(self):
+        """
+        Returns a view of the configuration's values.
+        """
+        return self.get_dict().values()
+    
+    def items(self):
+        """
+        Returns a view of the configuration's (key, value) pairs.
+        """
+        return self.get_dict().items()
+    
+    def get(self, key, default=None):
+        """
+        Get a configuration value with a default if the key doesn't exist.
+        """
+        try:
+            return getattr(self._config, key)
+        except AttributeError:
+            return default
+    
+    def pop(self, key, *args):
+        """
+        Remove and return a configuration value.
+        """
+        if len(args) > 1:
+            raise TypeError(f"pop expected at most 2 arguments, got {len(args) + 1}")
+        
+        try:
+            value = getattr(self._config, key)
+            delattr(self._config, key)
+            return value
+        except AttributeError:
+            if args:
+                return args[0]
+            raise KeyError(key)

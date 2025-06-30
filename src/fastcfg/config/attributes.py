@@ -147,3 +147,17 @@ class ConfigAttributes(AbstractConfigUnit):
 
         # Trigger validation at the end
         config_item.validate()
+
+    def remove_attribute(self, name: str) -> None:
+        """
+        Removes an attribute from the configuration.
+
+        Args:
+            name (str): The name of the attribute to remove.
+
+        Raises:
+            AttributeError: If the attribute does not exist.
+        """
+        if name not in self.__attributes:
+            raise AttributeError(f"Attribute `{name}` does not exist.")
+        del self.__attributes[name]

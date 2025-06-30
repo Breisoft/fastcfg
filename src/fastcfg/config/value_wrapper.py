@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, Any, Union
+import operator
 
 from fastcfg.config.utils import create_config_dict
 
@@ -13,8 +14,8 @@ class OperatorsMixin:
     Mixin class that provides operator overloading for ValueWrapper.
     
     This class implements all the magic methods needed to make a wrapped value
-    behave like its underlying value in various operations by delegating
-    directly to the underlying value's methods.
+    behave like its underlying value in various operations by using Python's
+    operator module for proper delegation.
     """
     
     def _unwrap_if_wrapper(self, other):
@@ -26,232 +27,239 @@ class OperatorsMixin:
     # Comparison operators
     def __lt__(self, other):
         """Less than comparison."""
-        return self._item.value.__lt__(self._unwrap_if_wrapper(other))
+        return operator.lt(self._item.value, self._unwrap_if_wrapper(other))
     
     def __le__(self, other):
         """Less than or equal comparison."""
-        return self._item.value.__le__(self._unwrap_if_wrapper(other))
+        return operator.le(self._item.value, self._unwrap_if_wrapper(other))
     
     def __gt__(self, other):
         """Greater than comparison."""
-        return self._item.value.__gt__(self._unwrap_if_wrapper(other))
+        return operator.gt(self._item.value, self._unwrap_if_wrapper(other))
     
     def __ge__(self, other):
         """Greater than or equal comparison."""
-        return self._item.value.__ge__(self._unwrap_if_wrapper(other))
+        return operator.ge(self._item.value, self._unwrap_if_wrapper(other))
     
     def __eq__(self, other):
         """Equal comparison."""
-        return self._item.value.__eq__(self._unwrap_if_wrapper(other))
+        return operator.eq(self._item.value, self._unwrap_if_wrapper(other))
     
     def __ne__(self, other):
         """Not equal comparison."""
-        return self._item.value.__ne__(self._unwrap_if_wrapper(other))
+        return operator.ne(self._item.value, self._unwrap_if_wrapper(other))
     
     # Arithmetic operators
     def __add__(self, other):
         """Addition."""
-        return self._item.value.__add__(self._unwrap_if_wrapper(other))
+        return operator.add(self._item.value, self._unwrap_if_wrapper(other))
     
     def __radd__(self, other):
         """Reverse addition."""
-        return self._item.value.__radd__(other)
+        return operator.add(self._unwrap_if_wrapper(other), self._item.value)
     
     def __sub__(self, other):
         """Subtraction."""
-        return self._item.value.__sub__(self._unwrap_if_wrapper(other))
+        return operator.sub(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rsub__(self, other):
         """Reverse subtraction."""
-        return self._item.value.__rsub__(other)
+        return operator.sub(self._unwrap_if_wrapper(other), self._item.value)
     
     def __mul__(self, other):
         """Multiplication."""
-        return self._item.value.__mul__(self._unwrap_if_wrapper(other))
+        return operator.mul(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rmul__(self, other):
         """Reverse multiplication."""
-        return self._item.value.__rmul__(other)
+        return operator.mul(self._unwrap_if_wrapper(other), self._item.value)
     
     def __truediv__(self, other):
         """True division."""
-        return self._item.value.__truediv__(self._unwrap_if_wrapper(other))
+        return operator.truediv(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rtruediv__(self, other):
         """Reverse true division."""
-        return self._item.value.__rtruediv__(other)
+        return operator.truediv(self._unwrap_if_wrapper(other), self._item.value)
     
     def __floordiv__(self, other):
         """Floor division."""
-        return self._item.value.__floordiv__(self._unwrap_if_wrapper(other))
+        return operator.floordiv(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rfloordiv__(self, other):
         """Reverse floor division."""
-        return self._item.value.__rfloordiv__(other)
+        return operator.floordiv(self._unwrap_if_wrapper(other), self._item.value)
     
     def __mod__(self, other):
         """Modulo operation."""
-        return self._item.value.__mod__(self._unwrap_if_wrapper(other))
+        return operator.mod(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rmod__(self, other):
         """Reverse modulo operation."""
-        return self._item.value.__rmod__(other)
+        return operator.mod(self._unwrap_if_wrapper(other), self._item.value)
     
     def __pow__(self, other, modulo=None):
         """Power operation."""
         if modulo is None:
-            return self._item.value.__pow__(self._unwrap_if_wrapper(other))
-        return self._item.value.__pow__(self._unwrap_if_wrapper(other), modulo)
+            return operator.pow(self._item.value, self._unwrap_if_wrapper(other))
+        return pow(self._item.value, self._unwrap_if_wrapper(other), modulo)
     
     def __rpow__(self, other):
         """Reverse power operation."""
-        return self._item.value.__rpow__(other)
+        return operator.pow(self._unwrap_if_wrapper(other), self._item.value)
     
     # Unary operators
     def __neg__(self):
         """Unary negation."""
-        return self._item.value.__neg__()
+        return operator.neg(self._item.value)
     
     def __pos__(self):
         """Unary positive."""
-        return self._item.value.__pos__()
+        return operator.pos(self._item.value)
     
     def __abs__(self):
         """Absolute value."""
-        return self._item.value.__abs__()
+        return operator.abs(self._item.value)
     
     # Bitwise operators
     def __and__(self, other):
         """Bitwise AND."""
-        return self._item.value.__and__(self._unwrap_if_wrapper(other))
+        return operator.and_(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rand__(self, other):
         """Reverse bitwise AND."""
-        return self._item.value.__rand__(other)
+        return operator.and_(self._unwrap_if_wrapper(other), self._item.value)
     
     def __or__(self, other):
         """Bitwise OR."""
-        return self._item.value.__or__(self._unwrap_if_wrapper(other))
+        return operator.or_(self._item.value, self._unwrap_if_wrapper(other))
     
     def __ror__(self, other):
         """Reverse bitwise OR."""
-        return self._item.value.__ror__(other)
+        return operator.or_(self._unwrap_if_wrapper(other), self._item.value)
     
     def __xor__(self, other):
         """Bitwise XOR."""
-        return self._item.value.__xor__(self._unwrap_if_wrapper(other))
+        return operator.xor(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rxor__(self, other):
         """Reverse bitwise XOR."""
-        return self._item.value.__rxor__(other)
+        return operator.xor(self._unwrap_if_wrapper(other), self._item.value)
     
     def __lshift__(self, other):
         """Left shift."""
-        return self._item.value.__lshift__(self._unwrap_if_wrapper(other))
+        return operator.lshift(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rlshift__(self, other):
         """Reverse left shift."""
-        return self._item.value.__rlshift__(other)
+        return operator.lshift(self._unwrap_if_wrapper(other), self._item.value)
     
     def __rshift__(self, other):
         """Right shift."""
-        return self._item.value.__rshift__(self._unwrap_if_wrapper(other))
+        return operator.rshift(self._item.value, self._unwrap_if_wrapper(other))
     
     def __rrshift__(self, other):
         """Reverse right shift."""
-        return self._item.value.__rrshift__(other)
+        return operator.rshift(self._unwrap_if_wrapper(other), self._item.value)
     
     def __invert__(self):
         """Bitwise NOT."""
-        return self._item.value.__invert__()
+        return operator.invert(self._item.value)
     
     # Container operations
     def __len__(self):
         """Return length of the underlying value."""
-        return self._item.value.__len__()
+        return len(self._item.value)
     
     def __getitem__(self, key):
         """Get item from the underlying value."""
-        return self._item.value.__getitem__(key)
+        return operator.getitem(self._item.value, key)
     
     def __setitem__(self, key, value):
         """Set item in the underlying value."""
-        return self._item.value.__setitem__(key, value)
+        return operator.setitem(self._item.value, key, value)
     
     def __delitem__(self, key):
         """Delete item from the underlying value."""
-        return self._item.value.__delitem__(key)
+        return operator.delitem(self._item.value, key)
     
     def __contains__(self, item):
         """Check if item is in the underlying value."""
-        return self._item.value.__contains__(item)
+        return operator.contains(self._item.value, item)
     
     def __iter__(self):
         """Return iterator over the underlying value."""
-        return self._item.value.__iter__()
+        return iter(self._item.value)
     
     def __reversed__(self):
         """Return reversed iterator over the underlying value."""
-        return self._item.value.__reversed__()
+        return reversed(self._item.value)
     
     # String representations
     def __str__(self):
         """Return string representation of the underlying value."""
-        return self._item.value.__str__()
+        return str(self._item.value)
     
     def __repr__(self):
         """Return official string representation of the underlying value."""
-        return self._item.value.__repr__()
+        return repr(self._item.value)
     
     def __format__(self, format_spec):
         """Format the underlying value."""
-        return self._item.value.__format__(format_spec)
+        return format(self._item.value, format_spec)
     
     def __bytes__(self):
         """Return bytes representation of the underlying value."""
-        return self._item.value.__bytes__()
+        # bytes() constructor behavior depends on the type
+        return bytes(self._item.value)
+       
     
     # Type conversions
     def __int__(self):
         """Convert to integer."""
-        return self._item.value.__int__()
+        return int(self._item.value)
     
     def __float__(self):
         """Convert to float."""
-        return self._item.value.__float__()
+        return float(self._item.value)
     
     def __complex__(self):
         """Convert to complex number."""
-        return self._item.value.__complex__()
+        return complex(self._item.value)
     
     def __bool__(self):
         """Convert to boolean."""
-        return self._item.value.__bool__()
+        return bool(self._item.value)
     
     def __index__(self):
         """Convert to integer for use as index."""
-        return self._item.value.__index__()
+        return operator.index(self._item.value)
     
     def __round__(self, ndigits=None):
         """Round the underlying value."""
-        return self._item.value.__round__(ndigits)
+        if ndigits is None:
+            return round(self._item.value)
+        return round(self._item.value, ndigits)
     
     def __trunc__(self):
         """Truncate the underlying value."""
-        return self._item.value.__trunc__()
+        import math
+        return math.trunc(self._item.value)
     
     def __floor__(self):
         """Floor of the underlying value."""
-        return self._item.value.__floor__()
+        import math
+        return math.floor(self._item.value)
     
     def __ceil__(self):
         """Ceiling of the underlying value."""
-        return self._item.value.__ceil__()
+        import math
+        return math.ceil(self._item.value)
     
     # Hash support
     def __hash__(self):
         """Return hash of the underlying value."""
-        return self._item.value.__hash__()
+        return hash(self._item.value)
 
 
 class ValueWrapper(OperatorsMixin):
@@ -325,9 +333,20 @@ class ValueWrapper(OperatorsMixin):
         value = self._item.value
 
         # Check if the attribute is a public method of AbstractConfigItem
-        if hasattr(self._item, name) and callable(getattr(self._item, name)):
+        if hasattr(self._item, name) and not name.startswith('_'):
             attr = getattr(self._item, name)
             return attr
+
+        # For dictionaries that are Config objects, we need special handling
+        if hasattr(value, '__class__') and value.__class__.__name__ == 'ConfigInterface':
+            # Try to get from the Config object's attributes first
+            try:
+                return getattr(value, name)
+            except AttributeError:
+                # If not found, try as a key
+                if name in value:
+                    return value[name]
+                raise
 
         if isinstance(value, dict):
             if name in value:
@@ -336,13 +355,15 @@ class ValueWrapper(OperatorsMixin):
                     return create_config_dict(item)
                 return item
             else:
+                # Try to get dict methods
+                if hasattr(dict, name):
+                    return getattr(value, name)
                 raise AttributeError(
                     f"'{type(value).__name__}' object has no attribute '{name}'"
                 )
-        try:
-            return getattr(value, name)
-        except AttributeError:
-            return getattr(self._item, name)
+        
+        # For all other types, try to get the attribute from the value
+        return getattr(value, name)
 
     @property
     def __class__(self):

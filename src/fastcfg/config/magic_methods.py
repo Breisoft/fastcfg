@@ -88,7 +88,7 @@ def _config_to_dict(config: "Config") -> dict:
     """
     return config.get_dict()
 
-class Config(AbstractConfigUnit, ConfigMagicMethods):
+class ConfigMagicMethod():
     """
     The `Config` class is designed to manage configuration settings in a structured and flexible manner.
 

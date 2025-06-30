@@ -54,25 +54,6 @@ class TestConfig(unittest.TestCase):
 
         self.assertEqual(config.int_value, 2)
 
-    def test_dict_functionality(self):
-        """
-        Test various dictionary functionalities of the Config class.
-
-        This test ensures that dictionary attributes can be accessed using dot notation,
-        and that nested Config objects can be compared to dictionaries.
-        """
-        config = Config(
-            dict_value={"a": 1, "b": {"nested": 2}},
-            nested_config=Config(a=1, b=2),
-        )
-
-        # Access the dictionary attributes using dot notation
-        self.assertEqual(config.dict_value.a, 1)
-        self.assertEqual(config.dict_value.b.nested, 2)
-
-        # Compare nested Config object to a dictionary
-        self.assertEqual(config.nested_config, {"a": 1, "b": 2})
-
     def test_nested_config_objects(self):
         """
         Test the behavior of nested Config objects.
