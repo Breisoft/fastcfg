@@ -9,6 +9,7 @@ from fastcfg.default import defaults
 from fastcfg.exceptions import MissingCacheKeyError
 
 
+
 class AbstractStateTracker(ABC):
     """
     Abstract base class for a state tracker which is used to fetch the current
