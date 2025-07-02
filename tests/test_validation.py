@@ -32,7 +32,7 @@ class TestValidation(unittest.TestCase):
 
     def _trigger_access(self, item):
         # Access the value property directly to trigger validation
-        _ = str(item)
+        item.value 
 
     def test_invoke_does_not_call_validation_for_builtin(self):
         """Validation should not be invoked on access for a BuiltInConfig"""

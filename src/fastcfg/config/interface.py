@@ -10,10 +10,10 @@ from fastcfg.config.items import AbstractConfigItem
 from fastcfg.config.base import AbstractConfigUnit
 from fastcfg.config.utils import potentially_has_children, deep_merge_config
 from fastcfg.validation.validatable import ValidatableMixin
+from fastcfg.config.events import EventListenerMixin
 import pickle
-import json
 
-class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
+class ConfigInterface(ValidatableMixin, EventListenerMixin, AbstractConfigUnit):
     """
     Handles environment-specific configurations and provides additional public methods and attributes
     that are not directly related to configuration values, nor are meant to be overriden by config attributes.
@@ -42,8 +42,14 @@ class ConfigInterface(ValidatableMixin, AbstractConfigUnit):
         """
         super().__init__()
         self._config = config
+        self._parent = None
         self._config_attributes = config_attributes
         self._current_env = None
+
+    def set_parent(self, parent: 'Config'):
+        """Set the parent Config object."""
+
+        self._parent = parent
 
     def update(self, other=None, **kwargs) -> "ConfigInterface":
         """

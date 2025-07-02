@@ -138,7 +138,7 @@ class Config(AbstractConfigUnit):
 
         """
 
-        attributes = ConfigAttributes()
+        attributes = ConfigAttributes(self)
 
         # Instead of directly setting attributes, we need to populate this instance's __dict__
         # object to avoid issues with setattr

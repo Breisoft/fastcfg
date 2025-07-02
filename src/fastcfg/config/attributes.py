@@ -14,6 +14,13 @@ from fastcfg.config.utils import create_config_dict
 BUILT_IN_TYPES = (int, float, str, bool, list, dict, tuple, set, object)
 
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from fastcfg.config.interface import Config
+else:
+    Config = None
+
 class ConfigAttributes(AbstractConfigUnit):
     """
     Manages the actual configuration attributes and their associated values, ensuring they are stored and retrieved correctly.
@@ -33,9 +40,12 @@ class ConfigAttributes(AbstractConfigUnit):
         add_or_update_attribute(name, value): Adds or updates an attribute in the configuration.
     """
 
-    def __init__(self):
+    def __init__(self, config: 'Config'):
 
         self.__attributes: dict[str, AbstractConfigItem] = {}
+
+        self._config: 'Config' = config
+
 
     def get_attribute(self, name) -> AbstractConfigItem:
         """
@@ -115,6 +125,9 @@ class ConfigAttributes(AbstractConfigUnit):
         """
         config_item = self._convert_value_to_item(value)
 
+        # Set the parent of the config item to this Config
+        config_item.set_parent(self._config)
+      
         self.__attributes[name] = config_item
 
         return config_item

@@ -27,6 +27,10 @@ def md5_hash_state(input_obj: Any) -> str:
 class ValidatableMixin(ABC):
 
     def __init__(self):
+
+        # Ensure any other mixins are also initialized
+        super().__init__()
+
         self._last_state_hash = None  # Used for LiveConfigItem state tracking
         self._validators: List[IConfigValidator] = []
 

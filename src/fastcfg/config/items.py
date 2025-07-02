@@ -33,9 +33,32 @@ from typing import Any, Dict
 from fastcfg.config.value_wrapper import ValueWrapper
 from fastcfg.exceptions import InvalidOperationError
 from fastcfg.validation.validatable import ValidatableMixin
+from fastcfg.config.events import EventListenerMixin
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from fastcfg.config.interface import Config
+else:
+    Config = None
+
+def _notify_if_changed(config_item, old_value, new_value):
+    """
+    Helper function to notify listeners if a configuration value has changed.
+    
+    This function encapsulates the change detection and notification logic
+    to avoid code duplication between different change scenarios.
+    
+    Args:
+        config_item: The configuration item that potentially changed
+        old_value: The previous value
+        new_value: The current value
+    """
+    if old_value != new_value:
+        config_item.notify_change(config_item, old_value, new_value)
 
 
-class AbstractConfigItem(ValidatableMixin, ABC):
+class AbstractConfigItem(ValidatableMixin, EventListenerMixin, ABC):
     """
     The `AbstractConfigItem` class serves as an abstract base class for configuration items in the `fastcfg` module.
 
@@ -67,6 +90,11 @@ class AbstractConfigItem(ValidatableMixin, ABC):
         super().__init__()
 
         self._wrapped_dict_items: Dict[str, AbstractConfigItem] = {}
+
+        self._parent: 'Config' = None
+
+    def set_parent(self, parent: 'Config'):
+        self._parent = parent
 
     @property
     def value(self) -> Any:
@@ -212,7 +240,13 @@ class BuiltInConfigItem(AbstractConfigItem):
         Args:
             new_value (Any): The new value to set for the configuration item.
         """
+
+        old_value = self._value
         self._value = new_value
+
+        # This is done separately for BuiltInConfigItems
+        # and LiveConfigItems. LCIs don't support direct setting of value.
+        _notify_if_changed(self, old_value, new_value)
 
 
 class LiveConfigItem(AbstractConfigItem):
@@ -244,6 +278,9 @@ class LiveConfigItem(AbstractConfigItem):
         super().__init__()
         self._state_tracker = state_tracker
 
+        # Track the previous value to avoid unnecessary event notifications
+        self._previous_value = None
+
     @property
     def value(self) -> Any:
         """
@@ -257,9 +294,18 @@ class LiveConfigItem(AbstractConfigItem):
         """
         val = super().value
 
+
         # Trigger validation
         self.validate()
 
+        # Check for changes from external sources and notify if changed
+        if self._previous_value is not None:
+            _notify_if_changed(self, self._previous_value, val)
+        
+        # Always update previous value after potential notification
+        self._previous_value = val
+
+        # Return the value
         return val
     
     def as_callable(self):
