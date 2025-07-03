@@ -330,12 +330,14 @@ class ValueWrapper(OperatorsMixin):
         Raises:
             AttributeError: If the attribute does not exist in the value or the AbstractConfigItem instance.
         """
-        value = self._item.value
-
-        # Check if the attribute is a public method of AbstractConfigItem
+        # Check if the attribute is a public method of AbstractConfigItem FIRST
+        # This avoids accessing the value for methods like on_change
         if hasattr(self._item, name) and not name.startswith('_'):
             attr = getattr(self._item, name)
             return attr
+
+        # Now we need to access the value for other attributes
+        value = self._item.value
 
         # For dictionaries that are Config objects, we need special handling
         if hasattr(value, '__class__') and value.__class__.__name__ == 'ConfigInterface':

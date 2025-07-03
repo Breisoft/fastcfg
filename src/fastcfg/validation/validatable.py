@@ -65,6 +65,10 @@ class ValidatableMixin(ABC):
         Raises:
         ConfigItemValidationError: If any of the validators fail.
         """
+        
+        # Early return if no validators - no need to access value
+        if not self._validators:
+            return
 
         if isinstance(self, items.LiveConfigItem):
 

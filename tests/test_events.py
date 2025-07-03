@@ -150,15 +150,20 @@ class TestEventSystem(unittest.TestCase):
         initial_value = self.config.live_host
         self.assertEqual(initial_value, "initial.db.com")
         
+        # Should have fired initial event (None -> initial value)
+        self.assertEqual(len(callback_called), 1)
+        self.assertEqual(callback_called[0].old_value, None)
+        self.assertEqual(callback_called[0].new_value, "initial.db.com")
+        
         # Change the environment variable
         os.environ["TEST_DB_HOST"] = "updated.db.com"
         
         # Access the value again to trigger change detection
         new_value = self.config.live_host.value
         
-        # Verify callback was called
-        self.assertEqual(len(callback_called), 1)
-        event = callback_called[0]
+        # Verify second callback was called
+        self.assertEqual(len(callback_called), 2)
+        event = callback_called[1]
         self.assertEqual(event.old_value, "initial.db.com")
         self.assertEqual(event.new_value, "updated.db.com")
 

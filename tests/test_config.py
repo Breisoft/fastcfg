@@ -183,5 +183,5 @@ class TestLiveConfigItem(unittest.TestCase):
         mock_tracker.get_state.return_value = 100
         self.assertEqual(live_item.value, 100)
 
-        # TODO check this, why is it 4 instead of 2?
-        self.assertGreaterEqual(mock_tracker.get_state.call_count, 2)
+        # Verify get_state was called exactly twice (once for each value access)
+        self.assertEqual(mock_tracker.get_state.call_count, 2)
