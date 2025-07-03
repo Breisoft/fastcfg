@@ -16,8 +16,29 @@ from fastcfg.config.cfg import Config
 # Global config object
 config = Config()
 
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union
+import threading
+from fastcfg.config.cfg import AbstractConfigItem
 
+
+def refresh(target: Union[Config, AbstractConfigItem]):
+    """
+    Manually refresh a Config or ConfigItem to detect external changes.
+    
+    Args:
+        target: Config object or ConfigItem to refresh
+    
+    Example:
+        # In your own loop
+        for _ in range(60):
+            refresh(config.my_var)  # Triggers change detection
+            time.sleep(1)
+    """
+    if isinstance(target, Config):
+        for key in target.keys():
+            _ = getattr(target, key, None)
+    else:
+        _ = target.value
 
 def needs_value(
     func: Callable[..., Any],

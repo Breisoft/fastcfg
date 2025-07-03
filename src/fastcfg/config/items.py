@@ -299,8 +299,7 @@ class LiveConfigItem(AbstractConfigItem):
         self.validate()
 
         # Check for changes from external sources and notify if changed
-        if self._previous_value is not None:
-            _notify_if_changed(self, self._previous_value, val)
+        _notify_if_changed(self, self._previous_value, val)
         
         # Always update previous value after potential notification
         self._previous_value = val

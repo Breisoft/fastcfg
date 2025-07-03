@@ -13,14 +13,22 @@ no downtime, just pure performance.
 
 ```python
 from vein import config
+from vein.sources import from_env
 
-# This is all you need
-config.api_key = "sk-..."
-config.temperature = 0.8
-config.max_retries = 3
+# API key that auto-updates from environment
+config.api_key = from_env("OPENAI_API_KEY")
 
-# Your config reacts to changes in real-time
-print(config.temperature)  # 0.8
+# Use it anywhere - always fresh, no restart needed!
+def call_ai(prompt):
+    response = openai.chat.completions.create(
+        api_key=config.api_key.value,  # ✨ Always current
+        model="gpt-4",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response
+
+# Change OPENAI_API_KEY env var → next request uses new key automatically
+# Zero downtime. Zero code changes. Zero restarts.
 ```
 
 **Pro tip**: We even optimized the typing experience - `vein` is all left-hand keys, because you'll be importing it everywhere. ⌨️

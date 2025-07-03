@@ -438,3 +438,75 @@ class TestEventSystem(unittest.TestCase):
         event = api_callbacks[0]
         self.assertEqual(event.old_value, 30)
         self.assertEqual(event.new_value, 60)
+
+    def test_on_change_live_config_initial_access(self):
+        """Test that LiveConfigItem fires event on first access after listener registration."""
+        # Set up environment variable
+        os.environ["TEST_INITIAL"] = "first_value"
+        
+        # Create live config item
+        self.config.test_var = from_os_environ("TEST_INITIAL")
+        
+        callback_called = []
+        
+        # Register listener BEFORE first access
+        @self.config.test_var.on_change()
+        def handle_change(event):
+            callback_called.append(event)
+        
+        # First access should fire event (None -> 'first_value')
+        value = self.config.test_var.value
+        self.assertEqual(value, "first_value")
+        
+        # Should have fired an event for the initial value
+        self.assertEqual(len(callback_called), 1)
+        event = callback_called[0]
+        self.assertEqual(event.old_value, None)
+        self.assertEqual(event.new_value, "first_value")
+        
+        # Clean up
+        del os.environ["TEST_INITIAL"]
+
+    def test_on_change_live_config_refresh_pattern(self):
+        """Test that refresh pattern works correctly with LiveConfigItem."""
+        # Import refresh function if available
+        try:
+            from fastcfg import refresh
+        except ImportError:
+            # Define a simple refresh function for the test
+            def refresh(item):
+                _ = item.value
+        
+        # Set up environment variable
+        os.environ["TEST_REFRESH"] = "initial"
+        
+        # Create live config item
+        self.config.refresh_var = from_os_environ("TEST_REFRESH")
+        
+        callback_called = []
+        
+        # Register listener
+        @self.config.refresh_var.on_change()
+        def handle_change(event):
+            callback_called.append(event)
+        
+        # Initial access to establish baseline
+        initial = self.config.refresh_var.value
+        self.assertEqual(initial, "initial")
+        
+        # Change environment variable
+        os.environ["TEST_REFRESH"] = "updated"
+        
+        # Use refresh to detect the change
+        refresh(self.config.refresh_var)
+        
+        # Should have detected the change
+        self.assertEqual(len(callback_called), 2)  # Initial None->initial, then initial->updated
+        
+        # Check the second event (the refresh-triggered one)
+        event = callback_called[1]
+        self.assertEqual(event.old_value, "initial")
+        self.assertEqual(event.new_value, "updated")
+        
+        # Clean up
+        del os.environ["TEST_REFRESH"]
