@@ -1,4 +1,4 @@
-# vein ⚡️
+# vein 🩸⚡️
 
 [![Benchmarks](https://img.shields.io/badge/benchmarks-31.7x_faster-brightgreen)](BENCHMARKS.md)
 
